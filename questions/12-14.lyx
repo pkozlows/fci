@@ -1,0 +1,208 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\series bold
+want to write out an algorithm by which i would generate and simplify fci
+ matrix
+\end_layout
+
+\begin_layout Standard
+1.
+ 
+\series bold
+determine size of fci matrix.
+
+\series default
+ i believe this would be done by supposing i have N electrons and 2m orbitals
+ and determining how many excitations it is possible to make from a 
+\begin_inset Quotes eld
+\end_inset
+
+ground state
+\begin_inset Quotes erd
+\end_inset
+
+ configuration, thereby determining the dimension of the fci matrix.
+ 
+\series bold
+not sure how to make this calculation.
+\end_layout
+
+\begin_layout Standard
+2.
+ 
+\series bold
+for each excitation level, construct all determinants possible in an occupation
+ number rep and store them as sets.
+
+\series default
+ For example, consider our h6 system of 6 e- in the minimal basis of 6 orbs
+ (each spatial orb fits two spin orbs), so for example, a singly excited
+ state would be (1,2,3,4,5,12) or (-1,1,-2,2,-3,6) with the - sign denoting
+ spin down e-.
+ a doubly excited state could be (1,2,3,4,11,12) or (-1,1,-2,2,-6,6).
+ the mel of these two would be denoted as 
+\begin_inset Formula $\left\langle \Psi_{6}^{12}\left|O_{1}+O_{2}\right|\Psi_{5,6}^{11,12}\right\rangle $
+\end_inset
+
+.
+
+\series bold
+ i have reviewed the fock space in second quantization and that has helped
+ a lot.
+ but still struggling to understand how both 
+\begin_inset Formula $\left\langle \Psi_{6}^{12}\left|O_{1}+O_{2}\right|\Psi_{5,6}^{11,12}\right\rangle $
+\end_inset
+
+ and 
+\begin_inset Formula $\left\langle \Psi_{5}^{11}\left|O_{1}+O_{2}\right|\Psi_{5,6}^{11,12}\right\rangle $
+\end_inset
+
+ and many other possible mels of this form with presumably different values
+ would all fit into the individual fci mel 
+\begin_inset Formula $\left\langle \Psi_{i}^{r}\left|O_{1}+O_{2}\right|\Psi_{i,j}^{r,s}\right\rangle $
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+3.
+ the actual evaluation of such mels in second quantization will be simple,
+ implementing, for example, 
+\begin_inset Formula $a_{12}^{\dagger}$
+\end_inset
+
+ as (12,1) and 
+\begin_inset Formula $a_{6}$
+\end_inset
+
+ as (6,0) with the tuple denoting (orb to be acted on, 1 for creation and
+ 0 for annhilation) and then 
+\series bold
+i have the 1e- and 2e- operators already given to me in presumably a det
+ basis, which i don't compeletely understand how to use these given arrays
+ based off my bolded confusion in 2
+\series default
+; my review of the fock space in second quantization was helpful in figuring
+ this out along with the how i will compute the associated phase factor.
+
+\series bold
+ i think i will implement the condon rules to reduce and simplify the individual
+ fci elements that i need to compute, before i do the computationally intensive
+ portion of computing the mels in second quantization?
+\end_layout
+
+\begin_layout Standard
+4.
+ use numpy to diagonalize the fci matrix and then proceed to the next step
+ of the project, which is figuring out a more efficient diagonalization
+ method.
+\end_layout
+
+\begin_layout Standard
+i am beginning to figure out using dictation to visualize physics in latex,
+ as you can see above.
+ i think this will be a very helpful conceptual tool for me and also a helpful
+ way for you to better understand my questions.
+ i am just mentioning this to emphasize that there should no longer be any
+ barriers for me with visualizing physics in latex; so if you feel that
+ something needs more visualization to make what dam asking make mar sense,
+ that should be es for me to do.
+ 
+\end_layout
+
+\begin_layout Standard
+i dictated the final portion of the last sentence, so actually let me know
+ if there is any trouble for you with understanding it.
+ for example, i'm was recognized as dam, so sounding my dictation excerpt
+ out is helpful.
+ if the dictation of sentences is incomprehesible, i will go back to typing
+ which is a bit slower for me; but leaving you confused about what i mean
+ when i'm dictating is a waste of time and it not that much of a burden
+ to type out sentences; dictating them is just a bit faster, so i wanted
+ to try it out and see if you can understand it.
+ 
+\series bold
+your feedback on your ability to comprehend my dictation would be appreciated,
+\end_layout
+
+\end_body
+\end_document

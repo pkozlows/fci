@@ -1,23 +1,18 @@
-import numpy as np
-from condon import condon
-import inp
+# inputs
+# number of electrons
+electrons=6
+# number of special orbitals
+orbs=6
+# all possible spin orbitals of this system in a list.
+# and odd reflex a spin down orbital and
+# and even reflex a spin up orbital 
+spin_orbs=list()
+for orb in range(1,(orbs * 2)+1):
+     spin_orbs.append(orb)
 
-# 1e integrals
-one = np.load("h1e.npy")
-# 2e integrals 
-two= np.load("h2e.npy")
-# number electrons n
-n = 6
-# number orbital m
-m = len(one)
-
-# generate fci matrix
-fci = np.ndarray((m,m), dtype=float)
-diff - []
-for i in fci:
-    diff = 
-# fci matrix
-fci = np.ndarray((m,m), dtype=float)
-for i in fci:
-    i = condon()
-
+possible_determinants=list()
+determinant=set()
+for electron in range(electrons):
+    determinant.add(spin_orbs[electron])
+print(determinant)
+     
