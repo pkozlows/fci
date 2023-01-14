@@ -14,5 +14,6 @@ possible_determinants=list()
 determinant=set()
 for electron in range(electrons):
     determinant.add(spin_orbs[electron])
+# this is the ground state determinants
 print(determinant)
      
