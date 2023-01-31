@@ -7,7 +7,7 @@ class braket:
       dulled with in second quantization."""
   def __init__(self, pair):
     self.pair = pair
-# define a ket in second quantizationo
+  # define a ket in second quantizationo
   def ket(self):
     """. Converts the orbs of the second determined
       into a list of appropriate ordered creation operators."""
@@ -40,9 +40,9 @@ class braket:
     """Returns a combined list of the creation and angulation ops Form each determinant."""
     _braket = self.bra() + self.ket()
     return _braket
-# need to decide how to test this
+# testing
 det = braket(list(generation.gen_unique_pairs(input.elec_in_system, input.orbs_in_system))[46])
-# print(det.pair[0])#.difference(det.pair[1]))
-# print(det.combined())
-# print(det.diff())
-# print(det.pair[0])
+assert(det.bra() == [(5, 0), (4, 0), (3, 0), (2, 0), (1, 0), (0, 0)])
+assert(det.ket() == [(0, 1), (1, 1), (2, 1), (4, 1), (9, 1), (10, 1)])
+assert(det.combined() == [(5, 0), (4, 0), (3, 0), (2, 0), (1, 0), (0, 0), (0, 1), (1, 1), (2, 1), (4, 1), (9, 1), (10, 1)])
+assert(det.diff() == ({3, 5}, {9, 10}))
