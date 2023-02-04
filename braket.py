@@ -14,7 +14,7 @@ class braket:
     ket_sq = list()
     determinant = deepcopy(self.pair[1])
     for i in range(len(determinant)):
-       #  Taking out the smallest or brutal of the said ensures the correct ordering of the creations operators
+       #  Taking out the smallest or brutal of the set ensures the correct ordering of the creations operators
        minimum = min(determinant)
        # creation operators are indicated by a 1
        ket_sq.append((minimum, 1))
@@ -22,7 +22,7 @@ class braket:
     return ket_sq
   # define a bra in second quantization
   def bra(self):
-    """ Converts the orbs of the first determined into a list of
+    """Converts the orbs of the first determined into a list of
      appropriate ordered annihilation operators."""
     bra_sq = list()
     determinant = deepcopy(self.pair[0])
@@ -37,7 +37,7 @@ class braket:
    """returns tuple of  two sets that describe the differences that described the difference between pair.""" 
    return (self.pair[0].difference(self.pair[1]), self.pair[1].difference(self.pair[0]))
   def combined(self):
-    """Returns a combined list of the creation and angulation ops Form each determinant."""
+    """Returns unsimplified list of the creation and angulation ops Form each determinant."""
     _braket = self.bra() + self.ket()
     return _braket
 # testing

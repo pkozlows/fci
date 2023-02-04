@@ -13,9 +13,11 @@ def condon(pair, phase_factor, integrals):
     diff = sq.diff()
     one_elec_mel = 0
     two_elec_mel = 0
+    # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
     if len(diff[0]) >= 1:
         m = list(diff[0])[0] // 2
         p = list(diff[1])[0] // 2
+        # store the 2nd difference
         if len(diff[0]) >= 2:
             q = list(diff[1])[1] // 2
             n = list(diff[0])[1] // 2
@@ -28,8 +30,9 @@ def condon(pair, phase_factor, integrals):
         one_elec_mel += integrals[0][m,p]
         # m and p are the orbitals of difference
         two_elec_mel += np.einsum('ijkk->ij', integrals[1])[m,p]-np.einsum('ijjk->ik', integrals[1])[m,p]
-    # to differences
+    # 2 differences
     if len(diff[0]) == 2:
+        # m,p and n,q are orb differences
         two_elec_mel += integrals[1][m,p,n,q]-integrals[1][m,q,n,p]
     return phase_factor*(one_elec_mel + two_elec_mel)
 # testing

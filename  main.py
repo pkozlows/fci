@@ -9,6 +9,7 @@ one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
 # generate the unique pairs for the system
 for determinant_pair in gen_unique_pairs(input.elec_in_system, input.orbs_in_system):
+   # eval the mel for each determinant pair
    mel = condon(determinant_pair, anti_commutator(determinant_pair), (one_elec_ints, two_elec_ints))
    print(mel)
 
