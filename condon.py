@@ -39,3 +39,5 @@ def condon(pair, phase_factor, integrals):
 assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), 1, (one_elec_ints, two_elec_ints)) == -6.277825297355697)
 assert(condon(({0,1,3,5,7,9}, {0,1,3,6,7,9}), -1, (one_elec_ints, two_elec_ints)) == 1.3834419720915037e-16)
 assert(condon(({0,1,2,5,7,11}, {0,1,3,5,7,9}), -1, (one_elec_ints, two_elec_ints)) == -2.539743589047294e-17)
+print(condon(({0,1,2,3,4,6}, {0,1,3,5,6,7}), anti_commutator(({0,1,2,3,4,5}, {0,1,3,5,6,7})), (one_elec_ints, two_elec_ints)))
+print(condon(({0,1,2,3,4,7}, {2,3,4,5,6,7}), anti_commutator(({0,1,2,3,4,5}, {0,1,3,5,6,7})), (one_elec_ints, two_elec_ints)))
