@@ -25,8 +25,7 @@ def anti_commutator(pair):
                     op_list[index] = next
                     op_list[index+1] = current
                     phase_factor *= -1
-    return op_list
+    return phase_factor
 # testing
-assert(anti_commutator(({0,2,4,6,8,10}, {0,3,5,6,9,10})) == [(8, 0), (4, 0), (2, 0), (3, 1), (5, 1), (9, 1)])
-assert(anti_commutator(({0,1,2},{0,2,3})) == [(1, 0), (3, 1)])
-            
+assert(anti_commutator(({0,2,4,6,8,10}, {0,3,5,6,9,10})) == -1)
+assert(anti_commutator(({0,1,2},{0,2,3})) == 1)

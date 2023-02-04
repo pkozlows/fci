@@ -1,18 +1,14 @@
-import itertools
-# in puts
-elec_in_system=6
-orbs_in_system=6
-def gen_unique_pairs(electrons, orbs):
-   """takes in the number of electrons and orbitals and the system.
-   Returns a list of tuples of each unique pair of determinants."""
-   # all possible spin orbitals of this system in a list.
-   possible_determinants=list()
-   for determinant in itertools.combinations(range(orbs*2),electrons):
-      possible_determinants.append(set(determinant))
-   # asserting whether the ground state determinant is in the object
-   assert({*range(elec_in_system)} in list(possible_determinants))
-   # create all unique pairs of determinants
-   pairs=itertools.combinations_with_replacement(list(possible_determinants),2)
-   return pairs
-print(compare_determinants(list(gen_unique_pairs(elec_in_system,orbs_in_system))[8]))
-print(list(gen_unique_pairs(elec_in_system,orbs_in_system))[8])
+import numpy as np
+import input
+from generation import gen_unique_pairs
+from braket import braket
+from cancellation import anti_commutator
+from condon import condon
+# load in the intervals
+one_elec_ints = np.load("h1e.npy")
+two_elec_ints = np.load("h2e.npy")
+# generate the unique pairs for the system
+for determinant_pair in gen_unique_pairs(input.elec_in_system, input.orbs_in_system):
+   mel = condon(determinant_pair, anti_commutator(determinant_pair), (one_elec_ints, two_elec_ints))
+   print(mel)
+
