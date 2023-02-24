@@ -91,9 +91,8 @@ def anti_commutator(pair):
 # load in the intervals
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
-def condon(pair, phase_factor, integrals): 
-    '''takes tuple of two sets with the determinant pair,the associated
-      face (factor for pudding that determinant pair into maximum coincidence, and a
+def condon(pair, integrals): 
+    '''takes tuple of two sets with the determinant pair and a
         tuple with the 1e and 2e integrals. returns matrix element'''
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
@@ -151,5 +150,5 @@ def condon(pair, phase_factor, integrals):
         # m,p and n,q are orb differences
         # two_elec_mel += to_election_integrals[m,p,n,q]-[to_election_integrals](one_elec_mel)
     # print(two_elec_mel)
-    return phase_factor*(one_elec_mel + two_elec_mel)
+    return anti_commutator(pair)*(one_elec_mel + two_elec_mel)
 
