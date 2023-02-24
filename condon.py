@@ -112,15 +112,13 @@ def condon(pair, integrals):
       one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
       for m in spin_orbs:
          for n in spin_orbs:
-            # if the spin orbs have different spins
-            if (m % 2 == 0 and n % 2 > 0) or (m % 2 > 0 and n % 2 == 0):
-               two_elec_mel -= two_elec_ints[m//2,n//2,n//2,m//2]              
-            # if the spin orbs have both spin up
-            if m % 2 == 0 and n % 2 == 0:
-               two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2] - two_elec_ints[m//2,n//2,n//2,m//2]
-            # if the spin orbs have but spin down
-            if m % 2 > 0 and n % 2 > 0:
-              two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2] - two_elec_ints[m//2,n//2,n//2,m//2]
+            if m != n:
+              # if the spin orbs have different spins
+              if (m % 2 == 0 and n % 2 > 0) or (m % 2 > 0 and n % 2 == 0):
+                two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2]      
+              # if the spin orbs have parallel spin
+              if m % 2 == n % 2:
+                two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2] - two_elec_ints[m//2,n//2,n//2,m//2]
       # multiply the two electron made sucks lament by a half
       two_elec_mel *= 0.5
       # two_elec_xgrid = np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices) 
