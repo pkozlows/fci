@@ -122,14 +122,7 @@ def condon(pair, integrals):
       # multiply the two electron made sucks lament by a half
       two_elec_mel *= 0.5
       # two_elec_xgrid = np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices) 
-      # two_elec_mel += (0.5)*(np.einsum('iijj->', two_elec_ints[two_elec_xgrid])-np.einsum('ijji->', two_elec_ints[two_elec_xgrid]))      
-      
-    # if there is one difference between two determinants
-    # if there are two differences bertone to determinants
-    # if len(diff[0])  <= 2:
-    # #   if len(diff[0]) = 1:
-        
-    #   if len(diff[0]) == 0:       
+      # two_elec_mel += (0.5)*(np.einsum('iijj->', two_elec_ints[two_elec_xgrid])-np.einsum('ijji->', two_elec_ints[two_elec_xgrid]))       
     # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
     if number_of_differences >= 1:
         m = list(diff[0])[0] // 2
@@ -140,13 +133,13 @@ def condon(pair, integrals):
             n = list(diff[0])[1] // 2
     # one difference
     if number_of_differences == 1:
-        one_elec_mel += one_elec_ints[m,p]
         # m and p are the orbitals of difference
-        two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
+        one_elec_mel += one_elec_ints[m,p]
+        for i in spin_orbs:          
+          two_elec_mel += two_elec_ints[m,p,i,i] - two_elec_ints[m,i,i,p]
+        # two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
     # 2 differences
-    #
-        # m,p and n,q are orb differences
-        # two_elec_mel += to_election_integrals[m,p,n,q]-[to_election_integrals](one_elec_mel)
-    # print(two_elec_mel)
+    # m,p and n,q are orb differences
+        two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
     return anti_commutator(pair)*(one_elec_mel + two_elec_mel)
 
