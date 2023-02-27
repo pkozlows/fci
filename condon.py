@@ -59,18 +59,17 @@ class braket:
     _braket = self.bra() + self.ket()
     return _braket
 
-def anti_commutator(pair): 
-    """Takes a pair of determinants, which are inside of a tuple.  
-    returns a simplified version of the list, composed of the second quantization ops
-      of the bra and ket. this list is simplified in the sense that all possible cancellations are made."""    
-    sq_pair = braket(pair) 
-    op_list = sq_pair.combined()
+
+def anti_commutator(op_list): 
+    """takes a second quantization op list. simplifies the list, and returns either the face factor, or zero."""    
     # initialize the phase factor to unity
     phase_factor = 1
-    # change each shared orb to the appropriate second quantization operator for later cancellation
-    for orb in sq_pair.pair[0].intersection(sq_pair.pair[1]):
-        annihilation = (orb, 0)
-        creation = (orb, 1)
+    for op in op_list:
+      # the angulation operators should be before the creation operators in the list just need to iterate servo them
+      annihilation = op 
+      creation = (op[0], 1)
+      # check if the number of angulation are providers is the same as the number of creation operators and whether all the angulation operators are before their cation or pater pardoner
+      if op_list.count(annihilation) == op_list.count(creation): #and op_list.index(creation) < max(index for index, item in enumerate(op_list) if item == annihilation):
         # continue the lope while there are still are ops to be canceled
         while annihilation and creation in op_list:
             for index, op in enumerate(op_list):
@@ -86,6 +85,8 @@ def anti_commutator(pair):
                     op_list[index+1] = current
                     # add the appropriate face factor
                     phase_factor *= -1
+      else:
+         return 0
     return phase_factor
 
 # load in the intervals
@@ -101,15 +102,16 @@ def condon(pair, integrals):
     number_of_differences = len(diff[0])
     one_elec_mel = 0
     two_elec_mel = 0
+    spin_orbs = set()
+    for operator in sq.combined():
+      spin_orbs.add(operator[0])
     # create the relevant matrix for the determined pair
     # if there is no difference between two determinants
     if number_of_differences == 0:
-      spin_orbs = set()
-      for operator in sq.combined():
-        spin_orbs.add(operator[0])
       spacial_indices = [orb // 2 for orb in list(spin_orbs)]
       one_elec_xgrid = np.ix_(spacial_indices, spacial_indices)  
       one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
+      # two_elec_mel = np.einsum('mmnn->', two_elec_ints[::2, ::2, :, :]) + np.einsum('mmnn->', two_elec_ints[::2, ::2, ::2, ::2]) - np.einsum('mnmn->', two_elec_ints[::2, 1::2, 1::2, ::2]) - np.einsum('mnmn->', two_elec_ints[1::2, ::2, ::2, 1::2])
       for m in spin_orbs:
          for n in spin_orbs:
             if m != n:
@@ -136,7 +138,7 @@ def condon(pair, integrals):
         # m and p are the orbitals of difference
         one_elec_mel += one_elec_ints[m,p]
         for i in spin_orbs:          
-          two_elec_mel += two_elec_ints[m,p,i,i] - two_elec_ints[m,i,i,p]
+          two_elec_mel += two_elec_ints[m,p,i//2,i//2] - two_elec_ints[m,i//2,i//2,p]
         # two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
     # 2 differences
     # m,p and n,q are orb differences
