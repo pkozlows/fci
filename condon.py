@@ -60,30 +60,29 @@ class braket:
     return _braket
 
 
-def anti_commutator(op_list): 
+def anti_commutator(ops): 
     """takes a second quantization op list. simplifies the list, and returns either the face factor, or zero."""    
     # initialize the phase factor to unity
-    operator_list = list(op_list)
+    operator_list = list(ops)
     phase_factor = 1
-    ops = deepcopy(operator_list)
+    # for each op in the inputted list
     for op in ops:
-      # the angulation operators should be before the creation operators in the list just need to iterate servo them
-      if operator_list == list():
-        return phase_factor
-      annihilation = op 
-      creation = (op[0], 1)
-      rindex = len(operator_list)-1-operator_list[::-1].index(annihilation)
-      # check if the number of angulation are providers is the same as the number of creation operators and whether all the angulation operators are before their cation or pater pardoner
-      if operator_list.count(annihilation) == operator_list.count(creation) and operator_list.index(creation)>rindex:
+      # the angulation ops should be before the creation partner so just need to iterate over them
+      annhltn = op 
+      crtn = (op[0], 1)
+      reverse = deepcopy(operator_list)
+      reverse.reverse()
+      # check if # of angulation ops = # of creation ops and if all angulation ops before their creation partner
+      if operator_list.count(annhltn) == operator_list.count(crtn) and reverse.index(crtn)<reverse.index(annhltn):
         # continue the lope while there are still are ops to be canceled
-        while annihilation and creation in operator_list:
+        while annhltn and crtn in operator_list:
             for index, op in enumerate(operator_list):
-                # if the creation and annihilation indices are next to each other, remove them and stop the loop
-                if operator_list[index] == annihilation and operator_list[index+1] == creation:
-                    operator_list.remove(annihilation)
-                    operator_list.remove(creation)
-                # if the creation and angulation in disease are not next to each other, swap neighboring ops
-                elif operator_list[index] == annihilation:
+                # if creation and annihilation indices next to each other, remove them and stop the while loop
+                if operator_list[index] == annhltn and operator_list[index+1] == crtn:
+                    operator_list.remove(annhltn)
+                    operator_list.remove(crtn)
+                # if the creation and angulation indices not next to each other, swap neighboring ops
+                elif operator_list[index] == annhltn:
                     current = deepcopy(operator_list[index])
                     next = deepcopy(operator_list[index+1])
                     operator_list[index] = next
@@ -92,6 +91,9 @@ def anti_commutator(op_list):
                     phase_factor *= -1
       else:
          return 0
+    # if the op list is empty and zero has not been returned yet comma then return the pace factor
+    if operator_list == list():
+        return phase_factor
 
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
@@ -101,19 +103,15 @@ def condon(pair, integrals):
     sq = braket(pair)
     one_elec_mel = 0
     two_elec_mel = 0
-    for i in range(len(orbs_in_system*2)):
-      for j in range(len(orbs_in_system*2)):
+    for i in range(orbs_in_system*2):
+      for j in range(orbs_in_system*2):
         op_list = sq.bra() + [(i,1), (j,0)] + sq.ket()
-        one_elec_mel += anti_commutator(op_list) * one_elec_ints[i,j]
-    for i in range(len(orbs_in_system*2)):
-      for j in range(len(orbs_in_system*2)):
-        for k in range(len(orbs_in_system*2)):
-          for l in range(len(orbs_in_system*2)):
-            
-      
-
-   
-  
+        one_elec_mel += anti_commutator(op_list) * one_elec_ints[i//2,j//2]
+    for i in range(orbs_in_system*2):
+      for j in range(orbs_in_system*2):
+        for k in range(orbs_in_system*2):
+          for l in range(orbs_in_system*2):
+            op_list = sq.bra() + [(i,1), (j,1), (k,0), (l,0)] + sq.ket()
+            two_elec_mel += (0.5) * anti_commutator(op_list) * two_elec_ints[i//2,k//2,j//2,l//2]
     return (one_elec_mel + two_elec_mel)
-a_hollow_world
 
