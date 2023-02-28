@@ -112,6 +112,6 @@ def condon(pair, integrals):
         for k in range(orbs_in_system*2):
           for l in range(orbs_in_system*2):
             op_list = sq.bra() + [(i,1), (j,1), (k,0), (l,0)] + sq.ket()
-            two_elec_mel += (0.5) * anti_commutator(op_list) * two_elec_ints[i//2,k//2,j//2,l//2]
+            two_elec_mel += (1/2) * anti_commutator(op_list) * two_elec_ints[i//2,k//2,j//2,l//2]
     return (one_elec_mel + two_elec_mel)
 
