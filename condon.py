@@ -99,50 +99,21 @@ def condon(pair, integrals):
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
     sq = braket(pair)
-    diff = sq.diff()
-    number_of_differences = len(diff[0])
     one_elec_mel = 0
     two_elec_mel = 0
-    spin_orbs = set()
-    for operator in sq.combined():
-      spin_orbs.add(operator[0])
-    # create the relevant matrix for the determined pair
-    # if there is no difference between two determinants
-    if number_of_differences == 0:
-      spacial_indices = [orb // 2 for orb in list(spin_orbs)]
-      one_elec_xgrid = np.ix_(spacial_indices, spacial_indices)  
-      one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
-      # two_elec_mel = np.einsum('mmnn->', two_elec_ints[::2, ::2, :, :]) + np.einsum('mmnn->', two_elec_ints[::2, ::2, ::2, ::2]) - np.einsum('mnmn->', two_elec_ints[::2, 1::2, 1::2, ::2]) - np.einsum('mnmn->', two_elec_ints[1::2, ::2, ::2, 1::2])
-      for m in spin_orbs:
-         for n in spin_orbs:
-            if m != n:
-              # if the spin orbs have different spins
-              if (m % 2 == 0 and n % 2 > 0) or (m % 2 > 0 and n % 2 == 0):
-                two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2]      
-              # if the spin orbs have parallel spin
-              if m % 2 == n % 2:
-                two_elec_mel += two_elec_ints[m//2,m//2,n//2,n//2] - two_elec_ints[m//2,n//2,n//2,m//2]
-      # multiply the two electron made sucks lament by a half
-      two_elec_mel *= 0.5
-      # two_elec_xgrid = np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices) 
-      # two_elec_mel += (0.5)*(np.einsum('iijj->', two_elec_ints[two_elec_xgrid])-np.einsum('ijji->', two_elec_ints[two_elec_xgrid]))       
-    # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
-    if number_of_differences >= 1:
-        m = list(diff[0])[0] // 2
-        p = list(diff[1])[0] // 2
-        # store the 2nd difference
-        if number_of_differences >= 2:
-            q = list(diff[1])[1] // 2
-            n = list(diff[0])[1] // 2
-    # one difference
-    if number_of_differences == 1:
-        # m and p are the orbitals of difference
-        one_elec_mel += one_elec_ints[m,p]
-        for i in spin_orbs:          
-          two_elec_mel += two_elec_ints[m,p,i//2,i//2] - two_elec_ints[m,i//2,i//2,p]
-        # two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
-    # 2 differences
-    # m,p and n,q are orb differences
-        two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
+    for i in range(len(orbs_in_system*2)):
+      for j in range(len(orbs_in_system*2)):
+        op_list = sq.bra() + [(i,1), (j,0)] + sq.ket()
+        one_elec_mel += anti_commutator(op_list) * one_elec_ints[i,j]
+    for i in range(len(orbs_in_system*2)):
+      for j in range(len(orbs_in_system*2)):
+        for k in range(len(orbs_in_system*2)):
+          for l in range(len(orbs_in_system*2)):
+            
+      
+
+   
+  
     return (one_elec_mel + two_elec_mel)
+a_hollow_world
 
