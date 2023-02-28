@@ -63,35 +63,36 @@ class braket:
 def anti_commutator(op_list): 
     """takes a second quantization op list. simplifies the list, and returns either the face factor, or zero."""    
     # initialize the phase factor to unity
+    operator_list = list(op_list)
     phase_factor = 1
-    for op in op_list:
+    ops = deepcopy(operator_list)
+    for op in ops:
       # the angulation operators should be before the creation operators in the list just need to iterate servo them
+      if operator_list == list():
+        return phase_factor
       annihilation = op 
       creation = (op[0], 1)
+      rindex = len(operator_list)-1-operator_list[::-1].index(annihilation)
       # check if the number of angulation are providers is the same as the number of creation operators and whether all the angulation operators are before their cation or pater pardoner
-      if op_list.count(annihilation) == op_list.count(creation): #and op_list.index(creation) < max(index for index, item in enumerate(op_list) if item == annihilation):
+      if operator_list.count(annihilation) == operator_list.count(creation) and operator_list.index(creation)>rindex:
         # continue the lope while there are still are ops to be canceled
-        while annihilation and creation in op_list:
-            for index, op in enumerate(op_list):
+        while annihilation and creation in operator_list:
+            for index, op in enumerate(operator_list):
                 # if the creation and annihilation indices are next to each other, remove them and stop the loop
-                if op_list[index] == annihilation and op_list[index+1] == creation:
-                    op_list.remove(annihilation)
-                    op_list.remove(creation)
+                if operator_list[index] == annihilation and operator_list[index+1] == creation:
+                    operator_list.remove(annihilation)
+                    operator_list.remove(creation)
                 # if the creation and angulation in disease are not next to each other, swap neighboring ops
-                elif op_list[index] == annihilation:
-                    current = deepcopy(op_list[index])
-                    next = deepcopy(op_list[index+1])
-                    op_list[index] = next
-                    op_list[index+1] = current
+                elif operator_list[index] == annihilation:
+                    current = deepcopy(operator_list[index])
+                    next = deepcopy(operator_list[index+1])
+                    operator_list[index] = next
+                    operator_list[index+1] = current
                     # add the appropriate face factor
                     phase_factor *= -1
       else:
          return 0
-    return phase_factor
 
-# load in the intervals
-one_elec_ints = np.load("h1e.npy")
-two_elec_ints = np.load("h2e.npy")
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
         tuple with the 1e and 2e integrals. returns matrix element'''
@@ -143,5 +144,5 @@ def condon(pair, integrals):
     # 2 differences
     # m,p and n,q are orb differences
         two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
-    return anti_commutator(pair)*(one_elec_mel + two_elec_mel)
+    return (one_elec_mel + two_elec_mel)
 
