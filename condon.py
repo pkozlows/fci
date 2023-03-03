@@ -88,7 +88,6 @@ def anti_commutator(ops):
     # initialize the phase factor to unity
     phase_factor = 1
     n = len(ops)
-    swapped = False
     # create a set to check if the number of annihalation ops is equal to the number of creation ops
     spin_orbs = set()
     for op in ops:
@@ -111,15 +110,16 @@ def anti_commutator(ops):
           break
         # if the creation and angulation indices not next to each other, swap neighboring ops
         else:
-          swapped = True
           ops[j], ops[j + 1] = ops[j + 1], ops[j]
           # add the appropriate face factor
           phase_factor *= -1
-    if not swapped:
-            # if we haven't needed to make a single swap, exit the main loop.
-      return phase_factor
     return phase_factor
 
+# testing
+assert(anti_commutator([(1, 0), (0, 0), (0,0), (0,0), (0,1), (0,1), (0, 1), (1, 1)]) == 1)
+assert(anti_commutator([(1, 0), (0, 0), (0,0), (0,1), (0, 1), (1, 1)]) == 1)
+assert(anti_commutator([(1, 0), (0, 0), (0, 1), (1, 1)]) == 1)
+assert(anti_commutator([(1, 0), (0, 0), (0,1), (0,0), (0, 1), (1, 1)]) == 1)
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
         tuple with the 1e and 2e integrals. returns matrix element'''
