@@ -59,41 +59,66 @@ class braket:
     _braket = self.bra() + self.ket()
     return _braket
 
+def bubbleSort(arr):
+    n = len(arr)
+    # optimize code, so if the array is already sorted, it doesn't need
+    # to go through the entire process
+    swapped = False
+    # Traverse through all array elements
+    for i in range(n-1):
+        # range(n) also work but outer loop will
+        # repeat one time more than needed.
+        # Last i elements are already in place
+        for j in range(0, n-i-1):
+ 
+            # traverse the array from 0 to n-i-1
+            # Swap if the element found is greater
+            # than the next element
+            if arr[j] > arr[j + 1]:
+                swapped = True
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+         
+        if not swapped:
+            # if we haven't needed to make a single swap, we
+            # can just exit the main loop.
+            return
 
 def anti_commutator(ops): 
     """takes a second quantization op list. simplifies the list, and returns either the face factor, or zero."""    
     # initialize the phase factor to unity
-    operator_list = list(ops)
     phase_factor = 1
-    # for each op in the inputted list
+    n = len(ops)
+    swapped = False
+    # create a set to check if the number of annihalation ops is equal to the number of creation ops
+    spin_orbs = set()
     for op in ops:
-      # the angulation ops should be before the creation partner so just need to iterate over them
-      annhltn = op 
-      crtn = (op[0], 1)
-      reverse = deepcopy(operator_list)
-      reverse.reverse()
-      # check if # of angulation ops = # of creation ops and if all angulation ops before their creation partner
-      if operator_list.count(annhltn) == operator_list.count(crtn) and reverse.index(crtn)<reverse.index(annhltn):
-        # continue the lope while there are still are ops to be canceled
-        while annhltn and crtn in operator_list:
-            for index, op in enumerate(operator_list):
-                # if creation and annihilation indices next to each other, remove them and stop the while loop
-                if operator_list[index] == annhltn and operator_list[index+1] == crtn:
-                    operator_list.remove(annhltn)
-                    operator_list.remove(crtn)
-                # if the creation and angulation indices not next to each other, swap neighboring ops
-                elif operator_list[index] == annhltn:
-                    current = deepcopy(operator_list[index])
-                    next = deepcopy(operator_list[index+1])
-                    operator_list[index] = next
-                    operator_list[index+1] = current
-                    # add the appropriate face factor
-                    phase_factor *= -1
-      else:
-         return 0
-    # if the op list is empty and zero has not been returned yet comma then return the pace factor
-    if operator_list == list():
-        return phase_factor
+      spin_orbs.add(op[0])
+    for orb in spin_orbs:
+      if ops.count((orb,0)) != ops.count((orb,1)):
+        return 0      
+    # Traverse through all array elements
+    for i in range(n-1):
+      # define the i as a creation or and ideation op
+      annhltn = (ops[0][0],0)            
+      crtn = (ops[0][0],1)
+      # make sure no creation ops come before their partner
+      if ops.index(annhltn) > ops.index(crtn):
+        return 0
+      for j in range(0, n-i-1):
+        # traverse the array from 0 to n-i-1
+        # if creation and annihilation indices next to each other, stop the while loop
+        if ops[j] == annhltn and ops[j+1] == crtn:
+          break
+        # if the creation and angulation indices not next to each other, swap neighboring ops
+        else:
+          swapped = True
+          ops[j], ops[j + 1] = ops[j + 1], ops[j]
+          # add the appropriate face factor
+          phase_factor *= -1
+    if not swapped:
+            # if we haven't needed to make a single swap, exit the main loop.
+      return phase_factor
+    return phase_factor
 
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
