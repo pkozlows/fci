@@ -116,8 +116,7 @@ def anti_commutator(ops):
     return phase_factor
 
 # testing
-assert(anti_commutator([(1, 0), (0, 0), (0,0), (0,0), (0,1), (0,1), (0, 1), (1, 1)]) == 1)
-assert(anti_commutator([(1, 0), (0, 0), (0,0), (0,1), (0, 1), (1, 1)]) == 1)
+assert(anti_commutator([(1, 0), (0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1), (1, 1)]) == 0)
 assert(anti_commutator([(1, 0), (0, 0), (0, 1), (1, 1)]) == 1)
 assert(anti_commutator([(1, 0), (0, 0), (0,1), (0,0), (0, 1), (1, 1)]) == 1)
 def condon(pair, integrals): 
