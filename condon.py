@@ -116,9 +116,9 @@ def anti_commutator(ops):
     return phase_factor
 
 # testing
-assert(anti_commutator([(1, 0), (0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1), (1, 1)]) == 0)
-assert(anti_commutator([(1, 0), (0, 0), (0, 1), (1, 1)]) == 1)
-assert(anti_commutator([(1, 0), (0, 0), (0,1), (0,0), (0, 1), (1, 1)]) == 1)
+assert(anti_commutator([(0, 0), (0, 1)]) == 1)
+assert(anti_commutator([(0, 0), (0,1), (0,0), (0, 1)]) == 1)
+assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1)]) == 0)
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
         tuple with the 1e and 2e integrals. returns matrix element'''

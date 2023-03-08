@@ -1,15 +1,19 @@
 import numpy as np
-import input
-from generation import gen_unique_pairs
-from braket import braket
-from cancellation import anti_commutator
-from condon import condon
+import condon
+import itertools
 # load in the intervals
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
-# generate the unique pairs for the system
-for determinant_pair in gen_unique_pairs(input.elec_in_system, input.orbs_in_system):
-   # eval the mel for each determinant pair
-   mel = condon(determinant_pair, anti_commutator(determinant_pair), (one_elec_ints, two_elec_ints))
-   print(mel)
-
+integrals = (one_elec_ints, two_elec_ints)
+# implementing a determinant bases ordered based of value of diagonal fci mel
+def determinant_diagonal(determinant):
+   return condon.condon((determinant, determinant), (one_elec_ints, two_elec_ints))
+poss_dets=list()
+for x in itertools.combinations(range(condon.orbs_in_system*2),condon.elec_in_system):
+   poss_dets.append(set(x))
+poss_dets.sort(key = determinant_diagonal)
+mat = np.zeros(shape = (len(poss_dets),len(poss_dets)))
+for det_pair in condon.gen_unique_pairs(condon.elec_in_system, condon.orbs_in_system):
+   mat[poss_dets.index(det_pair[0])][poss_dets.index(det_pair[1])] = condon.condon(det_pair, integrals)
+   print(mat[poss_dets.index(det_pair[0])][poss_dets.index(det_pair[1])])
+print(mat)
