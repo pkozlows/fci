@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today} %% Change "\today" by another date manually
+\begin{document}
+    \maketitle
+\begin{enumerate}
+    \item second quantization rules
+    \begin{equation*}
+        a^{\dag}_{\kappa_{1}}\equiv a^{\dag}_{1}...a^{\dag}_{\kappa_{n}}\equiv a^{\dag}_{n}
+    \end{equation*}
+    \begin{equation*}
+        a_{\kappa_{1}}\equiv a_{1}\dots a_{\kappa_{n}} \equiv a_{n}
+    \end{equation*}
+    also, I frequently use these interchangeably
+    \begin{equation*}
+        \kappa_{1}\equiv 1\dots\kappa_{n}\equiv n
+    \end{equation*}
+    so
+    \begin{equation*}
+        \delta_{greekNumber, 1}\equiv \delta_{GreekNumber, \kappa_{1}}
+    \end{equation*}
+    \item 2 determinants with no differences
+    \begin{dmath}
+        \mel{\Psi}{V}{\Psi}=v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+        \left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}\left(a^{\dag}_{1}a_{1}-a_{1}a^{\dag}_{1}\right)\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta1}a_{1}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{1}a_{\delta}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(\delta_{\delta1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\left(a^{\dag}_{2}a_{2}-a_{2}a^{\dag}_{2}\right)a_{1}-a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma1}a_{\delta}a_{1}+a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{1}a_{\gamma}a_{\delta}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(
+            \delta_{\delta1}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma2}a_{2}a_{1}
+        -\delta_{\delta1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}
+        -\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}\left(a^{\dag}_{2}a_{2}-a_{2}a^{\dag}_{2}\right)a_{1}+a^{\dag}_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}a_{1}
+        \right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(
+            \delta_{\delta1}\delta_{\gamma2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{2}a_{1}-\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\delta2}a_{2}a_{1}+\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{2}a_{\delta}a_{2}a_{1}+a^{\dag}_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}a_{1}
+        \right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\left(\delta_{\delta1}\delta_{\gamma2}\delta_{\beta2}\delta_{\alpha1}-\delta_{\gamma1}\delta_{\delta2}\delta_{\beta2}\delta_{\alpha1}\right)\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        +v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(-\delta_{\delta1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}+\delta_{\gamma1} a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}a_{2}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        +v^{\alpha\beta\gamma\delta}
+        \bra{0}\left(\prod_{\kappa=\left(n\dots 2\right)}a_{\kappa}\right)\left(
+            a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+        \right)\left(\prod_{\kappa^{\prime}=\left(2\dots n\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0} 
+    \end{dmath}
+    \begin{dmath}
+        =\sum_{\kappa_{1},\kappa_{2}}\left(v^{\kappa_{1}\kappa_{2}\kappa_{2}\kappa_{1}}-v^{\kappa_{1}\kappa_{2}\kappa_{1}\kappa_{2}}\right) 
+        +\left(
+            \text{
+                these two terms same except for greek delta and gamma switch places, so can I cancel?}
+        \right)+\left(
+            \text{I notice the recursive pattern here, but I'm not sure what it means.}\right)
+    \end{dmath}
+
+\end{enumerate}
+\end{document}
