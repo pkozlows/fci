@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today} %% Change "\today" by another date manually
+\begin{document}
+    \maketitle
+\begin{enumerate}
+    \item 2 determinants with no differences
+    \begin{dmath}
+        \mel{\Psi}{V}{\Psi}=v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+        \left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\sum_{\kappa}a_{\kappa}\right)\left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta\kappa_{1}}a_{\kappa_{1}}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa_{1}}a_{\delta}\right)\left(\sum_{\kappa^{\prime}}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+        =v^{\alpha\beta\gamma\delta}\bra{0}\left(\sum_{\kappa}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}
+    \end{dmath}
+    \begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta\kappa_{1}}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}
+    a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa_{1}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}
+    a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\delta_{\delta\kappa_{1}}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}
+    a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        -v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(\delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}+a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{1}}a_{\gamma}a_{\delta}\right)
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}
+        a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+    =v^{\alpha\beta\gamma\delta}
+    \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}
+    \bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}
+    \delta_{\delta\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}
+    \bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa^{\prime}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+    =\sum_{\kappa_{1},\kappa_{2}}^{} 
+    v^{\alpha\beta\gamma\delta}\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+    -v^{\alpha\beta\gamma\delta}
+    \delta_{\delta\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}^{}a_{\kappa}\right)
+    a_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}
+    \bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa^{\prime}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+    =\sum_{\kappa_{1},\kappa_{2}}^{} 
+    v^{\kappa_{1}\kappa_{2}\kappa_{2}\kappa_{1}}
+        -v^{\alpha\beta\gamma\delta}
+        \delta_{\delta\kappa_{1}}
+        \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2 }\right)}^{}a_{\kappa}\right)
+        a_{\kappa_{1}}a^{\dag}_{\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}
+    \bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa^{\prime}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    \begin{dmath}
+    =\sum_{\kappa_{1},\kappa_{2}}
+    v^{\left(\kappa_{1}\right)\left(\kappa_{2}\right)\left(\kappa_{2}\right)\left(\kappa_{1}\right)}\delta_{[\kappa_{1}],[\kappa_{2}]}
+        -v^{\alpha\beta\gamma\delta}
+        \delta_{\delta\kappa_{1}}\delta_{\kappa_{1}\kappa_{2}}
+        \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    -v^{\alpha\beta\gamma\delta}
+    \bra{0}\left(\prod_{\kappa}a_{\kappa}\right)
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa^{\prime}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{dmath}
+    
+\end{enumerate}
+\end{document}

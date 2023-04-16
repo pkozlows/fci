@@ -1,0 +1,284 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+spacial_indices = [orb // 2 for orb in list(spin_orbs)] 
+\end_layout
+
+\begin_layout Standard
+one_elec_xgrid = np.ix_(spacial_indices, spacial_indices) 
+\end_layout
+
+\begin_layout Standard
+two_elec_xgrid = np.ix_(spacial_indices, spacial_indices, spacial_indices,
+ spacial_indices)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+no differences between the two determinants
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+one electron are prater - this case is trivial
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[ij]{}{\sum}<\mbox{\psi\_1}\rvert a_{i}^{\dagger}a_{j}\lvert\mbox{\ensuremath{\psi_{1}}}>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta_{ij}\stackrel[ij]{}{\sum}<\psi_{1}\rvert a_{i}^{\dagger}a_{j}\lvert\mbox{\ensuremath{\psi_{1}}}>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[i]{}{\sum}<\mbox{\ensuremath{\Psi_{1}}|a\textasciicircum\ensuremath{\dagger}\_i }a_{i}\lvert\mbox{\ensuremath{\Psi_{1}}}>\rvert$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+one_elec_mel += np.einsum('ii->i, one_elec_ints[one_elec_xgrid])
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+to electron are provider - as you can probably tell not sure abt this one,
+ what could i do to get a better understanding? i feel like my np.eisnum
+ here is in the right direction, but not sure
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[rstu]{}{\sum}<\mbox{\ensuremath{\Psi_{1}}}\rvert a_{r}^{\dagger}a_{s}^{\dagger}a_{t}a_{u}\lvert\mbox{\ensuremath{\Psi_{1}}}>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+r=t and s=u or r=u and s=t
+\end_layout
+
+\begin_layout Standard
+two_elec_mel += (0.5)*(np.einsum(rssr->, two_elec_ints[two_elec_xgrid]) -
+ np.einsum(rsrs->, two_elec_ints[two_elec_xgrid]))
+\end_layout
+
+\begin_layout Standard
+I assume that I want the np.einsum to output a scaler quantity, as I will
+ not have any nested for loops to get this from smth like 
+\bar under
+[r,s,t,u]
+\bar default
+.
+ should I think about this diff Then I am currentl?
+\end_layout
+
+\begin_layout Standard
+I imagined that this factor of one half comes so I don't double count ints.
+ Maybe I need to have a better understanding of where this comes from though?
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+One difference between the two dets
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+one elec a provider
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[ij]{}{\sum}<vac\rvert\ensuremath{a_{f}\dots a_{m}\dots a_{a}}a_{i}^{\dagger}a_{j}a_{a}^{\dagger}\dots a_{p}^{\dagger}\dots a_{f}^{\dagger}\lvert vac>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for count(annhltn) == count(crtn) need m=i and p=j
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $<vac\rvert a_{f}\dots a_{m}\dots a_{a}a_{m}^{\dagger}a_{p}a_{a}^{\dagger}\dots a_{p}^{\dagger}\dots a_{f}^{\dagger}\lvert vac>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+now I need to figure out the face factor needed to bring crtn and annhltn
+ together in m and p? in General, I'm not sure how the anti commutator that
+ I built earlier would be used with np.einsum or in this case without np.einsum
+ needed.
+\end_layout
+
+\begin_layout Standard
+one_elec_mel += [m//2, p//2]
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+To electron or provider
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[rstu]{}{\sum}<vac\rvert\ensuremath{a_{f}\dots a_{m}\dots a_{a}}a_{r}^{\dagger}a_{s}^{\dagger}a_{t}a_{u}a_{a}^{\dagger}\dots a_{p}^{\dagger}\dots a_{f}^{\dagger}\lvert vac>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+two_elec_mel += np.einsum(rstu->rstt, two_elec_ints[two_elec_xgrid])
+\bar under
+[m,p,t,t]
+\bar default
+ - np.einsum(rstu->rsst, two_elec_ints[two_elec_xgrid])
+\bar under
+[m,s,s,p]
+\end_layout
+
+\begin_layout Standard
+I am running into the prob where 
+\bar under
+[m,p,t,t]
+\bar default
+ won't be defined because I am not in a nested for loop.
+ idk how to get the np.einsum to output the correct scalar quantity here?
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+two differences between the two dirt torments
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+to electron are prater
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel[rstu]{}{\sum}<vac\rvert\ensuremath{a_{f}\dots a_{m}\dots a_{n}\dots a_{a}}a_{r}^{\dagger}a_{s}^{\dagger}a_{t}a_{u}a_{a}^{\dagger}\dots a_{p}^{\dagger}\dots a_{q}^{\dagger}\dots a_{f}^{\dagger}\lvert vac>$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for count(annhltn) == count(crtn) need (m=r and n=s or m=s and n=r) and
+ (p=t and q=u or p=u and q=t)
+\end_layout
+
+\begin_layout Standard
+two_elec_mel += [m//2,p//2,n//2,q//2] - [m//2, q//2, n//2, p//2]
+\end_layout
+
+\begin_layout Standard
+again I need to figure out the face factor needed to bring crtns and annhltns
+ together, but not sure how.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+ik my questions are pretty complicated, So if you feel that it would be
+ better for me to first learn from another resource, like some YouTube channel
+ or text, just let me no.
+ I was looking at some YouTube videos earlier dear, but I couldn't find
+ anything that was able to explain the np.einsum very well for my case
+\end_layout
+
+\end_body
+\end_document

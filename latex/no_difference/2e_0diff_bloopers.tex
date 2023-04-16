@@ -1,0 +1,502 @@
+
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}\left(a^{\dag}_{1}a_{1}-a_{1}a^{\dag}_{1}\right)\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta1}a_{1}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{1}a_{\delta}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(\delta_{\delta1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\left(a^{\dag}_{2}a_{2}-a_{2}a^{\dag}_{2}\right)a_{1}-a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma1}a_{\delta}a_{1}+a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{1}a_{\gamma}a_{\delta}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(
+        \delta_{\delta1}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma2}a_{2}a_{1}
+    -\delta_{\delta1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}
+    -\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}\left(a^{\dag}_{2}a_{2}-a_{2}a^{\dag}_{2}\right)a_{1}+a^{\dag}_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}a_{1}
+    \right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(
+        \delta_{\delta1}\delta_{\gamma2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{2}a_{1}-\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\delta2}a_{2}a_{1}+\delta_{\gamma1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{2}a_{\delta}a_{2}a_{1}+a^{\dag}_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}a_{1}
+    \right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\begin{dmath}
+    =v^{\alpha\beta\gamma\delta}\left(\delta_{\delta1}\delta_{\gamma2}\delta_{\beta2}\delta_{\alpha1}-\delta_{\gamma1}\delta_{\delta2}\delta_{\beta2}\delta_{\alpha1}\right)\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    +v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa}^{}a_{\kappa}\right)\left(-\delta_{\delta1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}+\delta_{\gamma1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}a_{2}a_{1}\right)\left(\prod_{\kappa^{\prime}}^{}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    +v^{\alpha\beta\gamma\delta}
+    \bra{0}\left(\prod_{\kappa=\left(n\dots 2\right)}a_{\kappa}\right)\left(
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+    \right)\left(\prod_{\kappa^{\prime}=\left(2\dots n\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0} 
+\end{dmath}
+\begin{dmath}
+    =\left(v^{\kappa_{1}\kappa_{2}\kappa_{2}\kappa_{1}}-v^{\kappa_{1}\kappa_{2}\kappa_{1}\kappa_{2}}\right)\\
+    +v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+        \left(\delta_{\gamma1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}a_{2}a_{1}
+        -\delta_{\delta1}a_{2}a_{1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}\right)
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{1}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    +\mel{\Psi a^{\dag}_{1}}{V}{a_{1}\Psi}
+\end{dmath}
+\begin{dmath}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \left(\delta_{\gamma1}a_{2}a_{1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}a_{2}a_{1}
+        -\delta_{\delta1}a_{2}a_{1}a^{\dag}_{2}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}\right)
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    =
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \left(\delta_{\delta1}a_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{2}a_{1}
+        -\delta_{\gamma1}a_{1}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}a_{2}a_{1}\right)
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{dmath}
+\text{not sure where to go from here.}
+\begin{multline}
+    =
+        \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+        +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+            \delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha}a_{\kappa_{1}}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+        -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+        +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+            \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+            \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha}a^{\dag}_{\beta}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{multline}
+\begin{multline}
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a_{\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}here\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    simp
+\end{multline}
+\begin{multline}
+    =\\
+    \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{30}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}\delta_{\beta\kappa_{1}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{1}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}\delta_{\beta\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\delta}    
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}\delta_{\beta\kappa_{2}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{2}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    \mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}si
+\end{multline}
+\begin{multline}
+    =\\
+    \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    +\delta_{\gamma\kappa_{1}}\delta_{\beta\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -0\\
+    +\delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{2}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\delta_{\delta\kappa_{1}}\delta_{\beta\kappa_{2}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +0\\
+    +\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}\\
+\end{multline}
+\text{adding 2 electron int back in}
+\begin{multline}
+    =v^{\alpha\beta\gamma\delta}\\
+    (\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    +\delta_{\gamma\kappa_{1}}\delta_{\beta\kappa_{1}}
+    \sum_{\kappa=3} \delta_{\alpha\kappa}\delta_{\delta\kappa}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}\sum_{\kappa=3} \delta_{\beta\kappa}\delta_{\delta\kappa}\\
+    +\delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{2}}\sum_{\kappa=3} \delta_{\beta\kappa}\delta_{\gamma\kappa}\\
+    -\delta_{\delta\kappa_{1}}\delta_{\beta\kappa2}\sum_{\kappa=3} \delta_{\alpha\kappa}\delta_{\gamma\kappa})\\
+    +\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}\\ 
+\end{multline}
+\begin{multline}
+    =
+v^{\kappa_{1}\kappa_{2}\kappa_{2}\kappa_{1}}
+-v^{\kappa_{1}\kappa_{2}\kappa_{1}\kappa_{2}}\\
++v^{\alpha\kappa_{1}\kappa_{1}\delta}\sum_{\tau=3}\delta_{\alpha\tau}\delta_{\delta\tau}
+-v^{\kappa_{1}\beta\kappa_{1}\delta}\sum_{\tau=3}\delta_{\beta\tau}\delta_{\delta\tau}
++v^{\kappa_{2}\beta\gamma\kappa_{1}}\sum_{\tau=3} \delta_{\beta\tau}\delta_{\gamma\tau}
+-v^{\alpha\kappa_{2}\gamma\kappa_{1}}\sum_{\tau=3} \delta_{\alpha\tau}\delta_{\gamma\tau}\\
++\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}
+\end{multline}
+\begin{equation*}
+    \kappa_{*}=\kappa+1
+\end{equation*}
+\begin{multline}
+    =\sum_{\kappa=1}^{N-2}(v^{\kappa\kappa_{*}\kappa_{*}\kappa}-v^{\kappa\kappa_{*}\kappa\kappa_{*}}+\sum_{\tau=3} v^{\tau\kappa\kappa\tau}-\sum_{\tau=3} v^{\kappa\tau\kappa\tau}+\sum_{\tau=3}v^{\kappa_{*}\tau\tau\kappa} -\sum_{\tau=3} v^{\tau\kappa_{*}\tau\kappa})\\
+    +\mel{\Psi
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{1}\dots\kappa_{N-1}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}}
+    {V}
+    {\bra{0}\left(\prod_{\kappa=\left(\kappa_{N-1}\dots\kappa_{1}\right)}a_{\kappa}\right)\Psi}
+\end{multline}
+\begin{multline}
+    =\sum_{\kappa=1}^{N-2}(v^{\kappa\kappa_{*}\kappa_{*}\kappa}-v^{\kappa\kappa_{*}\kappa\kappa_{*}}+\sum_{\tau=3} v^{\tau\kappa\kappa\tau}-\sum_{\tau=3} v^{\kappa\tau\kappa\tau}+\sum_{\tau=3}v^{\kappa_{*}\tau\tau\kappa} -\sum_{\tau=3} v^{\tau\kappa_{*}\tau\kappa})\\
+    +0
+\end{multline}
+begone to do derivation, but I am only getting some double summations
+ and I am kind of lost as to how I would implement this into my program. this derivation does suggest some ways to use the einstein summation convention, so that part is improved from what I had earlier in my program.
+\end{enumerate}
+\end{document}
+\begin{multline}
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a_{\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}here\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    simp
+\end{multline}
+\begin{multline}
+    =\\
+    \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{30}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}\delta_{\beta\kappa_{1}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{1}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}\delta_{\beta\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\delta}    
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}\delta_{\beta\kappa_{2}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{2}}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    \mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}si
+\end{multline}
+\begin{multline}
+    =\\
+    \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    +\delta_{\gamma\kappa_{1}}\delta_{\beta\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -0\\
+    +\delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{2}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\delta_{\delta\kappa_{1}}\delta_{\beta\kappa_{2}}
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    +0\\
+    +\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}\\
+\end{multline}
+\text{adding 2 electron int back in}
+\begin{multline}
+    =v^{\alpha\beta\gamma\delta}\\
+    (\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}\\
+    +\delta_{\gamma\kappa_{1}}\delta_{\beta\kappa_{1}}
+    \sum_{\kappa=3} \delta_{\alpha\kappa}\delta_{\delta\kappa}\\
+    -\delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}\sum_{\kappa=3} \delta_{\beta\kappa}\delta_{\delta\kappa}\\
+    +\delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{2}}\sum_{\kappa=3} \delta_{\beta\kappa}\delta_{\gamma\kappa}\\
+    -\delta_{\delta\kappa_{1}}\delta_{\beta\kappa2}\sum_{\kappa=3} \delta_{\alpha\kappa}\delta_{\gamma\kappa})\\
+    +\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}\\ 
+\end{multline}
+\begin{multline}
+    =
+v^{\kappa_{1}\kappa_{2}\kappa_{2}\kappa_{1}}
+-v^{\kappa_{1}\kappa_{2}\kappa_{1}\kappa_{2}}\\
++v^{\alpha\kappa_{1}\kappa_{1}\delta}\sum_{\tau=3}\delta_{\alpha\tau}\delta_{\delta\tau}
+-v^{\kappa_{1}\beta\kappa_{1}\delta}\sum_{\tau=3}\delta_{\beta\tau}\delta_{\delta\tau}
++v^{\kappa_{2}\beta\gamma\kappa_{1}}\sum_{\tau=3} \delta_{\beta\tau}\delta_{\gamma\tau}
+-v^{\alpha\kappa_{2}\gamma\kappa_{1}}\sum_{\tau=3} \delta_{\alpha\tau}\delta_{\gamma\tau}\\
++\mel{\Psi a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}\Psi}
+\end{multline}
+\begin{equation*}
+    \kappa_{*}=\kappa+1
+\end{equation*}
+\begin{multline}
+    =\sum_{\kappa=1}^{N-2}(v^{\kappa\kappa_{*}\kappa_{*}\kappa}-v^{\kappa\kappa_{*}\kappa\kappa_{*}}+\sum_{\tau=3} v^{\tau\kappa\kappa\tau}-\sum_{\tau=3} v^{\kappa\tau\kappa\tau}+\sum_{\tau=3}v^{\kappa_{*}\tau\tau\kappa} -\sum_{\tau=3} v^{\tau\kappa_{*}\tau\kappa})\\
+    +\mel{\Psi
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{1}\dots\kappa_{N-1}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}}
+    {V}
+    {\bra{0}\left(\prod_{\kappa=\left(\kappa_{N-1}\dots\kappa_{1}\right)}a_{\kappa}\right)\Psi}
+\end{multline}
+\begin{multline}
+    =\sum_{\kappa=1}^{N-2}(v^{\kappa\kappa_{*}\kappa_{*}\kappa}-v^{\kappa\kappa_{*}\kappa\kappa_{*}}+\sum_{\tau=3} v^{\tau\kappa\kappa\tau}-\sum_{\tau=3} v^{\kappa\tau\kappa\tau}+\sum_{\tau=3}v^{\kappa_{*}\tau\tau\kappa} -\sum_{\tau=3} v^{\tau\kappa_{*}\tau\kappa})\\
+    +0
+\end{multline}
+begone to do derivation, but I am only getting some double summations
+ and I am kind of lost as to how I would implement this into my program. this derivation does suggest some ways to use the einstein summation convention, so that part is improved from what I had earlier in my program.
+ \begin{subequations}
+    \begin{align}
+        \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta\kappa_{1}}
+            -a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa_{1}}a_{\delta}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+\end{subequations}
+\begin{subequations}
+    \begin{align}
+        =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma\kappa_{2}}-\delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+    \begin{align}
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma\kappa_{1}}a_{\delta}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{1}}a_{\gamma}a_{\delta}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}a_{\kappa_{2}}a_{\kappa_{1}}a^{\dag}_{\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{subequations}
+            \begin{align}
+                -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                    \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\delta\kappa_{2}}
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                    \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\delta}
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+        \begin{subequations}
+            \begin{align}
+                +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+                    a_{\kappa_{1}}a^{\dag}_{\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta\kappa_{2}}
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+                    a_{\kappa_{1}}a^{\dag}_{\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa_{2}}a_{\delta} 
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a_{\kappa_{1}}a^{\dag}_{\beta}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{align}
+        -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+    \end{align}
+    \begin{align}
+        +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\gamma\kappa_{1}}a_{\kappa_{2}}a_{\kappa_{1}}a^{\dag}_{\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+    \begin{align}
+        +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+        \delta_{\delta\kappa_{2}}a_{\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma\kappa_{2}}a_{\delta}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+                a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\gamma}a_{\delta}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}    
+\end{subequations}
+\begin{subequations}
+    \begin{align}
+        =\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+            \delta_{\delta\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\gamma}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}\delta_{\beta\kappa_{1}}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\kappa_{1}}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+    \begin{align}
+        -\delta_{\gamma\kappa_{1}}\delta_{\delta\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\gamma\kappa_{1}}\delta_{\alpha\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\gamma\kappa_{1}}a^{\dag}_{\alpha}a_{\kappa_{1}}a^{\dag}_{\beta}a_{\delta}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta_{\delta\kappa_{2}}a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\gamma}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{subequations}
+            \begin{align}
+                -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta_{\gamma\kappa_{2}}\delta_{\alpha\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta_{\gamma\kappa_{2}}a^{\dag}_{\alpha}a_{\kappa_{2}}a^{\dag}_{\beta}a_{\delta}
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+        \begin{subequations}
+            \begin{align}
+                +\mel{\Psi a^{\dag}_{\kappa_{2}}a^{\dag}_{\kappa_{1}}}{V}{a_{\kappa_{1}}a_{\kappa_{2}}\Psi}
+            \end{align}
+        \end{subequations}
+
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{align}
+        =\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}\delta_{\beta\kappa_{2}}\delta_{\alpha\kappa_{1}}
+    \end{align}
+\end{subequations}
+\end{document}
+ 

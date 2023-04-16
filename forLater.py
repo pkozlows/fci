@@ -1,30 +1,7 @@
 import numpy as np 
 import inp
 #function to implement condon rules
-def condon(diff):
-    '''takes array of tuples that describes how determinants vary in
-     maximum coincidence. returns matrix element'''
-    # 1e condon rules
-    def condon1(diff):
-        '''takes array of tuples that describes how determinants vary in
-     maximum coincidence. returns 1 electron matrix element'''
-        # no diff
-        if diff.len()==0:
-            return
-        #1 diff
-        if diff.len()==1:
-            return
-        #2 diff
-        if diff.len()==2:
-            return
-        #>2 diff
-        if diff.len()>2:
-            return 0
-    #2e condon rules
-    def condon2(diff):
-         '''takes array of tuples that describes how determinants vary in
-     maximum coincidence. returns 2 electron matrix element'''
-    return condon1(diff)+condon2(diff)
+
 
 '''# generate fci matrix
 fci = np.ndarray((input.m ,input.m), dtype=float)
@@ -63,6 +40,9 @@ def add_determinant(occupied_orbs):
 # what condition would upon this wild top to run until.I believe I would
 # need to calculate the total number of all possible determine to now when to stop the lope?
 
-    
-    
-        
+    class testDeterminantGeneration(unittest.TestCase):
+   def is_determinant_contained(self):
+      self.assertIn(list(0,1,2,3,4,5),generate_determinants(6,6))
+if __name__ == '__main__':
+    unittest.main()
+   

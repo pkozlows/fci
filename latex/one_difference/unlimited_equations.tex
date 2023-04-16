@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\newcounter{subeqn}
+\newcounter{parentequation}
+
+\makeatletter
+\newenvironment{unlimitedsubequations}{%
+  \refstepcounter{equation}%
+  \protected@edef\theparentequation{\theequation}%
+  \setcounter{subeqn}{0}%
+  \def\theequation{\theparentequation\alph{subeqn}}%
+  \ignorespaces
+}{%
+  \setcounter{equation}{\value{parentequation}}%
+  \ignorespacesafterend
+}
+\makeatother
+
+\begin{document}
+
+\section{Example}
+
+\begin{equation}
+  \label{eq:parent}
+  A = B + C
+\end{equation}
+
+\begin{unlimitedsubequations}
+  \begin{equation}
+    \label{eq:sub1}
+    B = D + E
+  \end{equation}
+  \begin{unlimitedsubequations}
+    \begin{equation}
+      \label{eq:sub2}
+      D = F + G
+    \end{equation}
+    \begin{equation}
+      \label{eq:sub3}
+      E = H + I
+    \end{equation}
+  \end{unlimitedsubequations}
+\end{unlimitedsubequations}
+
+Equation \eqref{eq:parent} has subequations \eqref{eq:sub1}, \eqref{eq:sub2}, and \eqref{eq:sub3}.
+
+\end{document}
+
+

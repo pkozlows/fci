@@ -15,6 +15,7 @@ def annihalation(orbital, determinant):
     return 0
   if orbital in determinant:
     determinant.remove(orbital)
-  return face_factor**orbital
+    face_factor**orbital
+    
 
 

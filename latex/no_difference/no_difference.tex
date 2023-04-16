@@ -1,0 +1,309 @@
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today} %% Change "\today" by another date manually
+\begin{document}
+\maketitle
+\section{0 differences between two determines}
+\begin{equation}
+    \mel{\Psi }{V}{\Psi }
+    =v^{\alpha\beta\gamma\delta}\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+        a^{\dag}_{\alpha  }a^{\dag}_{\beta }a_{\gamma }a_{\delta }
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{1}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{equation}
+\begin{subequations}
+    \begin{align}
+        =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }\delta _{\delta \kappa _{1}}
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+    \begin{align}
+        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a^{\dag}_{\kappa _{1}}a_{\delta }
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    \end{align}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\delta \kappa _{1}}\delta _{\gamma \kappa _{2}}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\delta_{\kappa _{1}}}a^{\dag}_{\kappa _{2}}a_{\gamma }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                a^{\dag}_{'}a^{\dag}_{\beta }\delta _{\gamma \kappa _{1}}a_{\delta }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                a^{\dag}_{\alpha }a^{\dag}_{\beta }a^{\dag}_{\kappa _{1}}a_{\gamma }a_{\delta }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha \kappa _{1}}\delta _{\beta \kappa _{2}}\delta _{\gamma \kappa _{2}}\delta _{\delta \kappa _{1}}
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                a_{\kappa _{2}}a_{\kappa _{1}}a^{\dag}_{\kappa _{2}}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\delta \kappa _{1}}a_{\gamma }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                \delta _{\gamma \kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\delta \kappa _{2}}
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+                \delta _{\gamma \kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a^{\dag}_{\kappa _{2}}a_{\delta }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha \kappa _{1}}\delta _{\beta \kappa _{2}}\delta _{\gamma \kappa _{2}}\delta _{\delta \kappa _{1}}
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta _{\delta \kappa _{1}}\delta _{\alpha \kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta _{\delta \kappa _{1}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            -\delta _{\alpha \kappa _{1}}\delta _{\beta \kappa _{2}}\delta _{\gamma\kappa _{1}}\delta _{\delta \kappa _{2}} 
+        \end{align}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta _{\gamma \kappa _{1}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\delta }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha \kappa _{1}}\delta _{\beta \kappa _{2}}\delta _{\gamma \kappa _{2}}\delta _{\delta \kappa _{1}}
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\delta _{\delta \kappa _{1}}\delta _{\alpha \kappa _{1}}\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    a^{\dag}_{\beta }a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{subequations}
+                \begin{align} 
+                    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                        \delta _{\delta \kappa _{1}}a^{\dag}_{\alpha }
+                        \delta _{\beta \kappa _{1}}
+                        a_{\gamma }
+                    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+                \end{align}
+                \begin{align}
+                    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                        \delta _{\delta  \kappa _{1}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
+                    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+                \end{align}
+                
+            \end{subequations}
+        \end{subequations}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            -\delta _{\alpha \kappa _{1}}\delta _{\beta \kappa _{2}}\delta _{\gamma\kappa _{1}}\delta _{\delta \kappa _{2}} 
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta _{\gamma  \kappa _{1}}\delta _{\alpha  \kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    \delta _{\gamma  \kappa _{1}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{2}}\delta _{\delta  \kappa _{1}}
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\delta _{\alpha  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+            \end{align}
+            \begin{subequations}
+                \begin{align}
+                    -\delta _{\beta  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{
+                        _{2}
+                    }H_{0}a_{
+                        _{2}
+                    }a_{1}
+                    a_{
+                        \kappa _{2}
+                    }
+                    }{\Psi }
+                \end{align}
+                \begin{subequations}
+                    \begin{align}
+                        +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                            \delta _{\delta  \kappa _{1}}a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1}}a_{\gamma }
+                        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+                    \end{align}
+                    \begin{align}
+                        -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                            \delta _{\delta  \kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\kappa _{1}}a_{\gamma }
+                        \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+                    \end{align}
+                \end{subequations}
+            \end{subequations}
+        \end{subequations}
+    \end{subequations}
+    \begin{align}
+        -\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{1}}\delta _{\delta  \kappa _{2}}
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            -\delta _{\gamma  \kappa _{1}}\delta _{\alpha  \kappa _{1}}\mel{\Psi}{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\delta _{\gamma  \kappa _{1}}\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                    a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1}}a_{\gamma }
+                \left(\prod_{\kappa^{\prime}=\left(\kappa_{}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+            \end{align}
+            \begin{align}
+                -0
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{2}}\delta _{\delta  \kappa _{1}}
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\delta _{\alpha  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+            \end{align}
+            \begin{subequations}
+                \begin{align}
+                    -\delta _{\beta  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{
+                        _{2}
+                    }H_{0}a_{
+                        _{2}
+                    }a_{1}
+                    a_{
+                        \kappa _{2}
+                    }
+                    }{\Psi }
+                \end{align}
+                \begin{subequations}
+                    \begin{align}
+                        +\delta _{\beta  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+                    \end{align}
+                    \begin{align}
+                        -0
+                    \end{align}
+                \end{subequations}
+            \end{subequations}
+        \end{subequations}
+    \end{subequations}
+    \begin{align}
+        -\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{1}}\delta _{\delta  \kappa _{2}}
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            -\delta _{\gamma  \kappa _{1}}\delta _{\alpha  \kappa _{1}}\mel{\Psi}{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+        \end{align}
+        \begin{subequations}
+            \begin{align}
+                +\delta _{\gamma  \kappa _{1}}\delta _{\beta  \kappa _{1}}\mel{\Psi}{a^{\dag}_{\kappa _{1}a^{\dag}_{\kappa _{2}}}H_{0}  a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+            \end{align}
+            \begin{align}
+                -0
+            \end{align}
+        \end{subequations}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{2}}\delta _{\delta  \kappa _{1}}
+        \end{align}
+        \begin{align}
+        -\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{1}}\delta _{\delta  \kappa _{2}}
+    \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+                +\delta _{\alpha  \kappa _{1}}\delta _{\delta  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+            \end{align}
+        \begin{align}
+                +\delta _{\gamma  \kappa _{1}}\delta _{\beta  \kappa _{1}}\mel{\Psi}{a^{\dag}_{\kappa _{1}a^{\dag}_{\kappa _{2}}}H_{0}  a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+            \end{align}
+        \begin{align}
+            -\delta _{\gamma  \kappa _{1}}\delta _{\alpha  \kappa _{1}}\mel{\Psi}{a^{\dag}_{\kappa _{1}}a^{\dag}_{\kappa _{2}}H_{0}a_{\kappa _{2}}a_{\kappa _{1}}}{\Psi }
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\text{adding the integrals back in.}
+\begin{subequations}
+    \begin{subequations}
+        \begin{align}
+            =v^{\kappa _{1}\kappa _{2}\kappa _{2}\kappa _{1}}
+        \end{align}
+        \begin{align}
+            -v^{\kappa _{1}\kappa _{2}\kappa _{1}\kappa _{2}}
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+        \begin{align}
+            +v^{\kappa _{1}\beta \gamma \kappa _{1}}
+        \end{align}
+        \begin{align}
+            +v^{\alpha \kappa _{1}\kappa _{1}\delta }
+        \end{align}
+        \begin{align}
+            -v^{\kappa _{1}\beta \kappa _{1}\delta }
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\text{equation 3 part b similar to the Condon roles. not sure were to go with this, or with part a}
+\section{math_drafts.pdf}
+I'm confused about the steps you took to get from
+\begin{equation}
+    \sum_{\kappa }h^{\kappa \kappa }  
+\end{equation}
+\begin{equation}
+    \sum_{\kappa } h^{(\kappa )(\kappa )}\delta _{[\kappa ],[\kappa ]}
+\end{equation}
+\end{document}

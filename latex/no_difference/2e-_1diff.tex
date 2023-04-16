@@ -1,0 +1,44 @@
+
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today} %% Change "\today" by another date manually
+\begin{document}
+\maketitle
+\begin{multline}
+    \mel{\Psi}{V}{\Psi\left(k_{i}\rightarrow k_{i}^{\prime}\right)}
+    =v^{\alpha\beta\gamma\delta} \left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots\kappa_{n}\right)}\\
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{}\right)}a_{\kappa}\right) 
+    a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a_{\delta}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{1}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}    
+\end{multline}
+\begin{multline}
+    =v^{\alpha\beta\gamma\delta}\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}\\
+       \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+        \left(a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}\delta_{\delta\kappa_{1}}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a_{\gamma}a^{\dag}_{\kappa_{1}}a_{\delta}\right)
+       \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{multline}
+\begin{multline}
+    =v^{\alpha\beta\gamma\delta}
+    \left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}\\
+    (
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+        \left(\delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma\kappa_{2}}-\delta_{\delta\kappa_{1}}a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{2}}a_{\gamma}\right)
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}\\
+    -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            \left(a^{\dag}_{\alpha}a^{\dag}_{\beta}\delta_{\gamma\kappa_{1}}a_{\delta}-a^{\dag}_{\alpha}a^{\dag}_{\beta}a^{\dag}_{\kappa_{1}}a_{\gamma}a_{\delta}\right)
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    )
+\end{multline}
+\begin{multline}
+    =v^{\alpha\beta\gamma\delta}\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}
+    (
+        \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{1}\right)}a_{\kappa}\right)
+            \left(\delta_{\delta\kappa_{1}}\delta_{\gamma\kappa_{2}}a^{\dag}_{\alpha}a^{\dag}_{\beta}\right)
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+    )
+\end{multline}
+
+\end{document}
