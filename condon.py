@@ -124,7 +124,7 @@ def condon(pair, integrals):
         tuple with the 1e and 2e integrals. returns matrix element'''
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
-    sq = braket(pair)
+    sq = braket(pair)t
     one_elec_mel = 0
     two_elec_mel = 0
     for i in range(orbs_in_system*2):
