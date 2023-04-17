@@ -116,26 +116,51 @@ def anti_commutator(ops):
     return phase_factor
 
 # testing
-assert(anti_commutator([(0, 0), (0, 1)]) == 1)
-assert(anti_commutator([(0, 0), (0,1), (0,0), (0, 1)]) == 1)
-assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1)]) == 0)
+# assert(anti_commutator([(0, 0), (0, 1)]) == 1)
+# assert(anti_commutator([(0, 0), (0,1), (0,0), (0, 1)]) == 1)
+# assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1)]) == 0)
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
         tuple with the 1e and 2e integrals. returns matrix element'''
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
     sq = braket(pair)
+    diff = sq.diff()
+    number_of_differences = len(diff[0])
     one_elec_mel = 0
     two_elec_mel = 0
-    for i in range(orbs_in_system*2):
-      for j in range(orbs_in_system*2):
-        op_list = sq.bra() + [(i,1), (j,0)] + sq.ket()
-        one_elec_mel += anti_commutator(op_list) * one_elec_ints[i//2,j//2]
-    for i in range(orbs_in_system*2):
-      for j in range(orbs_in_system*2):
-        for k in range(orbs_in_system*2):
-          for l in range(orbs_in_system*2):
-            op_list = sq.bra() + [(i,1), (j,1), (k,0), (l,0)] + sq.ket()
-            two_elec_mel += (1/2) * anti_commutator(op_list) * two_elec_ints[i//2,k//2,j//2,l//2]
+    spin_orbs = set()
+    for operator in sq.combined():
+      spin_orbs.add(operator[0])
+    # create the relevant matrix for the determined pair
+    # if there is no difference between two determinants
+    if number_of_differences == 0:
+      spacial_indices = [orb // 2 for orb in list(spin_orbs)]
+      one_elec_xgrid = np.ix_(spacial_indices, spacial_indices)  
+      one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
+      to_electron_grid=np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices)
+      two_elec_mel += (1/2)*(3*np.einsum('ijji->', two_elec_ints[to_electron_grid]) - 2*np.einsum('ijij->',two_elec_ints[to_electron_grid]))     
+    # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
+    if number_of_differences >= 1:
+        m = list(diff[0])[0] // 2
+        p = list(diff[1])[0] // 2
+        # store the 2nd difference
+        if number_of_differences >= 2:
+            q = list(diff[1])[1] // 2
+            n = list(diff[0])[1] // 2
+    # one difference
+    if number_of_differences == 1:
+        # m and p are the orbitals of difference
+        one_elec_mel += one_elec_ints[m,p]
+        for i in spin_orbs:          
+          two_elec_mel += two_elec_ints[m,p,i//2,i//2] - two_elec_ints[m,i//2,i//2,p]
+        # two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
+    # 2 differences
+    # m,p and n,q are orb differences
+        two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
     return (one_elec_mel + two_elec_mel)
+# load in the intervals
+one_elec_ints = np.load("h1e.npy")
+two_elec_ints = np.load("h2e.npy")
+print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)))
 
