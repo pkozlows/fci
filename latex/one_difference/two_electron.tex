@@ -3,20 +3,6 @@
 \usepackage{physics}
 \usepackage{breqn}
 \usepackage{amsmath}
-\newcounter{subeqn}
-\makeatletter
-\newenvironment{unlimitedsubequations}{%
-  \refstepcounter{equation}%
-  \protected@edef\theparentequation{\theequation}%
-  \setcounter{subeqn}{0}%
-  \def\theequation{\theparentequation\alph{subeqn}}%
-  \ignorespaces
-}{%
-  \setcounter{equation}{\value{parentequation}}%
-  \ignorespacesafterend
-}
-\makeatother
-
 \title{FCI Questions}
 \author{Patryk Kozlowski}
 \date{\today}
@@ -24,7 +10,7 @@
 \maketitle
 
 \section{one difference between two determinants}
-\begin{unlimitedsubequations}
+\begin{subequations}
     \begin{align}
         \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime})}
     =v^{\alpha\beta\gamma\delta}\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}\\
@@ -32,9 +18,9 @@
         a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a_{\delta }a^{\dag}_{\kappa ^{\prime}_{1}}
     \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
     \end{align}
-\end{unlimitedsubequations}
+\end{subequations}
 \text{omitting into QUAL and face factor for now}
-\begin{unlimitedsubequations}
+\begin{subequations}
     \begin{align}
         \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
             a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }\delta _{\delta  \kappa _{1}^{\prime}}
@@ -45,9 +31,9 @@
             a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a^{\dag}_{\kappa _{1}^{\prime}}a_{\delta }
         \left(\prod_{\kappa^{\prime}=\left(\kappa_{}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
     \end{align}
-\end{unlimitedsubequations}
-\begin{unlimitedsubequations}
-    \begin{unlimitedsubequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
         \begin{align}
             =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
                 \delta _{\delta  \kappa _{1}^{\prime}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\gamma  \kappa _{2}}   
@@ -58,8 +44,8 @@
                 \delta _{\delta  \kappa _{1}^{\prime}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta}a^{\dag}_{\kappa _{2}}a_{\gamma }
             \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
         \end{align}
-    \end{unlimitedsubequations}
-    \begin{unlimitedsubequations}
+    \end{subequations}
+    \begin{subequations}
         \begin{align}
             -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
                 a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\gamma   \kappa _{1}^{\prime}}a_{\delta }
@@ -70,11 +56,11 @@
                 a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a^{\dag}_{\kappa _{1}^{\prime}}a_{\gamma }a_{\delta }
             \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
         \end{align}
-    \end{unlimitedsubequations} 
-\end{unlimitedsubequations}
-\begin{unlimitedsubequations}
-    \begin{unlimitedsubequations}
-        \begin{unlimitedsubequations}
+    \end{subequations} 
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{subequations}
             \begin{align}
             =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
                 \delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{1}}a^{\dag}_{\beta }
@@ -85,16 +71,16 @@
                     \delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }
                 \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
             \end{align}
-        \end{unlimitedsubequations}
-        \begin{unlimitedsubequations}
+        \end{subequations}
+        \begin{subequations}
             \begin{align}
                 +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
                     \delta _{\delta  \kappa _{1}^{\prime}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta}a_{\gamma }
                 \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
             \end{align}
-        \end{unlimitedsubequations}
-    \end{unlimitedsubequations}        
-    \begin{unlimitedsubequations}
+        \end{subequations}
+    \end{subequations}        
+    \begin{subequations}
         \begin{align}
             -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
                 \delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}a^{\dag}_{\beta }a_{\delta }
@@ -105,32 +91,25 @@
                 \delta _{\gamma  \kappa _{1}^{\prime}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }a_{\delta }
             \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
         \end{align}
-    \end{unlimitedsubequations}
-    \begin{unlimitedsubequations}
+    \end{subequations}
+    \begin{subequations}
         \begin{align}
             +0
         \end{align}
-    \end{unlimitedsubequations}
-\end{unlimitedsubequations}
-\begin{unlimitedsubequations}
-    \begin{unlimitedsubequations}
-        \begin{unlimitedsubequations}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{subequations}
+        \begin{subequations}
             \begin{align}
                 =\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}
             \end{align}
-            \begin{unlimitedsubequations}
-                \begin{align}
+            \begin{align}
                     -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
                         \delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1}}
                     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-                \end{align}
-                \begin{align}
-                    +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
-                        \delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta  } 
-                    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-                \end{align}
-            \end{unlimitedsubequations}
-            \begin{unlimitedsubequations}
+            \end{align}
+            \begin{subequations}
                 \begin{align}
                     +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
                         \delta _{\delta  \kappa _{1}^{\prime}}\delta _{\rho  \kappa _{1}}a^{\dag}_{\beta}a_{\gamma }
@@ -141,28 +120,86 @@
                         \delta _{\delta  \kappa _{1}^{\prime}}a^{\dag}_{\alpha }a_{\kappa _{1}}a^{\dag}_{\beta }a_{\gamma }
                     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
                 \end{align}
-            \end{unlimitedsubequations}
-        \end{unlimitedsubequations}
-    \end{unlimitedsubequations}
-\end{unlimitedsubequations}
-
-
-    %     \begin{align}
-    %         -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
-    %             \delta _{\delta  \kappa _{1}^{\prime}}a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta}a^{\dag}_{\kappa _{2}}a_{\gamma }
-    %         \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-    %     \end{align}
-    % \end{unlimitedsubequations}
-    % \begin{unlimitedsubequations}
-    %     \begin{align}
-    %         -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
-    %             a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\gamma   \kappa _{1}^{\prime}}a_{\delta }
-    %         \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-    %     \end{align}
-    %     \begin{align}
-    %         +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
-    %             a_{\kappa _{1}}a^{\dag}_{\alpha }a^{\dag}_{\beta }a^{\dag}_{\kappa _{1}^{\prime}}a_{\gamma }a_{\delta }
-    %         \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-    %     \end{align}
+            \end{subequations}
+        \end{subequations}
+    \end{subequations}
+    \begin{align}
+        -\delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\beta }a_{\delta }}{\Psi }
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            +\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+            \delta _{\gamma  \kappa _{1}^{\prime}}a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1}}a_{\delta }
+        \left(\prod_{\kappa^{\prime}=\left(\kappa_{}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            -0
+        \end{align}
+    \end{subequations}
+\end{subequations}
+\begin{subequations}
+    \begin{align}
+                =\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}
+    \end{align}
+    \begin{align}
+                -\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{2}}\delta _{\beta  \kappa _{1}}
+    \end{align}
+    \begin{align}
+        +\delta _{\theta  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\beta }a_{\gamma }}{\Psi }
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
+                \delta _{\delta  \kappa _{1}^{\prime}}a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1}}a_{\gamma }
+            \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+        \end{align}
+        \begin{align}
+            +0
+        \end{align}
+    \end{subequations}
+    \begin{align}
+        -\delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\beta }a^{\dag}_{\delta }}{\Psi }
+    \end{align}
+    \begin{align}
+        +\delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\beta  \kappa _{1}}\mel{\Psi}{ a^{\dag}_{\alpha }a_{\delta } }{\Psi }
+    \end{align}
+\end{subequations}
+\begin{subequations}
+    \begin{align}
+                =\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}
+    \end{align}
+    \begin{align}
+                -\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\gamma  \kappa _{2}}\delta _{\alpha  \kappa _{2}}\delta _{\beta  \kappa _{1}}
+    \end{align}
+    \begin{align}
+        +\delta _{\theta  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\beta }a_{\gamma }}{\Psi }
+    \end{align}
+    \begin{subequations}
+        \begin{align}
+            -\delta _{\delta  \kappa _{1}^{\prime}}\delta _{\beta  \kappa _{1}}\mel{\Psi}{ a^{\dag}_{\alpha }a_{\gamma } }{\Psi }
+        \end{align}
+    \end{subequations}
+    \begin{align}
+        -\delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\alpha  \kappa _{1}}\mel{\Psi }{a^{\dag}_{\beta }a^{\dag}_{\delta }}{\Psi }
+    \end{align}
+    \begin{align}
+        +\delta _{\gamma  \kappa _{1}^{\prime}}\delta _{\beta  \kappa _{1}}\mel{\Psi}{ a^{\dag}_{\alpha }a_{\delta } }{\Psi }
+    \end{align}
+\end{subequations}
+\text{introducing the ints, but not pf}
+\begin{subequations}
+    \begin{align}
+        =v^{1221^{\prime}}-v^{2121^{\prime}}
+    \end{align}
+    \begin{align}
+        +v^{1221^{\prime}}-v^{2121^{\prime}}-v^{121^{\prime}2}+v^{211^{\prime}2}
+    \end{align}
+\end{subequations}
+\begin{equation}
+    =2(v^{1221^{\prime}}-v^{2121^{\prime}})-v^{121^{\prime}2}+v^{211^{\prime}2}
+\end{equation}
+\begin{equation}
+    =\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}(2(v^{1221^{\prime}}-v^{2121^{\prime}})-v^{121^{\prime}2}+v^{211^{\prime}2})
+\end{equation}
 
 \end{document}

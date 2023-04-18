@@ -297,29 +297,6 @@
         \end{align}
     \end{subequations}
 \end{subequations}
-\text{equation 3 part b similar to the Condon roles. not sure were to go with this, or with part a}
-\section{math_drafts.pdf}
-I'm confused about the steps you took to get from
-\begin{equation}
-    \sum_{\kappa }h^{\kappa \kappa }  
-\end{equation}
-\begin{equation}
-    \sum_{\kappa } h^{(\kappa )(\kappa )}\delta _{[\kappa ],[\kappa ]}
-\end{equation}
-\begin{subequations}
-    \begin{align}
-        x &= y+z \\
-        w &= u+v \\
-        r &= s+t
-    \end{align}
-\end{subequations}
-
-\begin{subequations}
-    \renewcommand{\theequation}{\theparentequation\alph{equation}\alph{equation}}
-    \begin{align}
-        a &= b+c \\
-        d &= e+f \\
-        g &= h+i
-    \end{align}
-\end{subequations}
+\section{conclusions}
+feeling like so close, but still no sigar.in einsum notation, it looks like (0.5)*(np.einsum('ijji', h2e)-np.einsum('ijij', h2e)+np.einsum('ijji', h2e)+np.einsum('ijji', h2e)-np.einsum('ijij', h2e)). what ami still messing?
 \end{document}
