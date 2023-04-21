@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.16)  18 APR 2023 16:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.16)  21 APR 2023 10:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -253,30 +253,35 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) [1
 
-{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
-Overfull \hbox (68.24524pt too wide) in paragraph at lines 301--302
-\OT1/cmr/m/n/12 feeling like so close, but still no sigar.in ein-sum no-ta-tion, it looks like (0.5)*(np.einsum('ijji',
+{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+Overfull \hbox (44.34549pt too wide) in paragraph at lines 119--123
+[]
  []
 
 
-Overfull \hbox (54.92871pt too wide) in paragraph at lines 301--302
-\OT1/cmr/m/n/12 h2e)-np.einsum('ijij', h2e)+np.einsum('ijji', h2e)+np.einsum('ijji', h2e)-np.einsum('ijij',
+Overfull \hbox (109.10454pt too wide) in paragraph at lines 119--123
+[]
  []
 
-[5] (./no_difference.aux) ) 
+
+Overfull \hbox (52.90512pt too wide) in paragraph at lines 119--123
+[] 
+ []
+
+[3] [4] (./no_difference.aux) ) 
 Here is how much of TeX's memory you used:
  3471 strings out of 478268
  50154 string characters out of 5846347
- 362495 words of memory out of 5000000
+ 357495 words of memory out of 5000000
  21672 multiletter control sequences out of 15000+600000
  474938 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,14n,85p,390b,276s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,11n,85p,1072b,199s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on no_difference.pdf (5 pages, 122992 bytes).
+Output written on no_difference.pdf (4 pages, 126102 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 77 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
