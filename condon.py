@@ -140,7 +140,7 @@ def condon(pair, integrals):
       one_elec_xgrid = np.ix_(spacial_indices, spacial_indices)  
       one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
       to_electron_grid=np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices)
-      two_elec_mel += (1/2)*(np.einsum('ijji->', two_elec_ints[to_electron_grid]) - (1/2)*np.einsum('iijj->',two_elec_ints[to_electron_grid]))     
+      two_elec_mel += (1/2)*(3*np.einsum('ijji->', two_elec_ints[to_electron_grid]) - np.einsum('iijj->',two_elec_ints[to_electron_grid]))     
     # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
     if number_of_differences >= 1:
         m = list(diff[0])[0] // 2
