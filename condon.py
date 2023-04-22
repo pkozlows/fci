@@ -115,10 +115,13 @@ def anti_commutator(ops):
           phase_factor *= -1
     return phase_factor
 
-# testing
+# make unit tests for the anti commutator function
 assert(anti_commutator([(0, 0), (0, 1)]) == 1)
 assert(anti_commutator([(0, 0), (0,1), (0,0), (0, 1)]) == 1)
 assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1)]) == 1)
+assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1), (0,0), (0, 1)]) == 1)
+
+
 
 def condon(pair, integrals): 
     '''takes tuple of two sets with the determinant pair and a
@@ -154,8 +157,7 @@ def condon(pair, integrals):
         # m and p are the orbitals of difference
         one_elec_mel += one_elec_ints[m,p]
         for i in spin_orbs:          
-          two_elec_mel += two_elec_ints[m,p,i//2,i//2] - two_elec_ints[m,i//2,i//2,p]
-        # two_elec_mel += np.einsum('ijkk->ij', two_elec_ints)[m,p]-np.einsum('ijjk->ik', two_elec_ints)[m,p]
+          two_elec_mel += anti_commutator(sq.combined())*(1/2)*(np.einsum('ijjk->ik', two_elec_ints[to_electron_grid])-np.einsum('ijik->jk', two_elec_ints[to_electron_grid])-np.einsum('ijkj->ik', two_elec_ints[to_electron_grid])+np.einsum('ijki->jk', two_elec_ints[to_electron_grid]))[m, p]
     # 2 differences
     # m,p and n,q are orb differences
         two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
