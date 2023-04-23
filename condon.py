@@ -32,12 +32,6 @@ class braket:
     """. Converts the orbs of the second determined
       into a list of appropriate ordered creation operators."""
     ket_sq = list((orbital, 1) for orbital in self.pair[1])
-    # for i in range(len(determinant)):
-    #    #  Taking out the smallest or brutal of the set ensures the correct ordering of the creations operators
-    #    minimum = min(determinant)
-    #    # creation operators are indicated by a 1
-    #    ket_sq.append((minimum, 1))
-    #    determinant.discard(minimum)
     return ket_sq
   # define a bra in second quantization
   def bra(self):
@@ -45,13 +39,6 @@ class braket:
      appropriate ordered annihilation operators."""
     bra_sq = list((orbital, 0) for orbital in self.pair[0])
     bra_sq.reverse()
-    # determinant = deepcopy(self.pair[0])
-    # for i in range(len(determinant)):
-    #    # this ensures the correct ordering of the annihilation operators
-    #    maximum = max(determinant)
-    #    # annihilation operators are indicated by a 0
-    #    bra_sq.append((maximum, 0))
-    #    determinant.discard(maximum)
     return bra_sq
   def diff(self):
    """returns tuple of  two sets that describe the differences that described the difference between pair.""" 
@@ -60,9 +47,9 @@ class braket:
     """Returns unsimplified list of the creation and angulation ops Form each determinant."""
     _braket = self.bra() + self.ket()
     return _braket
-test = braket((set([0,1,2,3,4,5]), set([0,1,2,3,4,6])))
-print(test.ket())
-print(test.bra())
+# test = braket((set([0,1,2,3,4,5]), set([0,1,2,3,4,6])))
+# print(test.ket())
+# print(test.bra())
 
 def bubbleSort(arr):
     n = len(arr)
@@ -170,9 +157,9 @@ def condon(pair, integrals):
           two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
     return (one_elec_mel + two_elec_mel)
 # load in the intervals
-one_elec_ints = np.load("h1e.npy")
-two_elec_ints = np.load("h2e.npy")
-print(1)
+# one_elec_ints = np.load("h1e.npy")
+# two_elec_ints = np.load("h2e.npy")
+# print(1)
 
 # cProfile.run('condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints))', sort='cumtime')
 
