@@ -6,7 +6,8 @@ import cProfile
 # in puts
 elec_in_system=6
 orbs_in_system=6
-
+one_elec_ints = np.load("h1e.npy")
+two_elec_ints = np.load("h2e.npy")
 def gen_unique_pairs(electrons, orbs):
    """takes in the number of electrons and orbitals and the system.
    Returns a list of tuples of each unique pair of determinants."""
@@ -51,29 +52,6 @@ class braket:
 # print(test.ket())
 # print(test.bra())
 
-def bubbleSort(arr):
-    n = len(arr)
-    # optimize code, so if the array is already sorted, it doesn't need
-    # to go through the entire process
-    swapped = False
-    # Traverse through all array elements
-    for i in range(n-1):
-        # range(n) also work but outer loop will
-        # repeat one time more than needed.
-        # Last i elements are already in place
-        for j in range(0, n-i-1):
- 
-            # traverse the array from 0 to n-i-1
-            # Swap if the element found is greater
-            # than the next element
-            if arr[j] > arr[j + 1]:
-                swapped = True
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-         
-        if not swapped:
-            # if we haven't needed to make a single swap, we
-            # can just exit the main loop.
-            return
 
 def anti_commutator(ops): 
     """takes a second quantization op list. simplifies the list, and returns either the face factor, or zero."""    
@@ -149,21 +127,32 @@ def condon(pair, integrals):
     if number_of_differences == 1:
         # m and p are the orbitals of difference
         one_elec_mel += one_elec_ints[m,p]
-        # check if the spins are the same
-        same_spin = (m //2 == p // 2)
-        if same_spin:
-           two_elec_mel += anti_commutator(sq.combined())*np.einsum('ijkk->ij', two_elec_ints[to_electron_grid])[m,p] - (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p]
-        else:
-           two_elec_mel -= (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p]
+        # check if the spins are the same with a kronecker like implementation
+        same_spin = 0
+        if (m % 2 == p % 2):
+          same_spin = 1
+        # one einsum is conditional on the spins being the same
+        two_elec_mel += anti_commutator(sq.combined())*(same_spin*np.einsum('ijkk->ij', two_elec_ints[to_electron_grid])[m,p] - (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p])
     # 2 differences
     # m,p and n,q are orb differences
-      if number_of_differences == 2:
-        two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
+    if number_of_differences == 2:
+      # check if the spins are the same with a kronecker like implementation
+      same_spin_1 = 0
+      if (m % 2 == p % 2):
+        same_spin_1 = 1
+      same_spin_2 = 0
+      if (n % 2 == q % 2):
+        same_spin_2 = 1
+      same_spin_3 = 0
+      if (m % 2 == q % 2):
+        same_spin_3 = 1
+      same_spin_4 = 0
+      if (n % 2 == p % 2):
+        same_spin_4 = 1      
+      # einsums are conditional on the spins being the same
+      two_elec_mel += (same_spin_1*same_spin_2)*two_elec_ints[m,p,n,q] - (same_spin_3*same_spin_4)*two_elec_ints[m,q,n,p]
     return (one_elec_mel + two_elec_mel)
 
-# load in the intervals
-one_elec_ints = np.load("h1e.npy")
-two_elec_ints = np.load("h2e.npy")
-print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)))
+assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
 
 

@@ -19,28 +19,25 @@
 \begin{equation}
     =\sum_{1}^{N} \sum_{2}^{N} \left(v^{1221}-v^{2121}-v^{1212}+v^{2112}\right)
 \end{equation}
+\begin{equation}
+    =(1/2)*\sum_{i\neq j} (v^{ijji}-v^{ijij})
+\end{equation}
+\begin{equation}
+    =(1/2)*\sum_{i\neq j} [ii|jj]-[ij|ji]
+\end{equation}
+\begin{equation}
+    =(1/2)*\sum_{i\neq j} (ii|jj)\delta _{[i][i]}\delta _{[j][j]}-(ij|ji)\delta _{[i][j]}
+\end{equation}
+\begin{equation}
+    =(1/2)*\sum_{i\neq j} (ii|jj)-(1/2)*(ij|ji)
+\end{equation}
+\begin{equation}
+    =(1/2)*(np.einsum('ijij->',v)-(1/2)*np.einsum('ijji->',v))
+\end{equation}
 \text{So, assuming and dealing with something like:}
 \begin{equation}
     v^{\alpha \beta \gamma  \delta }=\mel{\alpha \beta }{}{\gamma \delta }
 \end{equation}
-\text{I think I need something like the spins from the bra equaling the total spin from ket}
-% \text{it is easier to deal w physics notation first and then I will convert then to the chemistry notation}
-\text{this is similar to when you dealt with the one electron integrates in the trivial case by}
-\begin{equation}
-    \sum_{\kappa } h^{\kappa \kappa }
-\end{equation}
-\begin{equation}
-    =\sum_{\kappa } h^{(\kappa )(\kappa )}\delta _{[\kappa ],[\kappa ]}
-\end{equation}
-\begin{equation}
-    =\sum_{\kappa } h^{(\kappa )(\kappa )}
-\end{equation}
-\section{converting spin to spatial orbitals}
-\subsection{if understanding covertly, the reason you were able to get rid of the delta Function going from equation 6 to 7 is because the spin of the orb denoted by kappa is trivially going to be same. however, I understand that this would not be the trivial case if 1 and 2 did not have the same spin. however, in equation 3, even if the greek alpha and beater functions are going to be different in spin, The corr ket gamma and delta functions are also going to be different, So it is not clear to me where spin would come into play, even though I imagine that it should in this way. this understanding comes from the assumption that something like the rhs of equation 4 corresponds to moving 2 elections from the bra state to the cat state, So the total spin in the bra should always equal the total spin in the cat, but it seems that in equation 3, this is always going to trivially the case, so confused why spin plays role still.}
-% \section{also I'm confused why the factor of one half appears in derivations, like}
-% \begin{equation}
-%     V=(1/2)*\sum_{\alpha \beta \gamma \delta}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a_{\delta } 
-% \end{equation}
 
 \end{document}
 
