@@ -136,7 +136,7 @@ def condon(pair, integrals):
     # if there is no difference between two determinants
     if number_of_differences == 0:
       one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
-      two_elec_mel += (1/2)*(3*np.einsum('ijji->', two_elec_ints[to_electron_grid]) - 2*np.einsum('iijj->',two_elec_ints[to_electron_grid]))     
+      two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_ints[to_electron_grid]) - (1/2)*np.einsum('ijji->',two_elec_ints[to_electron_grid]))     
     # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
     if number_of_differences >= 1:
         m = list(diff[0])[0] // 2
@@ -149,17 +149,21 @@ def condon(pair, integrals):
     if number_of_differences == 1:
         # m and p are the orbitals of difference
         one_elec_mel += one_elec_ints[m,p]
-        for i in spin_orbs:          
-          two_elec_mel += anti_commutator(sq.combined())*(1/2)*(np.einsum('ijjk->ik', two_elec_ints[to_electron_grid])-np.einsum('ijik->jk', two_elec_ints[to_electron_grid])-np.einsum('ijkj->ik', two_elec_ints[to_electron_grid])+np.einsum('ijki->jk', two_elec_ints[to_electron_grid]))[m, p]
+        # check if the spins are the same
+        same_spin = (m //2 == p // 2)
+        if same_spin:
+           two_elec_mel += anti_commutator(sq.combined())*np.einsum('ijkk->ij', two_elec_ints[to_electron_grid])[m,p] - (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p]
+        else:
+           two_elec_mel -= (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p]
     # 2 differences
     # m,p and n,q are orb differences
-        if number_of_differences == 2:
-          two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
+      if number_of_differences == 2:
+        two_elec_mel += two_elec_ints[m,p,n,q] - two_elec_ints[m,q,n,p]
     return (one_elec_mel + two_elec_mel)
-# load in the intervals
-# one_elec_ints = np.load("h1e.npy")
-# two_elec_ints = np.load("h2e.npy")
-# print(1)
 
-# cProfile.run('condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints))', sort='cumtime')
+# load in the intervals
+one_elec_ints = np.load("h1e.npy")
+two_elec_ints = np.load("h2e.npy")
+print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)))
+
 
