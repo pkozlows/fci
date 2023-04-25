@@ -7,7 +7,7 @@ import cProfile
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
 integrals = (one_elec_ints, two_elec_ints)
- 
+
 def generation(integrals):  
     """generate the for configuration interaction matrix and find the lowest eigenvalue"""
     
@@ -27,7 +27,7 @@ def generation(integrals):
     def populate(basis):
         """populate the matrix with the condon elements and then diagonalize it to find the lowest eigenvalue"""
         # create a sparse matrix with the number of rows and columns equal to the number of determinants
-        mat = np.empty((len(basis), len(basis)))
+        mat = np.zeros((len(basis), len(basis)))
         # iterate over bras and kets
         for i, bra in enumerate(basis):
             for j, ket in enumerate(basis):
@@ -45,9 +45,9 @@ def generation(integrals):
         return eigenvalues[0]
     
     return populate(create_basis())
-#print((1/2)*generation(integrals))
+print((1/2)*generation(integrals))
     
-cProfile.run("generation(integrals)")
+# cProfile.run("generation(integrals)")
 
 
 
