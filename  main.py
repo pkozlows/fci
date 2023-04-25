@@ -6,7 +6,8 @@ import cProfile
 # load in the intervals
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
-integrals = (one_elec_ints, two_elec_ints) 
+integrals = (one_elec_ints, two_elec_ints)
+ 
 def generation(integrals):  
     """generate the for configuration interaction matrix and find the lowest eigenvalue"""
     
@@ -28,40 +29,23 @@ def generation(integrals):
         # create a sparse matrix with the number of rows and columns equal to the number of determinants
         mat = np.empty((len(basis), len(basis)))
         # iterate over bras and kets
-        for bra in basis:
-            for ket in basis:
+        for i, bra in enumerate(basis):
+            for j, ket in enumerate(basis):
                 number_of_differences = bra.difference(ket)
                 # if more than two differences, the condon element is zero and no need to call condon()
                 if len(number_of_differences) >= 2:
                     pass
                 else:
-                    # find the indices of the determinants in the determinant basis
-                    bra_index = basis.index(bra)
-                    ket_index = basis.index(ket)
                     # find the condon element
                     condon_element = condon.condon((bra, ket), integrals)
                     # populate the matrix
-                    mat[bra_index, ket_index] = condon_element
-                    
-            
-        # for det_pair in condon.gen_unique_pairs(condon.elec_in_system, condon.orbs_in_system):
-        #     # get the determinants from the pair
-        #     bra = det_pair[0]
-        #     ket = det_pair[1]
-        #     # implement the above commented out code in more efficient way using numpy
-        #     # find the indices of the determinants in the determinant basis
-        #     bra_index = basis.index(bra)
-        #     ket_index = basis.index(ket)
-        #     # find the condon element
-        #     condon_element = condon.condon(det_pair, integrals)
-        #     # populate the matrix
-        #     mat[bra_index, ket_index] = condon_element
-
+                    mat[i,j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
         eigenvalues = np.linalg.eigvalsh(mat)
         return eigenvalues[0]
+    
     return populate(create_basis())
-print((1/2)*generation(integrals))
+#print((1/2)*generation(integrals))
     
 cProfile.run("generation(integrals)")
 
