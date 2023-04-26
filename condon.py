@@ -87,6 +87,8 @@ def anti_commutator(ops):
 
 # make unit tests for the anti commutator function
 assert(anti_commutator([(0, 0), (0, 1)]) == 1)
+assert(anti_commutator([(0, 0), (1,0), (0,1)]) == 0)
+assert(anti_commutator([(0, 0), (1,0), (0,1), (1, 1)]) == -1)
 assert(anti_commutator([(0, 0), (0,1), (0,0), (0, 1)]) == 1)
 assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1)]) == 1)
 assert(anti_commutator([(0, 0), (0,1), (0,1), (0,0), (0,0), (0, 1), (0,0), (0, 1)]) == 1)
@@ -117,40 +119,44 @@ def condon(pair, integrals):
       two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_ints[to_electron_grid]) - (1/2)*np.einsum('ijji->',two_elec_ints[to_electron_grid]))     
     # store first difference between determinants and convert the spin to spatial index, for later use to access integrals
     if number_of_differences >= 1:
-        m = list(diff[0])[0] // 2
-        p = list(diff[1])[0] // 2
+        m_spin = list(diff[0])[0]
+        m_special = m_spin // 2
+        p_spin = list(diff[1])[0]
+        p_special = p_spin // 2
         # store the 2nd difference
         if number_of_differences >= 2:
-            q = list(diff[1])[1] // 2
-            n = list(diff[0])[1] // 2
+            n_spin = list(diff[0])[1]
+            n_special = n_spin // 2
+            q_spin = list(diff[1])[1]
+            q_special = q_spin // 2
     # one difference
     if number_of_differences == 1:
         # m and p are the orbitals of difference
-        one_elec_mel += one_elec_ints[m,p]
         # check if the spins are the same with a kronecker like implementation
         same_spin = 0
-        if (m % 2 == p % 2):
+        if (m_spin % 2 == p_spin % 2):
           same_spin = 1
+        one_elec_mel += anti_commutator(sq.combined())*(same_spin*one_elec_ints[m_special,p_special])
         # one einsum is conditional on the spins being the same
-        two_elec_mel += anti_commutator(sq.combined())*(same_spin*np.einsum('ijkk->ij', two_elec_ints[to_electron_grid])[m,p] - (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m,p])
+        two_elec_mel += anti_commutator(sq.combined())*(same_spin*np.einsum('ijkk->ij', two_elec_ints[to_electron_grid])[m_special,p_special] - (1/4)*np.einsum('ijjk->ik',two_elec_ints[to_electron_grid])[m_special,p_special])
     # 2 differences
     # m,p and n,q are orb differences
     if number_of_differences == 2:
       # check if the spins are the same with a kronecker like implementation
       same_spin_1 = 0
-      if (m % 2 == p % 2):
+      if (m_spin % 2 == p_spin % 2):
         same_spin_1 = 1
       same_spin_2 = 0
-      if (n % 2 == q % 2):
+      if (n_spin % 2 == q_spin % 2):
         same_spin_2 = 1
       same_spin_3 = 0
-      if (m % 2 == q % 2):
+      if (m_spin % 2 == q_spin % 2):
         same_spin_3 = 1
       same_spin_4 = 0
-      if (n % 2 == p % 2):
+      if (n_spin % 2 == p_spin % 2):
         same_spin_4 = 1      
       # einsums are conditional on the spins being the same
-      two_elec_mel += (same_spin_1*same_spin_2)*two_elec_ints[m,p,n,q] - (same_spin_3*same_spin_4)*two_elec_ints[m,q,n,p]
+      two_elec_mel += (same_spin_1*same_spin_2)*two_elec_ints[m_special,p_special,n_special,q_special] - (same_spin_3*same_spin_4)*two_elec_ints[m_special,q_special,n_special,p_special]
     return (one_elec_mel + two_elec_mel)
 
 assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
