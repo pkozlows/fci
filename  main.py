@@ -1,8 +1,11 @@
 import numpy as np
-import condon
+from condon import condon
 import itertools
-from scipy.sparse import lil_matrix
 import cProfile
+
+# define the system inputs
+elec_in_system=6
+orbs_in_system=6
 # load in the intervals
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
@@ -18,7 +21,7 @@ def generation(integrals):
     def create_basis():
         """create ordered basis with all possible determinants"""
         basis=list()
-        for x in itertools.combinations(range(condon.orbs_in_system*2),condon.elec_in_system):
+        for x in itertools.combinations(range(orbs_in_system*2),elec_in_system):
             basis.append(set(x))
         # sort the determinants based on the basis of the diagonal fci mel
         basis.sort(key = determinant_diagonal)
@@ -37,7 +40,7 @@ def generation(integrals):
                     pass
                 else:
                     # find the condon element
-                    condon_element = condon.condon((bra, ket), integrals)
+                    condon_element = condon((bra, ket), integrals)
                     # populate the matrix
                     mat[i,j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
@@ -45,7 +48,7 @@ def generation(integrals):
         return eigenvalues[0]
     
     return populate(create_basis())
-print((1/2)*generation(integrals))
+print(generation(integrals))
     
 # cProfile.run("generation(integrals)")
 
