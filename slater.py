@@ -25,10 +25,12 @@ def condon(pair, integrals):
     spacial_indices = [orb // 2 for orb in orbs_in_pair]
     one_elec_xgrid = np.ix_(spacial_indices, spacial_indices)
     to_electron_grid=np.ix_(spacial_indices, spacial_indices, spacial_indices, spacial_indices)
+    one_electron_special_integrals = one_elec_ints[one_elec_xgrid]
+    two_electron_special_integrals = two_elec_ints[to_electron_grid]
     # if there is no difference between the determinants
     if number_of_differences == 0:
-      one_elec_mel += np.einsum('ii->', one_elec_ints[one_elec_xgrid])
-      two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_ints[to_electron_grid]) - (1/2)*np.einsum('ijji->',two_elec_ints[to_electron_grid]))
+      one_elec_mel += np.einsum('ii->', one_electron_special_integrals)
+      two_elec_mel += (1/2)*(np.einsum('iijj->', two_electron_special_integrals) - (1/2)*np.einsum('ijji->',two_electron_special_integrals))
     # save the spin orb differences between the determinants and then convert them into special indices for later use the access ints
     if number_of_differences >= 1:
         m_spin = list(diff[0])[0]
@@ -48,8 +50,16 @@ def condon(pair, integrals):
             return 0
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
-        one_elec_mel += anti_commutator(sq.combined())*kronecker(m_spin, p_spin)*one_elec_ints[one_elec_xgrid][m_special, p_special]
-        two_elec_mel += (1/2)*kronecker(m_spin, p_spin)*(np.einsum('ijij->', two_elec_ints[to_electron_grid]) - (1/2)*np.einsum('ijji->',two_elec_ints[to_electron_grid]))
+        one_elec_mel += anti_commutator(sq.combined())*kronecker(m_spin, p_spin)*one_electron_special_integrals[m_special, p_special]
+        # one einsum is conditional on the spins being the same
+        two_elec_mel += anti_commutator(sq.combined())*kronecker(m_spin, p_spin)*(np.einsum('ijij->', two_electron_special_integrals) - (1/2)*np.einsum('ijji->',two_electron_special_integrals))
+    # if there are two differences, m p and n q, between the determinants
+    if number_of_differences == 2:
+        two_elec_mel += kronecker(m_spin, p_spin)*kronecker(n_spin, q_spin)*two_electron_special_integrals[m_special,p_special,n_special,q_special] - kronecker(m_spin, q_spin)*kronecker(n_spin, q_spin)*two_electron_special_integrals[m_special,q_special,n_special,p_special]
+    return one_elec_mel + two_elec_mel
+# unit testing
+assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
+print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,6}), (one_elec_ints, two_elec_ints)))
 
         
 
