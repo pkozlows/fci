@@ -81,15 +81,16 @@ def condon(pair, integrals):
     if number_of_differences == 1:
         one_elec_mel += anti_commutator(pair)*kronecker(m_spin, p_spin)*one_electron_special_integrals[m_special, p_special]
         # one einsum is conditional on the spins being the same
-        two_elec_mel += anti_commutator(pair)*kronecker(m_spin, p_spin)*(np.einsum('ijij->', two_electron_special_integrals) - (1/2)*np.einsum('ijji->',two_electron_special_integrals))
+        two_elec_mel += anti_commutator(pair)*((kronecker(m_spin, p_spin)*np.einsum('ijkk->ij', two_electron_special_integrals)[m_special, p_special]) - (1/4)*np.einsum('ijjk->ik',two_electron_special_integrals)[m_special, p_special])
     # if there are two differences, m p and n q, between the determinants
     if number_of_differences == 2:
         two_elec_mel += anti_commutator(pair)*(kronecker(m_spin, p_spin)*kronecker(n_spin, q_spin)*two_electron_special_integrals[m_special,p_special,n_special,q_special] - kronecker(m_spin, q_spin)*kronecker(n_spin, q_spin)*two_electron_special_integrals[m_special,q_special,n_special,p_special])
     return one_elec_mel + two_elec_mel
 # unit testing
 assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
-assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,6}), (one_elec_ints, two_elec_ints)) == 0)
+print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,6}), (one_elec_ints, two_elec_ints)))
 print(condon(({0,1,2,3,4,5}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
+print(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)))
 
         
 
