@@ -1,5 +1,5 @@
 import numpy as np
-from condon import condon
+from slater import condon
 import itertools
 import cProfile
 
@@ -16,7 +16,7 @@ def generation(integrals):
     
     def determinant_diagonal(determinant):
         """returns the diagonal fci mel of a determinant for later ordering in basis"""
-        return condon.condon((determinant, determinant), (one_elec_ints, two_elec_ints))
+        return condon((determinant, determinant), (one_elec_ints, two_elec_ints))
     
     def create_basis():
         """create ordered basis with all possible determinants"""
@@ -45,7 +45,7 @@ def generation(integrals):
                     mat[i,j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
         eigenvalues = np.linalg.eigvalsh(mat)
-        return eigenvalues[0]
+        return eigenvalues
     
     return populate(create_basis())
 print(generation(integrals))
