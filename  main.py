@@ -45,13 +45,10 @@ def generation(integrals):
                     # populate the matrix
                     mat[i, j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
-        print(create_basis())
-        print(mat)
-        print(mat[0])
         # check that did this a real, symmetric matrix
         assert np.allclose(mat, mat.T)    
         eigenvalues = np.linalg.eigvalsh(mat)
-        return eigenvalues
+        return eigenvalues[0]
     
     return populate(create_basis())
 print(generation(integrals))
