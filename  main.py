@@ -1,24 +1,28 @@
 import numpy as np
-import condon
+from slater import condon
 import itertools
-from scipy.sparse import lil_matrix
 import cProfile
+
+# define the system inputs
+elec_in_system=6
+orbs_in_system=6
 # load in the intervals
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
 integrals = (one_elec_ints, two_elec_ints)
+# np.set_printoptions(threshold=np.inf)
 
 def generation(integrals):  
     """generate the for configuration interaction matrix and find the lowest eigenvalue"""
     
     def determinant_diagonal(determinant):
         """returns the diagonal fci mel of a determinant for later ordering in basis"""
-        return condon.condon((determinant, determinant), (one_elec_ints, two_elec_ints))
+        return condon((determinant, determinant), (one_elec_ints, two_elec_ints))
     
     def create_basis():
         """create ordered basis with all possible determinants"""
         basis=list()
-        for x in itertools.combinations(range(condon.orbs_in_system*2),condon.elec_in_system):
+        for x in itertools.combinations(range(orbs_in_system*2),elec_in_system):
             basis.append(set(x))
         # sort the determinants based on the basis of the diagonal fci mel
         basis.sort(key = determinant_diagonal)
@@ -37,15 +41,20 @@ def generation(integrals):
                     pass
                 else:
                     # find the condon element
-                    condon_element = condon.condon((bra, ket), integrals)
+                    condon_element = condon((bra, ket), integrals)
                     # populate the matrix
-                    mat[i,j] = condon_element
+                    mat[i, j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
+        print(create_basis())
+        print(mat)
+        print(mat[0])
+        # check that did this a real, symmetric matrix
+        assert np.allclose(mat, mat.T)    
         eigenvalues = np.linalg.eigvalsh(mat)
-        return eigenvalues[0]
+        return eigenvalues
     
     return populate(create_basis())
-print((1/2)*generation(integrals))
+print(generation(integrals))
     
 # cProfile.run("generation(integrals)")
 

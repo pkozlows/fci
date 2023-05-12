@@ -1,0 +1,52 @@
+
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{breqn}
+
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (m\rightarrow p)}=\left(-1\right)^{\varepsilon\left(\kappa\right)}(1/2)*\sum_{PQRS} v^{PQRS }\\
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+        a_{m}a^{\dag}_{P }a^{\dag}_{R }a_{S }a_{Q }a^{\dag}_{p}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{equation}
+\begin{equation}
+    =\delta_{P m}\delta_{Q p}\sum_{n=spinIntersection} \delta_{R n}\delta_{S n}
+\end{equation}
+\begin{equation}
+    -\delta_{R m}\delta_{Q p}\sum_{n=spinIntersection} \delta_{P n}\delta_{S n}
+\end{equation}
+\begin{equation}
+    -\delta_{P m}\delta_{S p}\sum_{n=spinIntersection} \delta_{R n}\delta_{Q n}
+\end{equation}
+\begin{equation}
+    +\delta_{R m}\delta_{S p}\sum_{n=spinIntersection} \delta_{P n}\delta_{Q n}
+\end{equation}
+\begin{equation}
+    =(1/2)\sum_{n=spinIntersection}\left(v^{mpnn}-v^{npmn}-v^{mnnp}+v^{nnmp}\right)
+\end{equation}
+symmetry
+\begin{equation}
+    =(1/2)\sum_{n=spinIntersection}\left(2v^{mpnn}-2v^{mnnp}\right)
+\end{equation}
+\begin{equation}
+    =\sum_{n=n=spinIntersection}\left(v^{mpnn}-v^{mnnp}\right) 
+\end{equation}
+\begin{equation}
+    =\sum_{n=n=spinIntersection}\left((mp|nn)\delta _{[m][p]}\delta _{[n][n]}-(mn|np)\delta _{[m][n]}\delta _{[n][p]}\right)
+\end{equation}
+\begin{dmath}
+    =\sum_{n=n=spinIntersection}\left(\delta _{[m][p]}np.einsum('ijkk-ij',somthingCombined?)[(m),(p)]\\-\delta _{[m][n]}\delta _{[n][p]}np.einsum('ijjk-ik',somthingCombined?)[(m),(p)]\right)
+\end{dmath}
+ so, to solve
+\begin{equation}
+    \delta _{[m][n]}\delta _{[n][p]}
+\end{equation}
+need to find how many times that spin of m and p equal common orbs in n=spinIntersection\\
+also, need to figure out the instant summation notation for this integral mesh.
+\end{document}

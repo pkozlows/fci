@@ -1,0 +1,42 @@
+
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\usepackage{amsmath}
+
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+\section{one difference}
+\begin{equation}
+    \mel{\Psi }{H_{0}}{\Psi (k\rightarrow k^{\prime})}=h^{\alpha\beta}\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa _{j},...,\kappa_{n}\right)}\\
+    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+        a_{1}a^{\dag}_{\alpha  }a_{\beta }a^{\dag}_{\kappa _{1^{\prime}}}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{equation}
+\begin{equation}
+    =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+        a_{1}a^{\dag}_{\alpha }\delta _{\beta  \kappa _{1^{\prime}}}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{equation}
+\begin{equation}
+    -0
+\end{equation}
+\begin{equation}
+    =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{2}\right)}a_{\kappa}\right)
+        \delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{1^{\prime}}}
+    \left(\prod_{\kappa^{\prime}=\left(\kappa_{2}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
+\end{equation}
+\begin{equation}
+    =\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}h^{11^{\prime}}
+\end{equation}
+\begin{equation}
+    =\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa_{n}\right)}h^{(1)(1^{\prime})}\delta _{[1][1^{\prime}]}
+\end{equation}
+
+
+
+\end{document}
+
