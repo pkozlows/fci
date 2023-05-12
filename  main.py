@@ -10,6 +10,7 @@ orbs_in_system=6
 one_elec_ints = np.load("h1e.npy")
 two_elec_ints = np.load("h2e.npy")
 integrals = (one_elec_ints, two_elec_ints)
+# np.set_printoptions(threshold=np.inf)
 
 def generation(integrals):  
     """generate the for configuration interaction matrix and find the lowest eigenvalue"""
@@ -42,8 +43,13 @@ def generation(integrals):
                     # find the condon element
                     condon_element = condon((bra, ket), integrals)
                     # populate the matrix
-                    mat[i,j] = condon_element
+                    mat[i, j] = condon_element
         # find just the eigenvalues of mat by diagonalizing it
+        print(create_basis())
+        print(mat)
+        print(mat[0])
+        # check that did this a real, symmetric matrix
+        assert np.allclose(mat, mat.T)    
         eigenvalues = np.linalg.eigvalsh(mat)
         return eigenvalues
     
