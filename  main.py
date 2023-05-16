@@ -21,9 +21,16 @@ def generation(integrals):
     
     def create_basis():
         """create ordered basis with all possible determinants"""
-        basis=list()
-        for x in itertools.combinations(range(orbs_in_system*2),elec_in_system):
-            basis.append(set(x))
+        # create all possible alpha strings i.e. only with even orbitals
+        alpha_strings = itertools.combinations(range(0, orbs_in_system*2, 2), elec_in_system//2)
+        # create all possible beta strings i.e. only with odd orbitals
+        beta_strings = itertools.combinations(range(1, orbs_in_system*2, 2), elec_in_system//2)
+        # create a basis of possible determinants with total spin zero
+        basis = []
+        for alpha in alpha_strings:
+            for beta in beta_strings:
+                # create a determinant object for each determinant
+                basis.append(set(alpha) | set(beta))
         # sort the determinants based on the basis of the diagonal fci mel
         basis.sort(key = determinant_diagonal)
         return basis
