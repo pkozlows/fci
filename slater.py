@@ -85,9 +85,6 @@ def condon(pair, integrals):
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
-        # print(one_elec_ints)
-        # # print that transpose of the one electron integrals
-        # print(one_elec_ints.T)
         # make custom kronecker function that outputs the fraction from \delta_{[m][n]} or \delta_{[n][p]}
         def kronecker_fraction(m_spin, spin_intersection):
           """takes a difference spin orbital and a set of common spin orbitals for pair. returns fraction corresponding to relevant sum of delta functions."""
