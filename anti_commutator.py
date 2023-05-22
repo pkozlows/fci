@@ -2,7 +2,10 @@ def anti_commutator(pair):
   """takes a pair of determinat sets, and returns the face factor. can only deal with cases where there is one or two differences between determinants."""
   # make list for what orbs they differ in
   bra_unique_orbs = list(pair[0].difference(pair[1]))
+  # and then sort them
+  bra_unique_orbs.sort()
   ket_unique_orbs = list(pair[1].difference(pair[0]))
+  ket_unique_orbs.sort()
   # initialize the lists to be sorted
   bra = list(pair[0])
   ket = list(pair[1])
@@ -20,7 +23,9 @@ def anti_commutator(pair):
   # return the face factor
   return (-1)**(bra_swaps + ket_swaps)
 # test cases for single difference
-# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
+assert(anti_commutator(({0,1,2,7,8,9}, {0,1,2,7,8,11})) == 1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
 # test cases for two differences
-# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
-# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)
