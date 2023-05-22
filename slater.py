@@ -99,7 +99,7 @@ def condon(pair, integrals):
         two_elec_mel += anti_commutator(pair)*(np.einsum('ijkk->ij', two_electron_coulomb) - ((4/25))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special]
     # if there are two differences, m p and n q, between the determinants
     if number_of_differences == 2:
-      two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] -two_elec_ints[m_special,q_special,n_special,p_special])
+      two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])# -two_elec_ints[m_special,q_special,n_special,p_special])
     return one_elec_mel + two_elec_mel
 # unit testing
 # print(condon(({0,1,2,3,4,7}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
