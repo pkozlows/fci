@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1684794962 "/Users/patrykkozlowski/Documents/fci/latex/two_differences/two_differences.tex" "two_differences.pdf" "two_differences" 1684794962
-  "/Users/patrykkozlowski/Documents/fci/latex/two_differences/two_differences.tex" 1684794961 3539 cce189444ad818e4b5a902e0477b6437 ""
+["pdflatex"] 1684795076 "/Users/patrykkozlowski/Documents/fci/latex/two_differences/two_differences.tex" "two_differences.pdf" "two_differences" 1684795076
+  "/Users/patrykkozlowski/Documents/fci/latex/two_differences/two_differences.tex" 1684795076 3539 cce189444ad818e4b5a902e0477b6437 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -57,8 +57,8 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1678991133 2826448 4270e2367f7fc979c93faf84881f8723 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "two_differences.aux" 1684794962 135 c3e2e2559c694fffce8354832ef77359 "pdflatex"
-  "two_differences.tex" 1684794961 3539 cce189444ad818e4b5a902e0477b6437 ""
+  "two_differences.aux" 1684795076 135 c3e2e2559c694fffce8354832ef77359 "pdflatex"
+  "two_differences.tex" 1684795076 3539 cce189444ad818e4b5a902e0477b6437 ""
   (generated)
   "two_differences.aux"
   "two_differences.log"
