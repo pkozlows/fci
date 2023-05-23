@@ -67,14 +67,21 @@ def condon(pair, integrals):
       two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
     # save the spin orb differences between the determinants and then convert them into special indices for later use the access ints
     if number_of_differences >= 1:
-        m_spin = list(diff[0])[0]
+        first_det_difference = list(diff[0])
+        second_det_difference = list(diff[1])
+        # sort them so that the first difference is the lowest
+        first_det_difference.sort()
+        second_det_difference.sort()
+        # save the spin and special indices of the first difference
+        m_spin = first_det_difference[0]
         m_special = m_spin // 2
-        p_spin = list(diff[1])[0]
+        p_spin = second_det_difference[0]
         p_special = p_spin // 2
+        # if there is a second difference, save the spin and special indices of the second difference
         if number_of_differences >= 2:
-            n_spin = list(diff[0])[1]
+            n_spin = first_det_difference[1]
             n_special = n_spin // 2
-            q_spin = list(diff[1])[1]
+            q_spin = second_det_difference[1]
             q_special = q_spin // 2
     def kronecker(m, n):
         """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
@@ -96,7 +103,7 @@ def condon(pair, integrals):
         two_elec_xgrid_exchange = np.ix_(range(6), spacial_intersection, spacial_intersection, range(6))
         two_electron_coulomb = two_elec_ints[two_elec_xgrid_coloumb]
         two_electron_exchange = two_elec_ints[two_elec_xgrid_exchange]
-        two_elec_mel += anti_commutator(pair)*(np.einsum('ijkk->ij', two_electron_coulomb) - ((4/25))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special]
+        two_elec_mel += anti_commutator(pair)*(np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special]
     # if there are two differences, m p and n q, between the determinants
     if number_of_differences == 2:
       two_elec_mel += anti_commutator(pair)*((kronecker(m_spin, p_spin)*kronecker(n_spin, q_spin)*two_elec_ints[m_special,p_special,n_special,q_special]) - (kronecker(m_spin, q_spin)*kronecker(n_spin, p_spin)*two_elec_ints[m_special,q_special,n_special,p_special]))
