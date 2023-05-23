@@ -3,12 +3,15 @@ def anti_commutator(pair):
   # make list for what orbs they differ in
   bra_unique_orbs = list(pair[0].difference(pair[1]))
   # and then sort them
-  bra_unique_orbs.sort()
+  #bra_unique_orbs.sort()
   ket_unique_orbs = list(pair[1].difference(pair[0]))
   ket_unique_orbs.sort()
   # initialize the lists to be sorted
   bra = list(pair[0])
+  print(pair)
+  #bra.sort()
   ket = list(pair[1])
+  #ket.sort()
   # make sure they had the same length
   assert(len(bra) == len(ket))
   def bubble_sort(determinant, unique_orbs):
@@ -22,6 +25,7 @@ def anti_commutator(pair):
   ket_swaps = bubble_sort(ket, ket_unique_orbs)
   # return the face factor
   return (-1)**(bra_swaps + ket_swaps)
+print(anti_commutator(({4,5,8,9,10,11}, {4,6,7,8,9,11})))
 # test cases for single difference
 assert(anti_commutator(({0,1,2,7,8,9}, {0,1,2,7,8,11})) == 1)
 assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
