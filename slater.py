@@ -22,17 +22,18 @@ def condon(pair, integrals):
     # convert the set of spin orbs to special orbs
     spacial_union = [orb // 2 for orb in spin_union]
     spacial_intersection = [orb // 2 for orb in spin_intersection]
-    def no_differences():
-        """returns the matrix element if there are no differences between the determinants."""
+    # initialize the matrix element
+    one_elec_mel = 0
+    two_elec_mel = 0
+    if number_of_differences == 0:
         # initialize meshes for converting spin orbs to special ints
         one_elec_special_union_xgrid = np.ix_(spacial_union, spacial_union)
         to_elec_special_union_xgrid=np.ix_(spacial_union, spacial_union, spacial_union, spacial_union)
         one_elec_special_union_ints = one_elec_ints[one_elec_special_union_xgrid]
         two_elec_special_union_ints = two_elec_ints[to_elec_special_union_xgrid]
         # if there is no difference between the determinants
-        one_elec_mel = np.einsum('ii->', one_elec_special_union_ints)
-        two_elec_mel = (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
-        return one_elec_mel + two_elec_mel
+        one_elec_mel += np.einsum('ii->', one_elec_special_union_ints)
+        two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
 
     # save the spin orb differences between the determinants and then convert them into special indices for later use the access ints
     if number_of_differences >= 1:
@@ -53,8 +54,7 @@ def condon(pair, integrals):
             return 1
         else:
             return 0
-    def one_difference():
-      
+              
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
