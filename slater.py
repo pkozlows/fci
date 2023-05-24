@@ -13,11 +13,8 @@ def condon(pair, integrals):
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
     # get the difference between the two determinants and its length
-    differences = (pair[0].difference(pair[1]), pair[1].difference(pair[0]))
+    differences = (sorted(pair[0].difference(pair[1])), sorted(pair[1].difference(pair[0])))
     number_of_differences = len(differences[0])
-    # initializes the mels
-    one_elec_mel = 0
-    two_elec_mel = 0
     # create a set which contains the union of spin orbs in the pair
     spin_union = sorted(pair[0].union(pair[1]))
     # create a set which contains the intersection of spin orbs in the pair
@@ -25,32 +22,30 @@ def condon(pair, integrals):
     # convert the set of spin orbs to special orbs
     spacial_union = [orb // 2 for orb in spin_union]
     spacial_intersection = [orb // 2 for orb in spin_intersection]
-    # initialize meshes for converting spin orbs to special ints
-    one_elec_special_union_xgrid = np.ix_(spacial_union, spacial_union)
-    to_elec_special_union_xgrid=np.ix_(spacial_union, spacial_union, spacial_union, spacial_union)
-    one_elec_special_union_ints = one_elec_ints[one_elec_special_union_xgrid]
-    two_elec_special_union_ints = two_elec_ints[to_elec_special_union_xgrid]
-    # if there is no difference between the determinants
-    if number_of_differences == 0:
-      one_elec_mel += np.einsum('ii->', one_elec_special_union_ints)
-      two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
+    def no_differences():
+        """returns the matrix element if there are no differences between the determinants."""
+        # initialize meshes for converting spin orbs to special ints
+        one_elec_special_union_xgrid = np.ix_(spacial_union, spacial_union)
+        to_elec_special_union_xgrid=np.ix_(spacial_union, spacial_union, spacial_union, spacial_union)
+        one_elec_special_union_ints = one_elec_ints[one_elec_special_union_xgrid]
+        two_elec_special_union_ints = two_elec_ints[to_elec_special_union_xgrid]
+        # if there is no difference between the determinants
+        one_elec_mel = np.einsum('ii->', one_elec_special_union_ints)
+        two_elec_mel = (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
+        return one_elec_mel + two_elec_mel
+
     # save the spin orb differences between the determinants and then convert them into special indices for later use the access ints
     if number_of_differences >= 1:
-        first_det_difference = list(differences[0])
-        second_det_difference = list(differences[1])
-        # sort them so that the first difference is the lowest
-        first_det_difference.sort()
-        second_det_difference.sort()
         # save the spin and special indices of the first difference
-        m_spin = first_det_difference[0]
+        m_spin = differences[0][0]
         m_special = m_spin // 2
-        p_spin = second_det_difference[0]
+        p_spin = differences[1][0]
         p_special = p_spin // 2
         # if there is a second difference, save the spin and special indices of the second difference
         if number_of_differences >= 2:
-            n_spin = first_det_difference[1]
+            n_spin = differences[0][1]
             n_special = n_spin // 2
-            q_spin = second_det_difference[1]
+            q_spin = differences[1][1]
             q_special = q_spin // 2
     def kronecker(m, n):
         """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
@@ -58,6 +53,8 @@ def condon(pair, integrals):
             return 1
         else:
             return 0
+    def one_difference():
+      
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
