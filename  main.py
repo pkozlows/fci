@@ -42,9 +42,9 @@ def generation(integrals):
         # iterate over bras and kets
         for i, bra in enumerate(basis):
             for j, ket in enumerate(basis):
-                number_of_differences = bra.difference(ket)
+                differences = bra.difference(ket)
                 # if more than two differences, the condon element is zero and no need to call condon()
-                if len(number_of_differences) > 2:
+                if len(differences) > 2:
                     pass
                 else:
                     # find the condon element

@@ -1,14 +1,11 @@
 def anti_commutator(pair):
-  """takes a pair of determinat sets, and returns the face factor. can only deal with cases where there is one or two differences between determinants."""
+  """takes a pair of determinat sets, and returns the face factor. can only deal with cases where there is one or two differences between determinants"""
   # make list for what orbs they differ in
-  bra_unique_orbs = list(pair[0].difference(pair[1]))
-  # and then sort them
-  bra_unique_orbs.sort()
-  ket_unique_orbs = list(pair[1].difference(pair[0]))
-  ket_unique_orbs.sort()
-  # initialize the lists to be sorted
-  bra = list(pair[0])
-  ket = list(pair[1])
+  bra_unique_orbs = sorted(pair[0].difference(pair[1]))
+  ket_unique_orbs = sorted(pair[1].difference(pair[0]))
+  # initialize the sorted lists
+  bra = sorted(pair[0])
+  ket = sorted(pair[1])
   # make sure they had the same length
   assert(len(bra) == len(ket))
   def bubble_sort(determinant, unique_orbs):

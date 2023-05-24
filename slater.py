@@ -69,14 +69,14 @@ def condon(pair, integrals):
         two_elec_xgrid_exchange = np.ix_(range(6), spacial_intersection, spacial_intersection, range(6))
         two_electron_coulomb = two_elec_ints[two_elec_xgrid_coloumb]
         two_electron_exchange = two_elec_ints[two_elec_xgrid_exchange]
-        two_elec_mel += anti_commutator(pair)*(np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special]
+        two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
     # if there are two differences, m p and n q, between the determinants
     if number_of_differences == 2:
       two_elec_mel += anti_commutator(pair)*((kronecker(m_spin, p_spin)*kronecker(n_spin, q_spin)*two_elec_ints[m_special,p_special,n_special,q_special]) - (kronecker(m_spin, q_spin)*kronecker(n_spin, p_spin)*two_elec_ints[m_special,q_special,n_special,p_special]))
     return one_elec_mel + two_elec_mel
 # unit testing
 # print(condon(({0,1,2,3,4,7}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
-print(condon(({0,1,2,3,4,5}, {0,1,2,3,6,7}), (one_elec_ints, two_elec_ints)))
+# print(condon(({0,1,2,3,4,5}, {0,1,2,3,6,7}), (one_elec_ints, two_elec_ints)))
 
 assert(condon(({0,1,2,3,4,}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
 assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
