@@ -278,6 +278,11 @@ INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/omscmr.fd
 OUTPUT two_differences.pdf
 INPUT /usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT two_differences.aux

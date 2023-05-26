@@ -21,15 +21,15 @@ All 2x2=4 (m,n,p,q)so not unique orbs can be of the same spin.
     =(mp|nq)-(mq|np)
 \end{equation}
 \section{case 2}
-the unique spin orbs in each determinant are of different spins.
-My thought is that because we're working in quantum mechanics we will be dealing with expectation values. So, $|\delta _{[m][p]}\delta _{[n][q]}|=0.5$ and $|\delta _{[m][q]}\delta _{[n][p]}|=0.5$. So, 
+\subsection{the unique spin orbs in each determinant are of different spins.}
+
+The fermions we are dealing with are indistinguishable, so I need to find out the manifestation of something like $\delta _{[m][p]}\delta _{[n][q]}$ where I have the differences between the determinants stored in the tuple like ([m,n], [p,q]). I've recognized that since the particles are indistinguishable the differences should actually be stored inset like (\{m,n\}, \{p,q\}) but if I'm understanding correctly this difference just makes my program slower because I'm not taking advantage of the inherent symmetry and shouldn't really affect the energetics, so I don't have to worry about changing it for now.
+So, $\delta _{[m][p]}$ is in the super position of being unity or 0, if the spins might be the same or different, so in this case I would set $\delta _{[m][p]}=1/2$. so with this modification, my derivation should look like
 \begin{equation}
     [mp|nq]-[mq|np]
 \end{equation}
 \begin{equation}
-    =(1/2)*(mp|nq)-(1/2)*(mq|np)
+    =(1/2)*(1/2)*(mp|nq)-(1/2)*(1/2)*(mq|np)
 \end{equation}
-previously I wasn't thinking about the too electron different case in terms of different cases, like I do here.however my energy went from aomething like -7.83, so close to correct, to -7.75, so not so close.I am confused because initially I was not treating the two electron difference case correctly in terms of theoretics(or so I think), but now I am, and my energy is getting further away. can you give any hints, or should I just spend some more time thinking about this?
-% The total spent in the excitation must be preserved, so either m n, p q all alpha, m n, p q all beta, or m n, p q have one of each. 
-% $\delta _{[m][p]}\delta _{[n][q]}=1$ iff $m=p$ and $n=q$. total number of possible double excitations is 6 total for m and then 5 choices for n. same for p,q so 30**2. for m n, p q all alpha have 3 for m, 2 for n then 3 for p, 2 for q, so 6**2=36. for m n, p q have one of each have 3 for m, 2 for n then 3 for p, 2 for q, so 6**2=36 cousin. for m n, p q have one of each 3 for m, 3 for n, 3 for p, 3 for q so 3**4=81.
+however, theoretically this isn't giving me a correct energy when I implemented it into my program so I am very confused like garnet (lol). I hope this makes sense this time. what do I need to think about to get the theoretics correct here?
 \end{document}
