@@ -6,56 +6,30 @@
 \date{\today}
 \begin{document}
 \maketitle
-\section{two differences}
+two differences
 \begin{equation}
-    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}=v^{\alpha\beta\gamma\delta}\left(-1\right)^{\varepsilon\left(\kappa_{1},\dots,\kappa_{i}^{\prime},\dots,\kappa _{j},...,\kappa_{n}\right)}\\
-\end{equation}
-\begin{equation}
-    \bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
-        a_{2}a_{1}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a_{\delta }a^{\dag}_{1^{\prime}}a^{\dag}_{2^{\prime}}
-    \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-\end{equation}
-% \begin{equation}
-%     =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
-%         a_{2}a_{1}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }\delta _{\delta  \kappa _{1^{\prime}}}a^{\dag}_{2^{\prime}}
-%     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-% \end{equation}
-% \begin{equation}
-%     -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
-%         a_{2}a_{1}a^{\dag}_{\alpha }a^{\dag}_{\beta }a_{\gamma }a^{\dag}_{1^{\prime}}a_{\delta }a^{\dag}_{2^{\prime}}
-%     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-% \end{equation}
-% \begin{equation}
-%     =\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
-%         a_{2}a_{1}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\gamma  \kappa _{2^{\prime}}}\delta _{\delta  \kappa _{1^{\prime}}}
-%     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-% \end{equation}
-% \begin{equation}
-%     -0
-% \end{equation}
-% \begin{equation}
-%     -\bra{0}\left(\prod_{\kappa=\left(\kappa_{n}\dots\kappa_{3}\right)}a_{\kappa}\right)
-%         a_{2}a_{1}a^{\dag}_{\alpha }a^{\dag}_{\beta }\delta _{\gamma  \kappa _{1^{\prime}}}a_{\delta }a^{\dag}_{2^{\prime}}
-%     \left(\prod_{\kappa^{\prime}=\left(\kappa_{3}\dots\kappa_{n}\right)}a^{\dag}_{\kappa^{\prime}}\right)\ket{0}
-% \end{equation}
-% \begin{equation}
-%     +0
-% \end{equation}
-% \begin{equation}
-%     =\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{2^{\prime}}}\delta _{\delta  \kappa _{1^{\prime}}}
-% \end{equation}
-% \begin{equation}
-%     -\delta _{\alpha  \kappa _{1}}\delta _{\beta  \kappa _{2}}\delta _{\gamma  \kappa _{1^{\prime}}}\delta _{\delta  \kappa _{2^{\prime}}}
-% \end{equation}
-% \begin{equation}
-%     =v^{122^{\prime}1^{\prime}}-v^{121^{\prime}2^{\prime}}
-% \end{equation}
-\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
     =[mp|nq]-[mq|np]
 \end{equation}
 \begin{equation}
     =(mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]}
 \end{equation}
+ there are a few cases to go from from here.
+\section{Case 1}
+All 2x2=4 (m,n,p,q)so not unique orbs can be of the same spin.
+\begin{equation}
+    =(mp|nq)-(mq|np)
+\end{equation}
+\section{case 2}
+the unique spin orbs in each determinant are of different spins.
+My thought is that because we're working in quantum mechanics we will be dealing with expectation values. So, $|\delta _{[m][p]}\delta _{[n][q]}|=0.5$ and $|\delta _{[m][q]}\delta _{[n][p]}|=0.5$. So, 
+\begin{equation}
+    [mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(1/2)*(mp|nq)-(1/2)*(mq|np)
+\end{equation}
+previously I wasn't thinking about the too electron different case in terms of different cases, like I do here.however my energy went from aomething like -7.83, so close to correct, to -7.75, so not so close.I am confused because initially I was not treating the two electron difference case correctly in terms of theoretics(or so I think), but now I am, and my energy is getting further away. can you give any hints, or should I just spend some more time thinking about this?
 % The total spent in the excitation must be preserved, so either m n, p q all alpha, m n, p q all beta, or m n, p q have one of each. 
 % $\delta _{[m][p]}\delta _{[n][q]}=1$ iff $m=p$ and $n=q$. total number of possible double excitations is 6 total for m and then 5 choices for n. same for p,q so 30**2. for m n, p q all alpha have 3 for m, 2 for n then 3 for p, 2 for q, so 6**2=36. for m n, p q have one of each have 3 for m, 2 for n then 3 for p, 2 for q, so 6**2=36 cousin. for m n, p q have one of each 3 for m, 3 for n, 3 for p, 3 for q so 3**4=81.
 \end{document}
