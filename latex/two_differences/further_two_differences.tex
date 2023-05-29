@@ -1,0 +1,21 @@
+\documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+\section{r.e. point 2}
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]}
+\end{equation}
+I think my misunderstanding stems from a failure to understand how the simplification from equation 1 to equation 2 occurs. Previously, I thought that something like $[mp|nq]$ simplified to $(mp|nq)\delta _{[m][p]}\delta _{[n][q]}$ where in my code I would just implement a delta fn and evaluate it for m and p and then n and q, which I would just pop from the set of differences so as to make sure that I am preserving indistinguishability (I know that I am referencing indistinguishability allot even though you have repeatedly told me that it doesn't matter in second quantization, but I just don't know how to think about these things differently :(  ), but now I'm not sure because $\delta _{[m][p]}$ in my thinking is pretty close to what you said was wrong when you said: \emph{"electron a with spin upward excited from orbital m to n and electron b with spin ..." blabla} instead of the proper form, which is: \emph{we should be saying "we are calculating matrix element between two states, between which there is only two-electron difference of the occupation, which is m-alpha spin orbital and blabla".} How ells can think about simplifying from spin 2 electron integrals to special 2 electron integrals?
+\section{r.e. point 3}
+you said \emph{ you performed a (1 alpha + 1 beta) excitation, and I don't think this is something prohibited.} I'm not quite understanding this; were you under the impression that I said this in my previous questions? so, if the shared orbs are \{a,b,c,d\} with the differences orbs an determinant 1 being \{m,n\} and in determinant 2 being \{p,q\} the only thing that I meant is that m and n cannot BOTH be alpha, while p and q are BOTH beta. however, I think we can have m being alpha and n being beta (it could very well be the opposite because they are indistinguishable Fermions in a set) and the same going for p and q, so that the total spin of determinants 1 and 2 are the same and 0 for neutral h6.
+\\\\in my previous question set, I referenced that I thought there would be a number of different cases. this would be the case if some of these delta forms mattered ($\delta _{[m][p]}$) to distinguish between different cases but now, I'm not so sure whether they "deserve" an implementation in my code.
+ \end{document}
