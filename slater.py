@@ -72,18 +72,19 @@ def condon(pair, integrals):
         two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
     # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the second determinant there are orbs p and q
     if number_of_differences == 2:
-      # their first case is when the excitations are only composed of electrons with the same spin
+      # the first case is when the differences are only composed of electrons with the same spin
       if (m_spin % 2) == (n_spin % 2) and (p_spin % 2) == (q_spin % 2):
         assert(m_spin % 2 == p_spin % 2)
+        # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
-      # their second case is when the excitations are composed of electrons with different spins
+      # the second case is when the excitations are composed of electrons with different spins
       if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
-        # if the lowest difference from the first determinant has the same spin as the lowest difference from the second determinant
+        # if the lowest difference spin orb from the first determinant has the same spin as the lowest difference spin orb from the second determinant
         if m_spin % 2 == p_spin % 2:
           assert(n_spin % 2 == q_spin % 2)
           # only the first term survives
           two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
-        # if the lowest difference from the first determinant has the same spin as the highest difference from the second determinant
+        # if the lowest difference spin orb from the first determinant has the same spin as the highest difference spin orb from the second determinant
         if m_spin % 2 == q_spin % 2:
             assert(n_spin % 2 == p_spin % 2)
             # only the second term survives
