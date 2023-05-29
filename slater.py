@@ -75,12 +75,19 @@ def condon(pair, integrals):
       # their first case is when the excitations are only composed of electrons with the same spin
       if (m_spin % 2) == (n_spin % 2) and (p_spin % 2) == (q_spin % 2):
         assert(m_spin % 2 == p_spin % 2)
-        # print(differences)
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
       # their second case is when the excitations are composed of electrons with different spins
-      elif (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
-        # print(differences)
-        two_elec_mel += anti_commutator(pair)*((1/4)*two_elec_ints[m_special,p_special,n_special,q_special] - (1/4)*two_elec_ints[m_special,q_special,n_special,p_special])
+      if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
+        # if the lowest difference from the first determinant has the same spin as the lowest difference from the second determinant
+        if m_spin % 2 == p_spin % 2:
+          assert(n_spin % 2 == q_spin % 2)
+          # only the first term survives
+          two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
+        # if the lowest difference from the first determinant has the same spin as the highest difference from the second determinant
+        if m_spin % 2 == q_spin % 2:
+            assert(n_spin % 2 == p_spin % 2)
+            # only the second term survives
+            two_elec_mel += anti_commutator(pair)*(-two_elec_ints[m_special,q_special,n_special,p_special])            
     return one_elec_mel + two_elec_mel
 # unit testing
 # print(condon(({0,1,2,3,4,7}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
