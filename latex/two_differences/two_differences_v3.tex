@@ -1,0 +1,51 @@
+    \documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+the below is referencing your previous post, by the way.
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]})
+\end{equation}
+my old implementation was treating the above equation very literally; so I was actually implementing the kronecker deltas and getting an incorrect, but close, and energy of -7.8362021822923005, when correct energy should be -7.8399080148963369. in my new implementation, I am splitting it into the following cases.
+\section{r.e. cases 1 and 3}
+why did you treat: \emph{alpha, alpha -> alpha alpha} and \emph{beta, beta -> beta, beta} as seperate cases? even though you later said that: \emph{1 and 3 are similar cases without any special mathematics, and we both agree that 2 may be something different.} are 1 and 3 just \emph{similar} cases, or the \emph{same}, which is my current thinking? my current implementation for both of these cases, treating both cases on equal footing, is:
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq)-(mq|np))
+\end{equation}
+\section{r.e. case 2}
+I think now I know how to navigate this without referencing an kind of superposition or mean values. I am always going to have $\delta _{[m][p]}\delta _{[n][q]}=0/1$ with $\delta _{[m][q]}\delta _{[n][p]}$ being the exact opposite. therefore in my new implementation I have that only one of the associated integrals survive. 
+\subsection{[m] == [p] and [n] == [q]}
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq))
+\end{equation}
+\subsection{[m] == [q] and [n] == [p]}
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+=(-1)^{\varepsilon (\kappa )}(-(mq|np))
+\end{equation}
+however, with this I am getting the same faulty energy as in my old implementation where I didn't seperate into cases at all, and when I think about it more, it seems like the same thing theoretically. this makes me wonder whether I made any theoretical progress here separating into cases, or if it is the same thing? that is, when I think about it some more, these cases just seem like the same thing as
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]})
+\end{equation}
+with the only difference being that I have separated the problem into the multiple possible cases.
+\\for reference, with with my new case specific implementation, I am getting -7.8362021822923005, which is the same as for my old unspecific implementation.
+ \end{document}

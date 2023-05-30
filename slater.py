@@ -79,12 +79,12 @@ def condon(pair, integrals):
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
       # the second case is when the excitations are composed of electrons with different spins
       if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
-        # if the lowest difference spin orb from the first determinant has the same spin as the lowest difference spin orb from the second determinant
+        # if the lowest value difference spin orb from the first determinant has the same spin as the lowest value difference spin orb from the second determinant
         if m_spin % 2 == p_spin % 2:
           assert(n_spin % 2 == q_spin % 2)
           # only the first term survives
           two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
-        # if the lowest difference spin orb from the first determinant has the same spin as the highest difference spin orb from the second determinant
+        # if the lowest value difference spin orb from the first determinant has the same spin as the highest value difference spin orb from the second determinant
         if m_spin % 2 == q_spin % 2:
             assert(n_spin % 2 == p_spin % 2)
             # only the second term survives
