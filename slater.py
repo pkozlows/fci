@@ -74,6 +74,7 @@ def condon(pair, integrals):
     if number_of_differences == 2:
       # the first case is when the differences are only composed of electrons with the same spin
       if (m_spin % 2) == (n_spin % 2) and (p_spin % 2) == (q_spin % 2):
+          
         assert(m_spin % 2 == p_spin % 2)
         # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])

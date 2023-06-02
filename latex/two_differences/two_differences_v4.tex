@@ -1,0 +1,58 @@
+    \documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+the below is referencing your previous post, by the way.
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]})
+\end{equation}
+my old implementation was treating the above equation very literally; so I was actually implementing the kronecker deltas and getting an incorrect, but close, energy of -7.8362021822923005, when correct energy should be -7.8399080148963369. if my implementation of the two electron difference prior was incorrect, I am a little bit confused as to why I was getting an energy that was somewhat close. Was it a fluke or was I actually doing something right? is this something you think you can answer? 
+\section{r.e. case 2}
+I understand that you were telling me that indistinguishability is already factored into second quantitation, but I think where I might be going wrong, is that I'm just not understanding how it is so? referencing this: \emph{Maybe you treated first the orbitals and then the spins, so you have the idea of 4 sub-cases.} I know that thinking about the theory in latex is more important than thinking about the implementation in python, but I was just hoping that you could take quick look at my determinant basis generation in my code, which I think I am doing in terms of spin orbitals, but I might be wrong? for example, I am generating all possible combinations of alpha and beater strings, and then making all unique combinations of those. if I understand what you're saying correctly, then I am always going to have $\delta _{[m][p]}\delta _{[n][q]}=1$ with $\delta _{[m][q]}\delta _{[n][p]}$ always being 0. I guess I'm just not understanding why $\delta _{[m][q]}\delta _{[n][p]}$ cannot ever equal 1. I think this boils down to how were you able to decide whether to "label" m or n by alpha/beater automatically or does second quantitation already do this for me in some way? 
+\subsection{[m] == [p] and [n] == [q]}
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq))
+\end{equation}
+\subsection{[m] == [q] and [n] == [p]}
+I'm just not understanding how this case could not survive?
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+=(-1)^{\varepsilon (\kappa )}(-(mq|np))
+\end{equation}
+\section{one of your previous comments}
+\emph{only [ m p | n q ] is contributing, [ m q | n p ] vanishes;
+only [ m q | n p ] is contributing, [ m p | n q ] vanishes;
+only [ m p | n q ] is contributing, [ m q | n p ] vanishes:
+only [ m q | n p ] is contributing, [ m p | n q ] vanishes;
+So I don't think there will be two terms.}
+I think I am understanding that there will never be two terms, from:
+\begin{equation}
+    \mel{\Psi }{V}{\Psi (k\rightarrow k^{\prime}, l\rightarrow l^{\prime})}
+    =[mp|nq]-[mq|np]
+\end{equation}
+\begin{equation}
+    =(-1)^{\varepsilon (\kappa )}((mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]})
+\end{equation}
+but I just don't see how case 1.2 won't ever be a "factor"?
+% however, with this I am getting the same faulty energy as in my old implementation where I didn't seperate into cases at all, and when I think about it more, it seems like the same thing theoretically. this makes me wonder whether I made any theoretical progress here separating into cases, or if it is the same thing? that is, when I think about it some more, these cases just seem like the same thing as
+% \begin{equation}
+%     =(-1)^{\varepsilon (\kappa )}((mp|nq)\delta _{[m][p]}\delta _{[n][q]}-(mq|np)\delta _{[m][q]}\delta _{[n][p]})
+% \end{equation}
+% with the only difference being that I have separated the problem into the multiple possible cases.
+% \\for reference, with with my new case specific implementation, I am getting -7.8362021822923005, which is the same as for my old unspecific implementation.
+ \end{document}
