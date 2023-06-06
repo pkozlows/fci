@@ -1,0 +1,17 @@
+    \documentclass[12pt]{article}
+\usepackage{physics}
+\usepackage{breqn}
+\title{FCI Questions}
+\author{Patryk Kozlowski}
+\date{\today}
+\begin{document}
+\maketitle
+\emph{Note that I am trying to help you identify the bug through our discussion of theory in two-electron integrals. It can be that you are correct, and the problem lies somewhere else; it can be your theory is correct, but your code is not a faithful representation of your theory; it can be your number actually matches the reference value, but some operations are not optimized such that the error accumulated to 10^-3 level.}
+\\I'm just curious, do you have any idea where something like this could be happening in my code or would it only be something I would think of?\\
+\emph{but some operations are not optimized such that the error accumulated to 10^-3 level.}\\
+ I'm currently not seeing where something like this could be happening in my code, since I got the hf case correct and I also got the brillouins thm for the one electron difference correct, and I also am relatively confident about my determined basis.
+\section{spin orb determinant bases}
+what you said in the previous post, might be how I'm thinking of the bases. so I am generating spin orb basis going from 0,1,2,3,4,5,6,7,8,9,10,11 corresponding to thinking about spin and special components as you were saying: 0a,0b,1a,1b,2a,2b,3a,3b,4a,4b,5a,5b. my understanding is that this is the only way to generate a spin orb bases. Did you do it any differently? I guess, more importantly, do you see any issues with me thinking about generating the spin orb bases in this way for future?
+\section{two electron integrals}
+
+ \end{document}

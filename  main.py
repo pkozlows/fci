@@ -25,6 +25,14 @@ def generation(integrals):
         alpha_strings = list(itertools.combinations(range(0, orbs_in_system*2, 2), elec_in_system//2))
         # create all possible beta strings i.e. only with odd orbitals
         beta_strings = list(itertools.combinations(range(1, orbs_in_system*2, 2), elec_in_system//2))
+        # create a shape = 2 matrix to compose a determinant with addresses of spin strings
+        # have alpha string in dimension 0 and beta string in dimension 1
+        
+        # Determine the dimensions of the matrix based on the number of alpha and beta strings
+        num_alpha_strings = len(alpha_strings)
+        num_beta_strings = len(beta_strings)
+        # check if the number of alpha strings is equal to the number of beta strings
+        assert num_alpha_strings == num_beta_strings
         # create a basis of possible determinants with total spin zero
         basis = []
         for alpha in alpha_strings:
@@ -33,6 +41,7 @@ def generation(integrals):
                 basis.append(set(alpha) | set(beta))
         # sort the determinants based on the basis of the diagonal fci mel
         basis.sort(key = determinant_diagonal)
+            
         return basis
     
     def populate(basis):

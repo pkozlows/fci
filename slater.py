@@ -15,6 +15,16 @@ def condon(pair, integrals):
     # get the difference between the two determinants and its length
     differences = (sorted(pair[0].difference(pair[1])), sorted(pair[1].difference(pair[0])))
     number_of_differences = len(differences[0])
+    # if there are 2 differences and the spins of the differences are not equal
+    if number_of_differences == 2 and differences[0][0] % 2 != differences[0][1] % 2:
+        # reorder the differences to first go from alpha and then beater
+        spin_one = [differences[0][0] % 2, differences[0][1] % 2]
+        spin_two = [differences[1][0] % 2, differences[1][1] % 2]
+        # reorder the differences if they are not an canonical order
+        if spin_one == [1, 0]:
+          differences[0].reverse()
+        if spin_two == [1, 0]:
+          differences[1].reverse()      
     # create a set which contains the union of spin orbs in the pair
     spin_union = sorted(pair[0].union(pair[1]))
     # create a set which contains the intersection of spin orbs in the pair
@@ -34,30 +44,20 @@ def condon(pair, integrals):
         # if there is no difference between the determinants
         one_elec_mel += np.einsum('ii->', one_elec_special_union_ints)
         two_elec_mel += (1/2)*(np.einsum('iijj->', two_elec_special_union_ints) - (1/2)*np.einsum('ijji->',two_elec_special_union_ints))
-
-    # save the spin orb differences between the determinants and then convert them into special indices for later use the access ints
-    if number_of_differences >= 1:
-        # save the spin and special indices of the first difference
+    # if there is one difference, m and p, between the determinants
+    if number_of_differences == 1:
+      # save the spin and special indices of the first difference
         m_spin = differences[0][0]
         m_special = m_spin // 2
         p_spin = differences[1][0]
         p_special = p_spin // 2
-        # if there is a second difference, save the spin and special indices of the second difference
-        if number_of_differences >= 2:
-            n_spin = differences[0][1]
-            n_special = n_spin // 2
-            q_spin = differences[1][1]
-            q_special = q_spin // 2
-    def kronecker(m, n):
-        """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
-        if m % 2 == n % 2:
-            return 1
-        else:
-            return 0
-              
-    # if there is one difference, m and p, between the determinants
-    if number_of_differences == 1:
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
+        def kronecker(m, n):
+          """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
+          if m % 2 == n % 2:
+              return 1
+          else:
+              return 0
         # make custom kronecker function that outputs the fraction from \delta_{[m][n]} or \delta_{[n][p]}
         def kronecker_fraction(m_spin, spin_intersection):
           """takes a difference spin orbital and a set of common spin orbitals for pair. returns fraction corresponding to relevant sum of delta functions."""
@@ -72,29 +72,31 @@ def condon(pair, integrals):
         two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
     # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the second determinant there are orbs p and q
     if number_of_differences == 2:
+      # save the spin and special indices of the first difference
+      m_spin = differences[0][0]
+      m_special = m_spin // 2
+      p_spin = differences[1][0]
+      p_special = p_spin // 2
+      n_spin = differences[0][1]
+      n_special = n_spin // 2
+      q_spin = differences[1][1]
+      q_special = q_spin // 2
       # the first case is when the differences are only composed of electrons with the same spin
       if (m_spin % 2) == (n_spin % 2) and (p_spin % 2) == (q_spin % 2):
-          
         assert(m_spin % 2 == p_spin % 2)
         # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
       # the second case is when the excitations are composed of electrons with different spins
       if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
-        # if the lowest value difference spin orb from the first determinant has the same spin as the lowest value difference spin orb from the second determinant
-        if m_spin % 2 == p_spin % 2:
-          assert(n_spin % 2 == q_spin % 2)
-          # only the first term survives
-          two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
-        # if the lowest value difference spin orb from the first determinant has the same spin as the highest value difference spin orb from the second determinant
-        if m_spin % 2 == q_spin % 2:
-            assert(n_spin % 2 == p_spin % 2)
-            # only the second term survives
-            two_elec_mel += anti_commutator(pair)*(-two_elec_ints[m_special,q_special,n_special,p_special])            
+        assert(n_spin % 2 == q_spin % 2)
+        # only the first term survives
+        two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
     return one_elec_mel + two_elec_mel
 # unit testing
 # print(condon(({0,1,2,3,4,7}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
 # print(condon(({0,1,2,3,4,5}, {0,1,2,3,6,7}), (one_elec_ints, two_elec_ints)))
-
+print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,9}), (one_elec_ints, two_elec_ints)))
+print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,7}), (one_elec_ints, two_elec_ints)))
 assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
 assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
