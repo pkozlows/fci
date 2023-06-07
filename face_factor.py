@@ -3,6 +3,18 @@ def anti_commutator(pair):
   # make list for what orbs they differ in
   bra_unique_orbs = sorted(pair[0].difference(pair[1]))
   ket_unique_orbs = sorted(pair[1].difference(pair[0]))
+  # treat the case with 2 differences of mixed spin
+  if len(bra_unique_orbs) == 2 and bra_unique_orbs[0] % 2 != bra_unique_orbs[1] % 2:
+    # check whether spins are indeed mixed
+    assert(ket_unique_orbs[0] % 2 != ket_unique_orbs[1] % 2)
+    # reorder the differences to first go from alpha and then beater
+    ket_spin = [bra_unique_orbs[0] % 2, bra_unique_orbs[1] % 2]
+    bra_spin = [ket_unique_orbs[0] % 2, ket_unique_orbs[1] % 2]
+    # reorder the differences if they are not an canonical order
+    if ket_spin == [1, 0] and ket_unique_orbs != sorted(ket_unique_orbs):
+      ket_unique_orbs.reverse()
+    if bra_spin == [1, 0] and bra_unique_orbs != sorted(bra_unique_orbs):
+      bra_unique_orbs.reverse()   
   # initialize the sorted lists
   bra = sorted(pair[0])
   ket = sorted(pair[1])
@@ -19,10 +31,12 @@ def anti_commutator(pair):
   ket_swaps = bubble_sort(ket, ket_unique_orbs)
   # return the face factor
   return (-1)**(bra_swaps + ket_swaps)
+# test cases for two differences
+assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,9})) == 1)
+# assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,7})) == -1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)
 # test cases for single difference
 assert(anti_commutator(({0,1,2,7,8,9}, {0,1,2,7,8,11})) == 1)
 assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
 assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
-# test cases for two differences
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)

@@ -95,8 +95,8 @@ def condon(pair, integrals):
 # unit testing
 # print(condon(({0,1,2,3,4,7}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)))
 # print(condon(({0,1,2,3,4,5}, {0,1,2,3,6,7}), (one_elec_ints, two_elec_ints)))
-print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,9}), (one_elec_ints, two_elec_ints)))
-print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,7}), (one_elec_ints, two_elec_ints)))
+#print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,9}), (one_elec_ints, two_elec_ints)))
+#print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,7}), (one_elec_ints, two_elec_ints)))
 assert(condon(({0,1,2,3,4,5}, {0,1,2,3,4,5}), (one_elec_ints, two_elec_ints)) == -7.739373948970316)
 assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,4,7}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
