@@ -20,12 +20,15 @@ def condon(pair: tuple, integrals: tuple) -> int:
     """
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
-    # determine the number of alpha differences between the two determinants
-    alpha_differences = pair[0][0].difference(pair[1][0])
-    # determine the number of beta differences between the two determinants
-    beta_differences = pair[0][1].difference(pair[1][1])
+    # determine the alpha differences between the two determinants
+    first_alpha_difference = sorted(pair[0][0].difference(pair[1][0]))
+    second_alpha_difference = sorted(pair[1][0].difference(pair[0][0]))
+    # determine the beta differences between the two determinants
+    first_beta_difference = sorted(pair[0][1].difference(pair[1][1]))
+    second_beta_difference = sorted(pair[1][1].difference(pair[0][1]))
     # determine the number of differences between the two determinants
-    number_of_differences = len(alpha_differences) + len(beta_differences)    
+    assert len(first_alpha_difference) + len(first_beta_difference) == len(second_alpha_difference) + len(second_beta_difference)
+    number_of_differences = len(first_alpha_difference) + len(first_beta_difference)    
     # make a global set that contains the combination of the individual spin strings of the determinant
     determinant_one = pair[0][0].union(pair[0][1])
     determinant_two = pair[1][0].union(pair[1][1])
@@ -55,11 +58,18 @@ def condon(pair: tuple, integrals: tuple) -> int:
         two_elec_mel += (1/2)*(coulumb - (1/2)*exchange)
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
-      # save the spin and special indices of the first difference
-        m_spin = differences[0][0]
+      # check if it is an alpha or beater difference
+      if len(first_alpha_difference) == 1:
+        m_spin = first_alpha_difference[0]
         m_special = m_spin // 2
-        p_spin = differences[1][0]
+        p_spin = second_alpha_difference[0]
         p_special = p_spin // 2
+      if len(first_beta_difference) == 1:
+        m_spin = first_beta_difference[0]
+        m_special = m_spin // 2
+        p_spin = second_beta_difference[0]
+        p_special = p_spin // 2
+      # save the spin and special indices of the first difference
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
         def kronecker(m, n):
           """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
@@ -110,7 +120,7 @@ two_elec_ints = np.load("h2e.npy")
 #print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,9}), (one_elec_ints, two_elec_ints)))
 #print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,7}), (one_elec_ints, two_elec_ints)))
 assert math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,5})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
-assert(math.isclose(condon(({0,2,4},{1,3,5}, {0,2,4},{1,3,7}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
+assert(math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,7})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 # assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 
 
