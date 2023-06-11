@@ -1,70 +1,50 @@
 def anti_commutator(pair):
-  """
-  Takes tuple of a pair of determinants that contains a tuple of two spin strings sets, which are alpha and beta, respectively, and returns the face factor.can only deal with cases where there is one or two differences between determinants.
-    Returns the face factor between the pair.
-    
-    Args:
-        pair (tuple): Tuple of determinants ((alpha, beta), (alpha, beta)).
-                      Each determinant is a tuple of two spin strings.
-    Returns:
-        int: face factor between the pair."""
-  # divine the spin strings for the alpha and the beta orbitals in the bra and ket
-  bra_alpha = sorted(pair[0][0])
-  bra_beta = sorted(pair[0][1])
-  ket_alpha = sorted(pair[1][0])
-  ket_beta = sorted(pair[1][1] )
-  # determine the alpha differences between the two determinants
-  bra_alpha_difference = sorted(bra_alpha.difference(ket_alpha))
-  ket_alpha_difference = sorted(ket_alpha.difference(bra_alpha))
-  assert(len(bra_alpha_difference) == len(ket_alpha_difference))
-  # determine the beta differences between the two determinants
-  bra_beta_difference = sorted(bra_beta.difference(ket_beta))
-  ket_beta_difference = sorted(ket_beta.difference(bra_beta))
-  assert(len(bra_beta_difference) == len(ket_beta_difference))
-  # first treat the case with only one difference of the same spin
-  if len(bra_alpha_difference) == 1 or len(bra_beta_difference) == 1:
-    # determine whether we are dealing with a difference in alpha or beta
-    if len(bra_alpha_difference) == 1:
-      bra_unique_orbs = bra_alpha_difference
-      ket_unique_orbs = ket_alpha_difference
-    elif len(bra_beta_difference) == 1:
-      bra_unique_orbs = bra_beta_difference
-      ket_unique_orbs = ket_beta_difference
-  
-  # treat the case with 2 differences of mixed spin
-  if len(bra_unique_orbs) == 2 and bra_unique_orbs[0] % 2 != bra_unique_orbs[1] % 2:
-    # check whether spins are indeed mixed
-    assert(ket_unique_orbs[0] % 2 != ket_unique_orbs[1] % 2)
-    # reorder the differences to first go from alpha and then beater
-    ket_spin = [bra_unique_orbs[0] % 2, bra_unique_orbs[1] % 2]
-    bra_spin = [ket_unique_orbs[0] % 2, ket_unique_orbs[1] % 2]
-    # reorder the differences if they are not an canonical order
-    if ket_spin == [1, 0] and ket_unique_orbs != sorted(ket_unique_orbs):
-      ket_unique_orbs.reverse()
-    if bra_spin == [1, 0] and bra_unique_orbs != sorted(bra_unique_orbs):
-      bra_unique_orbs.reverse()   
+  """takes tuple of a pair of determine, which is each represented by two tuples, which contains the offa and beta orbs, respectively. the format for this one is: ((bra_alpha, bra_beta), (ket_alpha, ket_beta)).returns an integer that represents the face factor."""
   # initialize the sorted lists
-  bra = sorted(pair[0])
-  ket = sorted(pair[1])
-  # make sure they had the same length
-  assert(len(bra) == len(ket))
-  def bubble_sort(determinant, unique_orbs):
+  bra_total_alpha = sorted(pair[0][0])
+  bra_total_beta = sorted(pair[0][1])
+  ket_total_alpha = sorted(pair[1][0])
+  ket_total_beta = sorted(pair[1][1])
+  # determine the alpha differences between the two determinants
+  bra_alpha_difference = sorted(pair[0][0].difference(pair[1][0]))
+  ket_alpha_difference = sorted(pair[1][0].difference(pair[0][0]))
+  # determine the beta differences between the two determinants
+  bra_beta_difference = sorted(pair[0][1].difference(pair[1][1]))
+  ket_beta_difference = sorted(pair[1][1].difference(pair[0][1]))
+  # determine the number of differences between the two determinants
+  assert len(bra_alpha_difference) + len(bra_beta_difference) == len(ket_alpha_difference) + len(ket_beta_difference)
+  number_of_differences = len(bra_alpha_difference) + len(bra_beta_difference)   
+  differences = ((bra_alpha_difference, bra_beta_difference), (ket_alpha_difference, ket_beta_difference)) 
+  # divine the spin strings for the alpha and the beta orbitals in the bra and ket
+  bra_unique_alpha = differences[0][0]
+  bra_unique_beta = differences[0][1]
+  ket_unique_alpha = differences[1][0]
+  ket_unique_beta = differences[1][1]
+  assert(len(bra_unique_alpha) == len(ket_unique_alpha))
+  assert(len(bra_unique_beta) == len(ket_unique_beta))
+  # treat the number of differences the same, counting the number of swabs and noways for each spin string
+  def bubble_sort(string, unique_orbs):
     """takes two unsorted lists, one that has a whole determinant and the other that has the unique orbs of the determinant. returns the number of swaps needed to sort the list."""
     swaps = 0
     for i, orb in enumerate(unique_orbs):
-      swaps += determinant.index(orb) - i
+      swaps += string.index(orb) - i
     return swaps
-  # sort the lists and get the number of swaps
-  bra_swaps = bubble_sort(bra, bra_unique_orbs)
-  ket_swaps = bubble_sort(ket, ket_unique_orbs)
+    # sort the lists and get the number of swaps
+  bra_alpha_swaps = bubble_sort(bra_total_alpha, bra_unique_alpha)
+  bra_beta_swaps = bubble_sort(bra_total_beta, bra_unique_beta)
+  total_bra_swaps = bra_alpha_swaps + bra_beta_swaps
+  ket_alpha_swaps = bubble_sort(ket_total_alpha, ket_unique_alpha)
+  ket_beta_swaps = bubble_sort(ket_total_beta, ket_unique_beta)
+  total_ket_swaps = ket_alpha_swaps + ket_beta_swaps
   # return the face factor
-  return (-1)**(bra_swaps + ket_swaps)
+  return (-1)**(total_bra_swaps + total_ket_swaps)
+# test cases for single difference
+assert(anti_commutator((({0,2,8}, {1,7,9}), ({0,2,8}, {1,7,11}))) == 1)
+assert(anti_commutator((({0,2,4}, {1,3,5}), ({0,2,6}, {1,3,5}))) == -1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
+assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
 # test cases for two differences
 assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,9})) == 1)
 # assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,7})) == -1)
 assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
 assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)
-# test cases for single difference
-assert(anti_commutator(({0,1,2,7,8,9}, {0,1,2,7,8,11})) == 1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
