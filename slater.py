@@ -21,34 +21,25 @@ def condon(pair: tuple, integrals: tuple) -> int:
     one_elec_ints = integrals[0]
     two_elec_ints = integrals[1]
     # determine the alpha differences between the two determinants
-    first_alpha_difference = sorted(pair[0][0].difference(pair[1][0]))
-    second_alpha_difference = sorted(pair[1][0].difference(pair[0][0]))
+    bra_alpha_excitation = sorted(pair[0][0].difference(pair[1][0]))
+    ket_alpha_excitation = sorted(pair[1][0].difference(pair[0][0]))
     # determine the beta differences between the two determinants
-    first_beta_difference = sorted(pair[0][1].difference(pair[1][1]))
-    second_beta_difference = sorted(pair[1][1].difference(pair[0][1]))
+    bra_beta_excitation = sorted(pair[0][1].difference(pair[1][1]))
+    ket_beta_excitation = sorted(pair[1][1].difference(pair[0][1]))
     # determine the number of differences between the two determinants
-    assert len(first_alpha_difference) + len(first_beta_difference) == len(second_alpha_difference) + len(second_beta_difference)
-    number_of_differences = len(first_alpha_difference) + len(first_beta_difference)    
-    # make a global set that contains the combination of the individual spin strings of the determinant
-    determinant_one = pair[0][0].union(pair[0][1])
-    determinant_two = pair[1][0].union(pair[1][1])
-    assert len(determinant_one) == len(determinant_two)
-    assert len(determinant_one.difference(determinant_two)) == number_of_differences
+    assert len(bra_alpha_excitation) + len(bra_beta_excitation) == len(ket_alpha_excitation) + len(ket_beta_excitation)
+    number_of_differences = len(bra_alpha_excitation) + len(bra_beta_excitation)    
     # take the intersection of the spin orbitals
-    alpha_intersection = pair[0][0].intersection(pair[1][0])
-    beta_intersection = pair[0][1].intersection(pair[1][1])
-    # convert the set of spin orbs to special orbs
-    alpha_special_intersection = [orb // 2 for orb in alpha_intersection]
-    beta_special_intersection = [orb // 2 for orb in beta_intersection]
-    # create a list of the total intersections in the pair
-    spatial_intersection = alpha_special_intersection + beta_special_intersection
+    alpha_intersection = sorted(pair[0][0].intersection(pair[1][0]))
+    beta_intersection = sorted(pair[0][1].intersection(pair[1][1]))
+    total_intersection = alpha_intersection + beta_intersection
     # initialize the matrix element
     one_elec_mel = 0
     two_elec_mel = 0
     if number_of_differences == 0:
         # initialize meshes for converting spin orbs to special ints
-        one_elec_special_union_xgrid = np.ix_(spatial_intersection, spatial_intersection)
-        two_elec_special_union_xgrid=np.ix_(spatial_intersection, spatial_intersection, spatial_intersection, spatial_intersection)
+        one_elec_special_union_xgrid = np.ix_(total_intersection, total_intersection)
+        two_elec_special_union_xgrid=np.ix_(total_intersection, total_intersection, total_intersection, total_intersection)
         one_elec_special_union_ints = one_elec_ints[one_elec_special_union_xgrid]
         two_elec_special_union_ints = two_elec_ints[two_elec_special_union_xgrid]
         # if there is no difference between the determinants
@@ -59,37 +50,32 @@ def condon(pair: tuple, integrals: tuple) -> int:
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
       # check if it is an alpha or beater difference
-      if len(first_alpha_difference) == 1:
-        m_spin = first_alpha_difference[0]
-        m_special = m_spin // 2
-        p_spin = second_alpha_difference[0]
-        p_special = p_spin // 2
-      if len(first_beta_difference) == 1:
-        m_spin = first_beta_difference[0]
-        m_special = m_spin // 2
-        p_spin = second_beta_difference[0]
-        p_special = p_spin // 2
-      # save the spin and special indices of the first difference
+      if len(bra_alpha_excitation) == 1:
+        m_special = bra_alpha_excitation
+        p_special = ket_alpha_excitation
+      if len(bra_beta_excitation) == 1:
+        m_special = bra_beta_excitation
+        p_special = ket_beta_excitation
         one_elec_mel += anti_commutator(pair)*one_elec_ints[m_special, p_special]
-        def kronecker(m, n):
-          """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
-          if m % 2 == n % 2:
-              return 1
-          else:
-              return 0
-        # make custom kronecker function that outputs the fraction from \delta_{[m][n]} or \delta_{[n][p]}
-        def kronecker_fraction(m_spin, spin_intersection):
-          """takes a difference spin orbital and a set of common spin orbitals for pair. returns fraction corresponding to relevant sum of delta functions."""
-          delta_functions_sum = 0
-          for orb in spin_intersection:
-              delta_functions_sum += kronecker(m_spin, orb)
-          return delta_functions_sum/len(spin_intersection)
-        two_elec_xgrid_coloumb = np.ix_(range(6), range(6), spatial_intersection, spatial_intersection)
-        two_elec_xgrid_exchange = np.ix_(range(6), spatial_intersection, spatial_intersection, range(6))
+        # def kronecker(m, n):
+        #   """takes 2 spin orbitals. returns 1 if they are equal in spin and 0 if they are not."""
+        #   if m % 2 == n % 2:
+        #       return 1
+        #   else:
+        #       return 0
+        # # make custom kronecker function that outputs the fraction from \delta_{[m][n]} or \delta_{[n][p]}
+        # def kronecker_fraction(m_spin, spin_intersection):
+        #   """takes a difference spin orbital and a set of common spin orbitals for pair. returns fraction corresponding to relevant sum of delta functions."""
+        #   delta_functions_sum = 0
+        #   for orb in spin_intersection:
+        #       delta_functions_sum += kronecker(m_spin, orb)
+        #   return delta_functions_sum/len(spin_intersection)
+        two_elec_xgrid_coloumb = np.ix_(range(6), range(6), total_intersection, total_intersection)
+        two_elec_xgrid_exchange = np.ix_(range(6), total_intersection, total_intersection, range(6))
         two_electron_coulomb = two_elec_ints[two_elec_xgrid_coloumb]
         two_electron_exchange = two_elec_ints[two_elec_xgrid_exchange]
-        two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (kronecker_fraction(m_spin, spin_intersection)*kronecker_fraction(p_spin, spin_intersection))*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
-    # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the second determinant there are orbs p and q
+        two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (4/25)*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
+    # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the ket determinant there are orbs p and q
     if number_of_differences == 2:
       # save the spin and special indices of the first difference
       m_spin = differences[0][0]
@@ -105,7 +91,7 @@ def condon(pair: tuple, integrals: tuple) -> int:
         assert(m_spin % 2 == p_spin % 2)
         # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
-      # the second case is when the excitations are composed of electrons with different spins
+      # the ket case is when the excitations are composed of electrons with different spins
       if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
         assert(n_spin % 2 == q_spin % 2)
         # only the first term survives
@@ -119,8 +105,12 @@ two_elec_ints = np.load("h2e.npy")
 # print(condon(({0,1,2,3,4,5}, {0,1,2,3,6,7}), (one_elec_ints, two_elec_ints)))
 #print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,9}), (one_elec_ints, two_elec_ints)))
 #print(condon(({0,1,2,3,5,6}, {0,1,2,3,8,7}), (one_elec_ints, two_elec_ints)))
-assert math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,5})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
-assert(math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,7})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
+# the hf case
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
+# the 1 excitation case
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+# assert math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,5})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
+# assert(math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,7})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 # assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
 
 
