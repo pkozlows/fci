@@ -32,7 +32,7 @@ def condon(pair: tuple, integrals: tuple) -> int:
     # take the intersection of the spin orbitals
     alpha_intersection = sorted(pair[0][0].intersection(pair[1][0]))
     beta_intersection = sorted(pair[0][1].intersection(pair[1][1]))
-    total_intersection = alpha_intersection + beta_intersection
+    total_intersection = sorted(alpha_intersection + beta_intersection)
     # initialize the matrix element
     one_elec_mel = 0
     two_elec_mel = 0
@@ -82,19 +82,32 @@ def condon(pair: tuple, integrals: tuple) -> int:
       # the first case is when the differences are only composed of electrons with the same spin
       if len(bra_beta_excitation) == 2 or len(bra_alpha_excitation) == 2:
         beta = False
+        # initialize the indices to false
+        m_special = False
+        n_special = False
+        p_special = False
+        q_special = False
         if len(bra_beta_excitation) == 2:
           beta = True
           # set the indices
           m_special = bra_beta_excitation[0]
+          m_spin = m_special * 2 + 1
           n_special = bra_beta_excitation[1]
+          n_spin = n_special * 2 + 1
           p_special = ket_beta_excitation[0]
+          p_spin = p_special * 2 + 1
           q_special = ket_beta_excitation[1]
-        if len(bra_alpha_excitation) == 2:
+          q_spin = q_special * 2 + 1
+        elif len(bra_alpha_excitation) == 2:
           # set the indices if they are only alpha excitations
           m_special = bra_alpha_excitation[0]
+          m_spin = m_special * 2
           n_special = bra_alpha_excitation[1]
+          n_spin = n_special * 2
           p_special = ket_alpha_excitation[0]
+          p_spin = p_special * 2
           q_special = ket_alpha_excitation[1]
+          q_spin = q_special * 2
         # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
       # the second case is when the excitations are composed of electrons with different spins
@@ -102,9 +115,13 @@ def condon(pair: tuple, integrals: tuple) -> int:
         mixed_spin = True
         # set the indices
         m_special = bra_alpha_excitation[0]
+        m_spin = m_special * 2
         n_special = bra_beta_excitation[0]
+        n_spin = n_special * 2 + 1
         p_special = ket_alpha_excitation[0]
+        p_spin = p_special * 2
         q_special = ket_beta_excitation[0]
+        q_spin = q_special * 2 + 1
         # only the first term survives
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
     return one_elec_mel + two_elec_mel

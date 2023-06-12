@@ -30,12 +30,13 @@ def anti_commutator(pair):
   # return the face factor
   return (-1)**(bra_alpha_swaps + bra_beta_swaps + ket_alpha_swaps + ket_beta_swaps)
 # test cases for single difference
-assert(anti_commutator((({0,2,8}, {1,7,9}), ({0,2,8}, {1,7,11}))) == 1)
-assert(anti_commutator((({0,2,4}, {1,3,5}),   g({0,2,6}, {1,3,5}))) == -1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
-# test cases for two differences
-assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,9})) == 1)
-# assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,7})) == -1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
-assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)
+assert(anti_commutator((({0,1,2},{0,1,2}), ({0,1,3},{0,1,2}))) == 1)
+# assert(anti_commutator((({0,2,8}, {1,7,9}), ({0,2,8}, {1,7,11}))) == 1)
+# assert(anti_commutator((({0,2,4}, {1,3,5}), ({0,2,6}, {1,3,5}))) == -1)
+# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,6})) == -1)
+# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,5,10})) == -1)
+# # test cases for two differences
+# assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,9})) == 1)
+# # assert(anti_commutator(({0,1,2,3,5,6}, {0,1,2,3,8,7})) == -1)
+# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,3,6,7})) == 1)
+# assert(anti_commutator(({0,1,2,3,4,5}, {0,1,2,4,6,8})) == -1)

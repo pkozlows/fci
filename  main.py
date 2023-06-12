@@ -21,27 +21,23 @@ def generation(integrals):
     
     def create_basis():
         """create ordered basis with all possible determinants"""
-        # create all possible alpha strings i.e. only with even orbitals
-        alpha_strings = list(itertools.combinations(range(0, orbs_in_system*2, 2), elec_in_system//2))
-        # create all possible beta strings i.e. only with odd orbitals
-        beta_strings = list(itertools.combinations(range(1, orbs_in_system*2, 2), elec_in_system//2))
+        # create all possible alpha strings
+        alpha_strings = list(itertools.combinations(range(0, orbs_in_system), elec_in_system//2))
+        # create all possible beta strings
+        beta_strings = list(itertools.combinations(range(0, orbs_in_system), elec_in_system//2))
         # Determine the dimensions of the matrix based on the number of alpha and beta strings
         num_alpha_strings = len(alpha_strings)
         num_beta_strings = len(beta_strings)
         # we are assuming that the total spin of the system is zero
         assert num_alpha_strings == num_beta_strings
-        print((alpha_strings[18], beta_strings[18]))
         # create a basis of possible determinants with total spin zero
         basis = []
         for alpha in alpha_strings:
             for beta in beta_strings:
                 # create a determinant object for each pair of alpha and beta strings
-                basis.append((alpha, beta))
+                basis.append((set(alpha), set(beta)))
         # sort the determinants based on the basis of the diagonal fci mel
-        print(basis)
         basis.sort(key = determinant_diagonal)
-        print(basis)
-            
         return basis
     
     def populate(basis):
@@ -51,9 +47,16 @@ def generation(integrals):
         # iterate over bras and kets
         for i, bra in enumerate(basis):
             for j, ket in enumerate(basis):
-                differences = bra.difference(ket)
+                # find the differences between the bra and ket
+                alpha_differences = bra[0].difference(ket[0])
+                number_alpha_differences = len(alpha_differences)
+                beta_differences = bra[1].difference(ket[1])
+                number_beta_differences = len(beta_differences)
+                # combine the differences
+                number_total_differences = number_alpha_differences + number_beta_differences
+
                 # if more than two differences, the condon element is zero and no need to call condon()
-                if len(differences) > 2:
+                if number_total_differences > 2:
                     pass
                 else:
                     # find the condon element
