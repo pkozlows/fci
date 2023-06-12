@@ -77,23 +77,34 @@ def condon(pair: tuple, integrals: tuple) -> int:
         two_elec_mel += anti_commutator(pair)*((np.einsum('ijkk->ij', two_electron_coulomb) - (4/25)*np.einsum('ijjk->ik', two_electron_exchange))[m_special,p_special])
     # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the ket determinant there are orbs p and q
     if number_of_differences == 2:
-      # save the spin and special indices of the first difference
-      m_spin = differences[0][0]
-      m_special = m_spin // 2
-      p_spin = differences[1][0]
-      p_special = p_spin // 2
-      n_spin = differences[0][1]
-      n_special = n_spin // 2
-      q_spin = differences[1][1]
-      q_special = q_spin // 2
-      # the first case is when the {differences are only composed of electrons with the same spin
-      if (m_spin % 2) == (n_spin % 2) and (p_spin % 2) == (q_spin % 2):
-        assert(m_spin % 2 == p_spin % 2)
+      # determine if we are dealing with the same or mixed spin
+      mixed_spin = False
+      # the first case is when the differences are only composed of electrons with the same spin
+      if len(bra_beta_excitation) == 2 or len(bra_alpha_excitation) == 2:
+        beta = False
+        if len(bra_beta_excitation) == 2:
+          beta = True
+          # set the indices
+          m_special = bra_beta_excitation[0]
+          n_special = bra_beta_excitation[1]
+          p_special = ket_beta_excitation[0]
+          q_special = ket_beta_excitation[1]
+        if len(bra_alpha_excitation) == 2:
+          # set the indices if they are only alpha excitations
+          m_special = bra_alpha_excitation[0]
+          n_special = bra_alpha_excitation[1]
+          p_special = ket_alpha_excitation[0]
+          q_special = ket_alpha_excitation[1]
         # both terms are involved
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special] - two_elec_ints[m_special,q_special,n_special,p_special])
-      # the ket case is when the excitations are composed of electrons with different spins
-      if (m_spin % 2) != (n_spin % 2) and (p_spin % 2) != (q_spin % 2):
-        assert(n_spin % 2 == q_spin % 2)
+      # the second case is when the excitations are composed of electrons with different spins
+      if len(bra_beta_excitation) == 1 and len(bra_alpha_excitation) == 1:
+        mixed_spin = True
+        # set the indices
+        m_special = bra_alpha_excitation[0]
+        n_special = bra_beta_excitation[0]
+        p_special = ket_alpha_excitation[0]
+        q_special = ket_beta_excitation[0]
         # only the first term survives
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
     return one_elec_mel + two_elec_mel
@@ -109,9 +120,13 @@ two_elec_ints = np.load("h2e.npy")
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
 # the 1 excitation case
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,5})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-9, abs_tol=1e-12)
-# assert(math.isclose(condon((({0,2,4},{1,3,5}), ({0,2,4},{1,3,7})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
-# assert(math.isclose(condon(({0,1,2,3,4,5}, {0,1,2,3,5,6}), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12))
+# the 2 excitation case
+# only beta difference
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,3,4})), (one_elec_ints, two_elec_ints)), -0.04655311805628327, rel_tol=1e-9, abs_tol=1e-12)
+# only alpha difference
+assert math.isclose(condon((({2,4,5},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), 0.016177186667624063, rel_tol=1e-9, abs_tol=1e-12)
+# mixed differences
+assert math.isclose(condon((({1,2,4},{0,1,2}), ({1,2,5},{0,1,4})), (one_elec_ints, two_elec_ints)), 3.452099717193846e-16, rel_tol=1e-9, abs_tol=1e-12)
 
 
         
