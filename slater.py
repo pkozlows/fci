@@ -117,14 +117,14 @@ def condon(pair: tuple, integrals: tuple) -> int:
         assert(len(ket_alpha_excitation) == len(ket_beta_excitation))
         mixed_spin = True
         # set the indices
-        m_spin = m_special * 2
         m_special = bra_alpha_excitation[0]
-        n_spin = n_special * 2 + 1
+        m_spin = m_special * 2
         n_special = bra_beta_excitation[0]
-        p_spin = p_special * 2
+        n_spin = n_special * 2 + 1
         p_special = ket_alpha_excitation[0]
-        q_spin = q_special * 2 + 1
+        p_spin = p_special * 2
         q_special = ket_beta_excitation[0]
+        q_spin = q_special * 2 + 1
         # only the first term survives
         two_elec_mel += anti_commutator(pair)*(two_elec_ints[m_special,p_special,n_special,q_special])
     return one_elec_mel + two_elec_mel
