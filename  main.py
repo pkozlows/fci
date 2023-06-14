@@ -31,6 +31,7 @@ def generation(integrals):
         # check that the number of alpha and beta strings are equal if the spin of the system is zero
         if spin_of_system == 0:
             assert len(alpha_strings) == len(beta_strings)
+        
         # create a basis of possible determinants
         basis = []
         for alpha in alpha_strings:
