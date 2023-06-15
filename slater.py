@@ -39,6 +39,7 @@ def condon(pair: tuple, integrals: tuple) -> int:
         # the two electron part
         coulumb = np.einsum('iijj->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, beta_intersection, beta_intersection)]) + 0.5 * np.einsum('iijj->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, alpha_intersection, alpha_intersection)]) + 0.5 * np.einsum('iijj->', two_elec_ints[np.ix_(beta_intersection, beta_intersection, beta_intersection, beta_intersection)])
         exchange = 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, beta_intersection, beta_intersection)]) + 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(beta_intersection, beta_intersection, alpha_intersection, alpha_intersection)])
+        # add them up
         element = one_electron + coulumb - exchange
     # if there is one difference, m and p, between the determinants
     if number_of_differences == 1:
@@ -46,22 +47,21 @@ def condon(pair: tuple, integrals: tuple) -> int:
       if len(bra_alpha_excitation) == 1:
         m = bra_alpha_excitation
         p = ket_alpha_excitation
-        # the one electron part
-        one_elec_mel += anti_commutator(pair)*one_elec_ints[m, p]
-        # the two electron part
-        coulomb = np.einsum('ijkk->ij', two_elec_ints[np.ix_(range(6), range(6), total_intersection, total_intersection)])
-        exchange = np.einsum('ijjk->ik', two_elec_ints[np.ix_(range(6), alpha_intersection, alpha_intersection, range(6))])
-        two_elec_mel += anti_commutator(pair)*((coulomb - exchange)[m,p])
+        # the conditional two electron part
+        exchange_matrix = two_elec_ints[np.ix_(m, alpha_intersection, alpha_intersection, p)]
       # check if it is a beta difference
       if len(bra_beta_excitation) == 1:
         m = bra_beta_excitation
         p = ket_beta_excitation
-        # the one electron part
-        one_elec_mel += anti_commutator(pair)*one_elec_ints[m, p]
-        # the two electron part
-        coulomb = np.einsum('ijkk->ij', two_elec_ints[np.ix_(range(6), range(6), total_intersection, total_intersection)])
-        exchange = np.einsum('ijjk->ik', two_elec_ints[np.ix_(range(6), beta_intersection, beta_intersection, range(6))])
-        two_elec_mel += anti_commutator(pair)*((coulomb - exchange)[m,p])
+        # the conditional two electron part
+        exchange_matrix = two_elec_ints[np.ix_(m, beta_intersection, beta_intersection, p)]
+      # the one electron part
+      one_electron = one_elec_ints[m, p]
+      # the unconditional two electron part
+      coulomb = np.einsum('ijkk->', two_elec_ints[np.ix_(m, p, total_intersection, total_intersection)])
+      exchange = np.einsum('ijjk->', exchange_matrix)
+      # add them up
+      element = anti_commutator(pair)*(one_electron + coulomb - exchange)
     # if there are two differences between the determinants, where in the first determinant there are orbs m and n and in the ket determinant there are orbs p and q
     if number_of_differences == 2:
       # determine if we are dealing with the same or mixed spin
@@ -122,16 +122,16 @@ two_elec_ints = np.load("h2e.npy")
 # the hf case
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-7, abs_tol=1e-7)
 # the 1 excitation case
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({1,2,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({1,2,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
-# # the above are passing tests
-# assert math.isclose(condon((({0,1,2},{0,2,5}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
-# assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,2,3},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({1,2,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({1,2,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,5},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-12)
+# the above are passing tests
+assert math.isclose(condon((({0,1,2},{0,2,5}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,2,3},{0,1,2})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
 # # the 2 excitation case
 # # only beta difference
 # assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,3,4})), (one_elec_ints, two_elec_ints)), -0.04655311805628327, rel_tol=1e-9, abs_tol=1e-12)
