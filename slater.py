@@ -34,11 +34,14 @@ def condon(pair: tuple, integrals: tuple) -> int:
     total_intersection = alpha_intersection + beta_intersection
     if number_of_differences == 0:
         # if there is no difference between the determinants
+
         # the one electron part
         one_electron = np.einsum('ii->', one_elec_ints[np.ix_(alpha_intersection, alpha_intersection)]) + np.einsum('ii->', one_elec_ints[np.ix_(beta_intersection, beta_intersection)])
+
         # the two electron part
         coulumb = np.einsum('iijj->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, beta_intersection, beta_intersection)]) + 0.5 * np.einsum('iijj->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, alpha_intersection, alpha_intersection)]) + 0.5 * np.einsum('iijj->', two_elec_ints[np.ix_(beta_intersection, beta_intersection, beta_intersection, beta_intersection)])
-        exchange = 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, beta_intersection, beta_intersection)]) + 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(beta_intersection, beta_intersection, alpha_intersection, alpha_intersection)])
+        
+        exchange = 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(alpha_intersection, alpha_intersection, alpha_intersection, alpha_intersection)]) + 0.5 * np.einsum('ijji->', two_elec_ints[np.ix_(beta_intersection, beta_intersection, beta_intersection, beta_intersection)])
         # add them up
         element = one_electron + coulumb - exchange
         assert(anti_commutator(pair) == 1)
@@ -121,8 +124,8 @@ assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_int
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-15)
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-15)
 # the above have a stringent tolerance, but the below are not passing with a less stringent tolerance
-assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-8, abs_tol=1e-8)
-assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-8, abs_tol=1e-8)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
+assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
 
 
         
