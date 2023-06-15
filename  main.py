@@ -22,16 +22,17 @@ def generation(integrals):
     
     def create_basis():
         """create ordered basis with all possible determinants"""
-        number_of_alpha_electrons = (elec_in_system + spin_of_system)//2
-        number_of_beta_electrons = (elec_in_system - spin_of_system)//2
+        number_of_alpha_electrons = (elec_in_system + spin_of_system) // 2
+        number_of_beta_electrons = (elec_in_system - spin_of_system) // 2
         # create all possible alpha strings
         alpha_strings = list(itertools.combinations(range(0, orbs_in_system), number_of_alpha_electrons))
         # create all possible beta strings
         beta_strings = list(itertools.combinations(range(0, orbs_in_system), number_of_beta_electrons))
+        number_of_strings = len(alpha_strings) * len(beta_strings)
+        print(number_of_strings)
         # check that the number of alpha and beta strings are equal if the spin of the system is zero
         if spin_of_system == 0:
             assert len(alpha_strings) == len(beta_strings)
-        
         # create a basis of possible determinants
         basis = []
         for alpha in alpha_strings:
@@ -44,6 +45,8 @@ def generation(integrals):
     
     def populate(basis):
         """populate the matrix with the condon elements and then diagonalize it to find the lowest eigenvalue"""
+        number_unique_pairs = len(basis) * len(basis)
+        print(number_unique_pairs)
         # create a sparse matrix with the number of rows and columns equal to the number of determinants
         mat = np.zeros((len(basis), len(basis)))
         # iterate over bras and kets
