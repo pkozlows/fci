@@ -1,4 +1,5 @@
 import itertools
+import math
 import numpy as np
 
 def handy(elec_in_system, orbs, intog, spin_of_system = 0):
@@ -30,6 +31,18 @@ def handy(elec_in_system, orbs, intog, spin_of_system = 0):
             # now append ofthe little excitations to a big list
             big_excitations.append(little_excitations)
         return big_excitations
+    def Z(electron, orbital, number_of_electrons, number_of_orbitals):
+        """takes 4 integers, representing the electron and orbital numbers, and the number of electrons and orbitals.this a function that was introduced in the candy paper from 1984.returns the Z factor for the given numbers."""
+        if electron == number_of_electrons:
+            return orbital - number_of_electrons
+        else:
+            return sum([math.comb(m, number_of_electrons - electron) - math.comb(m - 1, number_of_electrons - electron - 1)
+                    for m in range(number_of_orbitals - orbital + 1, number_of_orbitals - electron + 1)])
+    # apply address to a configuration
+    def address_array(string, number_of_electrons, number_of_orbitals):
+    # +1 is the conversion between python indexing (start with 0) and normal indexing (start with 1)
+    # Haiya Starting from 0 makes life easier, e.g. the indexing of tensor product
+        return sum([Z(electron + 1, orbital + 1, number_of_electrons, number_of_orbitals) for electron, orbital in enumerate(string)])
     def adress(first_string, second_string, spin):
         """takes two strings and and either and integer of 1 and the citing that the two strings are of spin alpha or a integer of 0, and the citing that they are two string of spin peter. returns their address as a tuple."""
         if spin == 1:
@@ -39,7 +52,7 @@ def handy(elec_in_system, orbs, intog, spin_of_system = 0):
     def face_factor(unexcited, excited):
         """takes two list. The first one is an unexcited string, the second one is a list of all possible excitations from that string. it does not come as sorted. Returns a integer that represents the face_factor for canting the strings into maximum coincidence."""
         # check that the first string is already sorted
-        assert(unexcited == sorted(unexcited))
+        assert(unexcited sorted(unexcited))
         # find the difference between the excited string and the unexcited string
         difference = [orbital for orbital in excited if orbital not in unexcited]
         # initialize a sorted list of the excited string
@@ -63,17 +76,27 @@ def handy(elec_in_system, orbs, intog, spin_of_system = 0):
                 alpha_list = []
                 for replaced in alpha_replacements:
                     for string in replaced:
-                        alpha_list.append((adress(alpha_string, sorted(string), 1), face_factor(alpha_string, string)))
+                        # I want to find the unexcited orbital that is in the after string comma but not in this new string
+                        ground = [orbital for orbital in alpha_string if orbital not in string]
+                        assert(len(ground) == 1)
+                        excited = [orbital for orbital in string if orbital not in alpha_string]
+                        assert(len(excited) == 1)
+                        alpha_list.append((adress(alpha_string, sorted(string), 0), face_factor(alpha_string, string), (ground[0], excited[0])))
                 global_alfa.append(alpha_list)
                 # then make a list for the beta replacements
                 beta_replacements = single_replacement(beta_string)
                 beater_list = []
                 for replaced in beta_replacements:
-                    for string in replaced: 
-                        beater_list.append((adress(beta_string, sorted(string), 0), face_factor(beta_string, string)))
+                    for string in replaced:
+                        # I want to find the unexcited orbital that is in the after string comma but not in this new string
+                        ground = [orbital for orbital in beta_string if orbital not in string]
+                        assert(len(ground) == 1)
+                        excited = [orbital for orbital in string if orbital not in beta_string]
+                        assert(len(excited) == 1) 
+                        beater_list.append((adress(beta_string, sorted(string), 0), face_factor(beta_string, string), (ground[0], excited[0])))
                 global_beater.append(beater_list)
         return (global_alfa, global_beater)
-    return replacement_lists(alpha_strings, beta_strings)
+    return replacement_list(alpha_strings, beta_strings)
 
 print(handy(6, 6, (np.load("h1e.npy"), np.load("h2e.npy"))))
 
