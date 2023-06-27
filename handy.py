@@ -76,15 +76,29 @@ def handy(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
                 excited = [orbital for orbital in replaced_string if orbital not in original_string]
                 replacements.append((address_array(sorted(replaced_string)), face_factor(replaced_string), (ground[0], excited[0])))
         return replacements
-    # make the replacement list for the alpha and peter orbs
-    # initialize the two replacement list
-    alter_replacement_list = []
-    beta_replacement_list = []
-    for string in alpha_strings:
-        alter_replacement_list.append(replacement_list(string))
-    for string in beta_strings:
-        beta_replacement_list.append(replacement_list(string))        
-    return alter_replacement_list, beta_replacement_list
+    def transform(vector):
+        """transforms a configuration interaction vector without using the whole hamiltonian matrices and the Davidson algorithm. takes the gas vector and returns the transformed vector."""  
+        # in nationalize the one particle excitation matrix with np.zeroes
+        # for this system come it will have shape (400,6,6), where the first element of the tuple is the dimension of determinant bases and the second and third elements of the tuple are the number of orbitals
+        bases_dimension = len(alpha_strings) * len(beta_strings)
+        one_particle_matrix = np.zeros((bases_dimension, number_of_orbitals, number_of_orbitals))
+        for offer_index, alpha_string in enumerate(alpha_strings):
+            for replacement in replacement_list(alpha_string):
+                for beta_index in range(len(beta_strings)):
+                # first only fill the amendments that will be nonzero with numeral one or numeral negative one
+                    on_partial_index = offer_index + beta_index * len(beta_strings)
+                    vector_index = replacement[0] + beta_index * len(beta_strings)
+                    one_particle_matrix[on_partial_index, replacement[2][0], replacement[2][1]] += replacement[1] * vector[vector_index]
+        # now loop over debate strings
+        for beta_index, beta_string in enumerate(beta_strings):
+            for replacement in replacement_list(beta_string):
+                for alfa_in_decks in range(len(alpha_strings)):
+                    on_partial_index = beta_index + alfa_in_decks * len(alpha_strings)
+                    vector_index = replacement[0] + alfa_in_decks * len(alpha_strings)
+                    one_particle_matrix[on_partial_index, replacement[2][0], replacement[2][1]] += replacement[1] * vector[vector_index]
+            
+
+    return alpha_replacement_list, beta_replacement_list
 
 print(handy(6, 6, (np.load("h1e.npy"), np.load("h2e.npy"))))
 
