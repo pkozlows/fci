@@ -2,7 +2,6 @@ import copy
 import itertools
 import math
 import numpy as np
-from main import generation, integrals
 
 def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
     """takes to integers, representing the number of electrons and orbitals in the system.also takes a tuple with integrals, containing the one electron and two electron integrals for the system.returns the si vector, whatever that means."""
@@ -133,11 +132,4 @@ def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_sy
     trial_vector[0] = 1
 
     return transform(trial_vector)
-print(np.shape(handy_transformer(6, 6, (np.load("h1e.npy"), np.load("h2e.npy")))))
-matrix = generation(integrals)
-result = matrix @ handy_transformer(6, 6, (np.load("h1e.npy"), np.load("h2e.npy")))
-value = np.dot(result, result)
-print(value)
-print(np.linalg.norm(value))
-print(np.shape(value))
 
