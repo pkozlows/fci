@@ -2,10 +2,13 @@ import copy
 import itertools
 import math
 import numpy as np
+from main import generation, integrals
 
-def handy(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
+def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
     """takes to integers, representing the number of electrons and orbitals in the system.also takes a tuple with integrals, containing the one electron and two electron integrals for the system.returns the si vector, whatever that means."""
     # find the number of alpha and better electrons in the system
+    one_electron_integrals = intog[0]
+    two_electron_integrals = intog[1]
     number_of_alpha_electrons = (electrons_in_system + spin_of_system) // 2
     number_of_beta_electrons = (electrons_in_system - spin_of_system) // 2
     # create all possible alpha strings
@@ -65,8 +68,8 @@ def handy(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
         replacements = []
         # first append all of the diagonal elements
         for orbital in original_string:
-            replacements.append((address_array(original_string), 1, (orbital, orbital)))          
-        # We may generate all the matrix elements by constructing two lists (one for Q, OIIC for /3) for each K (i.e. +O+p) of ail single rtpfacements. Ed& entry in the fist contains three integers- the lexical address of +I,‘, the numerical value of the matrix element which is +I or --I, and ii_. this will be contained in a tuple, like (address, face_a_factor, excitation (ij for i->j)))
+            replacements.append({"address": address_array(original_string), "sign": 1, "ij": (orbital, orbital)})      
+        # We may generate all the matrix elements by constructing two lists (one for Q, OIIC for /3) for each K (i.e. +O+p) of ail single rtpfacements. Ed& entry in the fist contains three integers- the lexical address of +I,‘, the numerical value of the matrix element which is +I or --I, and ii_. this will be contained in a tuple, like (address, sign, excitation (ij for i->j)))
         # first make a list for the alpha replacements
         all_orbitals = single_replacement(original_string)
         for replaced_orbital_list in all_orbitals:
@@ -74,7 +77,7 @@ def handy(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
                 # I want to find the unexcited orbital that is in the after replaced_string comma but not in this new replaced_string
                 ground = [orbital for orbital in original_string if orbital not in replaced_string]
                 excited = [orbital for orbital in replaced_string if orbital not in original_string]
-                replacements.append((address_array(sorted(replaced_string)), face_factor(replaced_string), (ground[0], excited[0])))
+                replacements.append( {"address": address_array(sorted(replaced_string)), "sign": face_factor(replaced_string), "ij": (ground[0], excited[0])} )
         return replacements
     def transform(vector):
         """transforms a configuration interaction vector without using the whole hamiltonian matrices and the Davidson algorithm. takes the gas vector and returns the transformed vector."""  
@@ -82,23 +85,59 @@ def handy(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
         # for this system come it will have shape (400,6,6), where the first element of the tuple is the dimension of determinant bases and the second and third elements of the tuple are the number of orbitals
         bases_dimension = len(alpha_strings) * len(beta_strings)
         one_particle_matrix = np.zeros((bases_dimension, number_of_orbitals, number_of_orbitals))
-        for offer_index, alpha_string in enumerate(alpha_strings):
+        for alpha_index, alpha_string in enumerate(alpha_strings):
             for replacement in replacement_list(alpha_string):
                 for beta_index in range(len(beta_strings)):
                 # first only fill the amendments that will be nonzero with numeral one or numeral negative one
-                    on_partial_index = offer_index + beta_index * len(beta_strings)
-                    vector_index = replacement[0] + beta_index * len(beta_strings)
-                    one_particle_matrix[on_partial_index, replacement[2][0], replacement[2][1]] += replacement[1] * vector[vector_index]
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
         # now loop over debate strings
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
-                for alfa_in_decks in range(len(alpha_strings)):
-                    on_partial_index = beta_index + alfa_in_decks * len(alpha_strings)
-                    vector_index = replacement[0] + alfa_in_decks * len(alpha_strings)
-                    one_particle_matrix[on_partial_index, replacement[2][0], replacement[2][1]] += replacement[1] * vector[vector_index]
-            
+                for alpha_index in range(len(alpha_strings)):
+                    one_particle_index = replacement["address"] + alpha_index * len(beta_strings)
+                    vector_index = beta_index + alpha_index * len(beta_strings)
+                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
+        # add the original 1e integral and contribution from 2e integral with a delta function \delta_{jk}
+        modified_1e_integral = one_electron_integrals - 0.5 * np.einsum("ikkl -> il", two_electron_integrals)
+        # now we want to combine the one particle excitation matrix with the relevant part of the two electron integral
+        contracted_to_electron = np.einsum('pkl,ijkl->pij', one_particle_matrix, two_electron_integrals)
+        # Start from 1e integral transform
+        new_ci_vector = np.einsum("pij, ij -> p", one_particle_matrix, modified_1e_integral)
+        # now we will be operating on our new vector
+        # first lope over the offa replacements
+        for alpha_index, alpha_string in enumerate(alpha_strings):
+            for replacement in replacement_list(alpha_string):
+                for beta_index in range(len(beta_strings)):
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings) 
+                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    # add the appropriate contribution to our new vector
+                    new_ci_vector[vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
+        # now loop over beta strings
+        for beta_index, beta_string in enumerate(beta_strings):
+            for replacement in replacement_list(beta_string):
+                for alpha_index in range(len(alpha_strings)):
+                    one_particle_index = replacement["address"] + alpha_index * len(beta_strings)
+                    vector_index = beta_index + alpha_index * len(beta_strings)
+                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    # add the appropriate contribution to our new vector
+                    new_ci_vector[vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
+        return new_ci_vector / np.linalg.norm(new_ci_vector)
+    # now that we have the one particle matrix, we need to use it to transform the initial vector
+    # first make a trial vector
+    trial_vector = np.zeros(400)
+    trial_vector[0] = 1
 
-    return alpha_replacement_list, beta_replacement_list
-
-print(handy(6, 6, (np.load("h1e.npy"), np.load("h2e.npy"))))
+    return transform(trial_vector)
+print(np.shape(handy_transformer(6, 6, (np.load("h1e.npy"), np.load("h2e.npy")))))
+matrix = generation(integrals)
+result = matrix @ handy_transformer(6, 6, (np.load("h1e.npy"), np.load("h2e.npy")))
+value = np.dot(result, result)
+print(value)
+print(np.linalg.norm(value))
+print(np.shape(value))
 
