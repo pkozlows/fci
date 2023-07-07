@@ -3,7 +3,7 @@ import itertools
 import math
 import numpy as np
 
-def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
+def handy_transformer(vector, electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
     """takes to integers, representing the number of electrons and orbitals in the system.also takes a tuple with integrals, containing the one electron and two electron integrals for the system.returns the si vector, whatever that means."""
     # find the number of alpha and better electrons in the system
     one_electron_integrals = intog[0]
@@ -40,7 +40,6 @@ def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_sy
             return orbital_number - number_of_electrons
         else:
             return sum([math.comb(m, number_of_electrons - electron_index) - math.comb(m - 1, number_of_electrons - electron_index - 1) for m in range(number_of_orbitals - orbital_number + 1, number_of_orbitals - electron_index + 1)])
-    # apply address to a configuration
     def address_array(string):
         return sum([Z(electron_index + 1, orbital_number + 1, len(string)) for electron_index, orbital_number in enumerate(string)])
     def face_factor(excited):
@@ -125,11 +124,6 @@ def handy_transformer(electrons_in_system, number_of_orbitals, intog, spin_of_sy
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     # add the appropriate contribution to our new vector
                     new_ci_vector[vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
-        return new_ci_vector / np.linalg.norm(new_ci_vector)
-    # now that we have the one particle matrix, we need to use it to transform the initial vector
-    # first make a trial vector
-    trial_vector = np.zeros(400)
-    trial_vector[0] = 1
-
-    return transform(trial_vector)
+        return new_ci_vector
+    return transform(vector)
 

@@ -3,11 +3,16 @@ import numpy as np
 from main import generation, integrals
 
 
-def Davidson(matrix, n_eigval, tolerance = 1e-8):
-    """Takes a sparse, diagonally dominant matrix, like the FCI hamiltonian and the number of desired eigenvalues."""
-    # check that the matrix is symmetric
-    assert(np.allclose(matrix, matrix.T))
-    rows, cols = matrix.shape
+def Davidson(taster, transformer, preconditioner, n_eig, tolerance = 1e-8, matrix = None):
+    """takes the transformer function of handy, the preconditioner function of handy, the number of eigenvalues to be found, the tolerance for the algorithm to converge, and the matrix to be diagonalized.returns the size of the agen system to be found."""
+    # starred by assuming that we will be using the handy implementation
+    handy = True
+    # checked if we are preceding with the handy intimation or not
+    if matrix == None:
+        handy = False
+        # check that the matrix is symmetric
+        assert(np.allclose(matrix, matrix.T))
+        rows, cols = matrix.shape
     # make our initial guess the hf reference eigenvector
     guess_space = np.eye(rows, n_eigval)
     for i in range(rows // 2):
@@ -41,6 +46,22 @@ def Davidson(matrix, n_eigval, tolerance = 1e-8):
             guess_space = np.hstack((guess_space, new_direction))
     return eigenvalues[0]
 
+matrix = generation(integrals)
+# fun the time date Davidson da economization takes
+start_davidson_without_handy = time.time()
+assert(Davidson(matrix, 1) - -7.8399080148963369 < 1e-10)
+# find the time that Davidson digestion takes
+end_davidson_without_handy = time.time()
+# find the time that numpy digestion takes
+start_numpy = time.time()
+eigenvalues, eigenvectors = np.linalg.eig(matrix)
+# find the time that numpy digestion takes
+end_numpy = time.time()
+assert((end_numpy - start_numpy) > (end_davidson_without_handy - start_davidson_without_handy))
+
+
+
+    
 
 
                        
