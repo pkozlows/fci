@@ -3,44 +3,18 @@ import itertools
 import math
 import numpy as np
 
-def handy_transformer(vector, electrons_in_system, number_of_orbitals, intog, spin_of_system = 0):
+def new_handy(vector, number_of_electrons, number_of_orbitals, intog, spin_of_system = 0):
     """takes to integers, representing the number of electrons and orbitals in the system.also takes a tuple with integrals, containing the one electron and two electron integrals for the system.returns the si vector, whatever that means."""
     # find the number of alpha and better electrons in the system
     one_electron_integrals = intog[0]
     two_electron_integrals = intog[1]
-    number_of_alpha_electrons = (electrons_in_system + spin_of_system) // 2
-    number_of_beta_electrons = (electrons_in_system - spin_of_system) // 2
+    number_of_alpha_electrons = (number_of_electrons + spin_of_system) // 2
+    number_of_beta_electrons = (number_of_electrons - spin_of_system) // 2
     # create all possible alpha strings
     alpha_strings = list(list(string) for string in itertools.combinations(range(0, number_of_orbitals), number_of_alpha_electrons))
     # create all possible beta strings
     beta_strings = list(list(string) for string in itertools.combinations(range(0, number_of_orbitals), number_of_beta_electrons))
     dimension = len(alpha_strings) * len(beta_strings)
-    def face_factor(excited_string):
-        """takes one unsorted excited string. Returns a integer that represents the face_factor for canting the strings into maximum coincidence."""
-        # make a deep copy of the excited list to be later sorted
-        sorted = copy.deepcopy(excited_string)
-        # initialize the number of swaps needed to zero
-        swaps = 0
-        i = 0
-        while i < len(excited_string) - 1:
-            if sorted[i] > sorted[i+1]:
-                temp = sorted[i+1]
-                sorted[i+1] = sorted[i]
-                sorted[i] = temp
-                swaps += 1
-                i = 0
-            else:
-                i += 1
-        # return the face_factor and the sorted list
-        return (-1)**swaps, sorted
-    def Z(electron_index, orbital_index, number_of_electrons):
-        """takes 2 integers, representing the electron_index and orbital_index numbers. this a function that was introduced in the candy paper from 1984.returns the Z factor for the given numbers."""
-        if electron_index == number_of_electrons:
-            return orbital_index - number_of_electrons
-        else:
-            return sum([math.comb(m, number_of_electrons - electron_index) - math.comb(m - 1, number_of_electrons - electron_index - 1) for m in range(number_of_orbitals - orbital_index + 1, number_of_orbitals - electron_index + 1)])
-    def address_array(string):
-        return sum([Z(electron_index + 1, orbital + 1, len(string)) for electron_index, orbital in enumerate(string)])
     def single_replacement(unexcited_string):
         """takes a string and returns a list of strings with one excitation"""
         # look at a very orbital in the string end enervate all excitations from it
@@ -60,8 +34,36 @@ def handy_transformer(vector, electrons_in_system, number_of_orbitals, intog, sp
             # now append ofthe little excitations to a big list
             big_excitations.append(little_excitations)
         return big_excitations
+    def Z(k, l, n_elec, n_orbs):
+        if k == n_elec:
+            return l - n_elec
+        else:
+            return sum([math.comb(m, n_elec - k) - math.comb(m - 1, n_elec - k - 1)
+                        for m in range(n_orbs - l + 1, n_orbs - k + 1)])
+    def address_array(orbital_list):
+
+    # +1 is the conversion between python indexing (start with 0) and normal indexing (start with 1)
+    # Haiya Starting from 0 makes life easier, e.g. the indexing of tensor product
+        return sum([Z(elec_index + 1, orbital + 1, number_of_electrons, number_of_orbitals) for elec_index, orbital in enumerate(orbital_list)])
+    # Simple bubble sort to get
+    def sort_and_sign(listable):
+        sorted = copy.deepcopy(listable)
+        sign = 0
+
+        i = 0
+        while i < len(listable) - 1:
+            if sorted[i] > sorted[i+1]:
+                temp = sorted[i+1]
+                sorted[i+1] = sorted[i]
+                sorted[i] = temp
+                sign += 1
+                i = 0
+            else:
+                i += 1
+
+        return math.pow(-1, sign % 2), sorted
     def replacement_list(original_string):
-        """takes two lists of strings and returns two lists of tuples. The first list of tuples contains all possible replacements for the alpha strings. The second list of tuples contains all possible replacements for the beta strings. The tuples contain the address of the replaced_string, the face_factor, and the value of the matrix element."""
+        """takes two lists of strings and returns two lists of tuples. The first list of tuples contains all possible replacements for the alpha strings. The second list of tuples contains all possible replacements for the beta strings. The tuples contain the address of the replaced_string, the sort_and_sign, and the value of the matrix element."""
         # in nationalized global alpha and beta lists
         replacements = []
         # first append all of the diagonal elements
@@ -75,7 +77,7 @@ def handy_transformer(vector, electrons_in_system, number_of_orbitals, intog, sp
                 # I want to find the unexcited orbital that is in the after replaced_string comma but not in this new replaced_string
                 ground = [orbital for orbital in original_string if orbital not in replaced_string]
                 excited = [orbital for orbital in replaced_string if orbital not in original_string]
-                sign, sorted = face_factor(replaced_string)
+                sign, sorted = sort_and_sign(replaced_string)
                 replacements.append( {"address": address_array(sorted), "sign": sign, "ij": (ground[0], excited[0])} )
         return replacements
     def transform(vector):
