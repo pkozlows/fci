@@ -109,6 +109,7 @@ def knowles_handy_full_ci_transformer(one_electron_integrals, two_electron_integ
         # alpha_index refers to the index of the original alpha string
         for alpha_index, alpha_excitation_list in enumerate(alpha_single_excitation):
             for alpha_excitation in alpha_excitation_list:
+                # print(alpha_index)
                 # This iterates over all the beta strings
                 for beta_index in range(len(beta_combinations)):
                     i, j = alpha_excitation["ij"]

@@ -1,7 +1,7 @@
 import time
 import numpy as np
 from main import generation, integrals
-
+    
 
 def Davidson(taster, transformer, preconditioner, n_eig, tolerance = 1e-8, matrix = None):
     """takes the transformer function of handy, the preconditioner function of handy, the number of eigenvalues to be found, the tolerance for the algorithm to converge, and the matrix to be diagonalized.returns the size of the agen system to be found."""
