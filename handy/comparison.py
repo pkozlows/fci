@@ -110,20 +110,20 @@ def changing_handy(ci_vector, electrons_in_system, number_of_orbitals, integrals
         for alpha_index, replacement_list in enumerate(alpha_excitations):
             for replacement in replacement_list:
                 for beta_index in range(len(beta_strings)):
-                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
-                    ci_vector_index = alpha_index + beta_index * len(beta_strings) 
-                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    i, j = replacement["ij"]
+                    ci_vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings) 
                     # add the appropriate contribution to our new ci_vector
-                    new_ci_vector[ci_vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
+                    new_ci_vector[ci_vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
         # now loop over beta strings
         for beta_index, replacement_list in enumerate(beta_excitations):
             for replacement in replacement_list:
                 for alpha_index in range(len(alpha_strings)):
-                    one_particle_index = replacement["address"] + alpha_index * len(beta_strings)
-                    ci_vector_index = beta_index + alpha_index * len(beta_strings)
-                    i, j = replacement["ij"][0], replacement["ij"][1]
+                    i, j = replacement["ij"]
+                    ci_vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = alpha_index + replacement["address"] * len(beta_strings)
                     # add the appropriate contribution to our new ci_vector
-                    new_ci_vector[ci_vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
+                    new_ci_vector[ci_vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
         return new_ci_vector
     return transform(ci_vector)
 

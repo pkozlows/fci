@@ -1,7 +1,7 @@
 import math
 import numpy as np
 from pytest import approx
-from face_factor import anti_commutator
+from full_matrix.face_factor import anti_commutator
 
 def condon(pair: tuple, integrals: tuple) -> int:
     """

@@ -1,9 +1,9 @@
 import time
 import numpy as np
-from Davidson import Davidson
-from main import generation, integrals
+from full_matrix.Davidson import Davidson
+from full_matrix.main import generation, integrals
 from handy import handy_transformer
-from comparison import changing_handy
+from handy.comparison import changing_handy
 import mentor_handy
 
 # first make a trial vector 
@@ -39,16 +39,19 @@ stable_difference = handy - ordinary_matmult
 mentor_difference = mentor_candy_vector - ordinary_matmult
 changing_difference = change_handy - handy
 difference_between_candies = mentor_candy_vector - handy
+difference_with_comparison = mentor_candy_vector - change_handy
 
 # calculate the Euclidean norm of the difference
 stable_norm = np.linalg.norm(stable_difference)
 mentor_norm = np.linalg.norm(mentor_difference)
 changing_norm = np.linalg.norm(changing_difference)
 norm_difference_between_candies = np.linalg.norm(difference_between_candies)
+norm_difference_with_comparison = np.linalg.norm(difference_with_comparison)
 print("handy and ordinary_matmult:", stable_norm)
 print("mentor_candy_vector and ordinary_matmult:", mentor_norm)
 print("change_handy and handy:", changing_norm)
 print("mentor_candy_vector and handy:", norm_difference_between_candies)
+print("mentor_candy_vector and change_handy:", norm_difference_with_comparison)
 
 
 # and_candy = time.time()
@@ -57,14 +60,3 @@ print("mentor_candy_vector and handy:", norm_difference_between_candies)
 # print(mentor_candy_vector - ordinary_matmult)
 # assert(np.allclose(mentor_candy_vector, ordinary_matmult))
 # print(handy)
-# # fun the time date Davidson da economization takes
-# start_davidson = time.time()
-# assert(Davidson(hamiltonian, 1) - -7.8399080148963369 < 1e-10)
-# # find the time that Davidson digestion takes
-# end_davidson = time.time()
-# # find the time that numpy digestion takes
-# start_numpy = time.time()
-# # eigenvalues, eigenvectors = np.linalg.eig(hamiltonian)# thinner
-# # find the time that numpy digestion takes
-# end_numpy = time.time()
-# assert((end_numpy - start_numpy) > (end_davidson - start_davidson))

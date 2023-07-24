@@ -1,5 +1,5 @@
 import numpy as np
-from slater import condon
+from full_matrix.slater import condon
 import itertools
 import cProfile
 

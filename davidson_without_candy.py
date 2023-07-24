@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from main import generation, integrals
+from full_matrix.main import generation, integrals
     
 
 def Davidson(taster, transformer, preconditioner, n_eig, tolerance = 1e-8, matrix = None):

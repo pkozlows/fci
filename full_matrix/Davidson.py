@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from main import generation, integrals
+from full_matrix.main import generation, integrals
 
 
 def Davidson(matrix, n_eigval, tolerance = 1e-8):
@@ -40,6 +40,20 @@ def Davidson(matrix, n_eigval, tolerance = 1e-8):
             # add the new direction to our guess space
             guess_space = np.hstack((guess_space, new_direction))
     return eigenvalues[0]
+
+# generate the hamiltonian
+hamiltonian = generation(integrals)
+# fun the time date Davidson da economization takes
+start_davidson = time.time()
+assert(Davidson(hamiltonian, 1) - -7.8399080148963369 < 1e-10)
+# find the time that Davidson digestion takes
+end_davidson = time.time()
+# find the time that numpy digestion takes
+start_numpy = time.time()
+eigenvalues, eigenvectors = np.linalg.eig(hamiltonian)# thinner
+# find the time that numpy digestion takes
+end_numpy = time.time()
+assert((end_numpy - start_numpy) > (end_davidson - start_davidson))
 
 
 
