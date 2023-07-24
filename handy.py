@@ -52,7 +52,7 @@ def handy_transformer(vector, electrons_in_system, number_of_orbitals, integrals
             # in naturalize a list for all these little excitations
             little_excitations = []
             for j in range(number_of_orbitals):
-                excited_string = unexcited_string.copy()
+                excited_string = copy.deepcopy(unexcited_string)
                 if j not in unexcited_string:
                     # create a new string with the excitation
                     excited_string[i] = j
@@ -100,13 +100,14 @@ def handy_transformer(vector, electrons_in_system, number_of_orbitals, integrals
                     one_particle_index = beta_index + alpha_index * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
+        # print out the norm of the one particle matrix at this stage with a description
+        print("handy_initial", np.linalg.norm(one_particle_matrix))
         # add the original 1e integral and contribution from 1 integral with a delta function \delta_{jk}
         modified_1e_integral = one_electron_integrals - 0.5 * np.einsum("ikkl -> il", two_electron_integrals)
         # now we want to combine the one particle excitation matrix with the relevant part of the two electron integral
         contracted_to_electron = np.einsum('pkl,ijkl->pij', one_particle_matrix, two_electron_integrals)
         # Start from 1e integral transform
         new_ci_vector = np.einsum("pij, ij -> p", one_particle_matrix, modified_1e_integral)
-        print(np.linalg.norm(one_particle_matrix))
         # now we will be operating on our new vector
         # first lope over the offa replacements
         for alpha_index, alpha_string in enumerate(alpha_strings):

@@ -3,6 +3,7 @@ import numpy as np
 from Davidson import Davidson
 from main import generation, integrals
 from handy import handy_transformer
+from comparison import changing_handy
 import mentor_handy
 
 # first make a trial vector 
@@ -27,23 +28,27 @@ ordinary_matmult = np.dot(hamiltonian, trial_vector) / np.linalg.norm(np.dot(ham
 # assert(np.allclose(ordinary_matmult, np.einsum('ij,i->j', hamiltonian, trial_vector)))
 # and_ordinary = time.time()
 # start_handy = time.time(*)
-handy = handy_transformer(trial_vector, 6, 6, integrals) / np.linalg.norm(handy_transformer(trial_vector, 6, 6, integrals))
-
 mentor_candy = mentor_handy.knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
 mentor_candy_vector = mentor_candy(trial_vector) / np.linalg.norm(mentor_candy(trial_vector))
+handy = handy_transformer(trial_vector, 6, 6, integrals) / np.linalg.norm(handy_transformer(trial_vector, 6, 6, integrals))
+change_handy = changing_handy(trial_vector, 6, 6, integrals) / np.linalg.norm(changing_handy(trial_vector, 6, 6, integrals))
 
-# calculate the difference between the two vectors
-diff = mentor_candy_vector - ordinary_matmult
-second_difference = handy - ordinary_matmult
+
+# calculate the the two vectors
+stable_difference = handy - ordinary_matmult
+mentor_difference = mentor_candy_vector - ordinary_matmult
+changing_difference = change_handy - handy
 difference_between_candies = mentor_candy_vector - handy
 
 # calculate the Euclidean norm of the difference
-norm_diff = np.linalg.norm(diff)
-second_norm_diff = np.linalg.norm(second_difference)
+stable_norm = np.linalg.norm(stable_difference)
+mentor_norm = np.linalg.norm(mentor_difference)
+changing_norm = np.linalg.norm(changing_difference)
 norm_difference_between_candies = np.linalg.norm(difference_between_candies)
-# print(norm_diff)
-print(second_norm_diff)
-print(norm_difference_between_candies)
+print("handy and ordinary_matmult:", stable_norm)
+print("mentor_candy_vector and ordinary_matmult:", mentor_norm)
+print("change_handy and handy:", changing_norm)
+print("mentor_candy_vector and handy:", norm_difference_between_candies)
 
 
 # and_candy = time.time()

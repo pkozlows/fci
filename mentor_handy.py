@@ -26,6 +26,8 @@ def sort_and_sign(listable):
 
 # A function defined in KH paper
 def Z(k, l, n_elec, n_orbs):
+    assert(n_orbs == 6)
+    assert(n_elec == 3)
     if k == n_elec:
         return l - n_elec
     else:
@@ -34,7 +36,9 @@ def Z(k, l, n_elec, n_orbs):
 
 # apply address to a configuration
 def address_array(orbital_list, n_elec, n_orbs):
-
+    assert(n_elec == len(orbital_list))
+    assert(len(orbital_list) == 3)
+    assert(n_orbs == 6)
     # +1 is the conversion between python indexing (start with 0) and normal indexing (start with 1)
     # Haiya Starting from 0 makes life easier, e.g. the indexing of tensor product
     return sum([Z(elec_index + 1, orbital + 1, n_elec, n_orbs) for elec_index, orbital in enumerate(orbital_list)])
@@ -109,7 +113,6 @@ def knowles_handy_full_ci_transformer(one_electron_integrals, two_electron_integ
         # alpha_index refers to the index of the original alpha string
         for alpha_index, alpha_excitation_list in enumerate(alpha_single_excitation):
             for alpha_excitation in alpha_excitation_list:
-                # print(alpha_index)
                 # This iterates over all the beta strings
                 for beta_index in range(len(beta_combinations)):
                     i, j = alpha_excitation["ij"]
@@ -129,6 +132,7 @@ def knowles_handy_full_ci_transformer(one_electron_integrals, two_electron_integ
                     one_particle_matrix[one_particle_index, i, j] += \
                         beta_excitation["sign"] * ci_vector[ci_vector_index]
 
+        print("mentor_handy", np.linalg.norm(one_particle_matrix))
         two_electron_contracted = np.einsum("pkl, ijkl -> pij", one_particle_matrix, two_electron_integrals)
 
         # Start from 1e integral transform
