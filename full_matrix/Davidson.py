@@ -1,20 +1,22 @@
 import time
 import numpy as np
-from full_matrix.main import generation, integrals
+from main import generation, integrals
 
 
-def Davidson(matrix, n_eigval, tolerance = 1e-8):
+def Davidson(matrix, n_eig, tolerance = 1e-8):
     """Takes a sparse, diagonally dominant matrix, like the FCI hamiltonian and the number of desired eigenvalues."""
     # check that the matrix is symmetric
     assert(np.allclose(matrix, matrix.T))
     rows, cols = matrix.shape
     # make our initial guess the hf reference eigenvector
-    guess_space = np.eye(rows, n_eigval)
+    guess_space = np.eye(rows, n_eig)
     for i in range(rows // 2):
         # make our gas space or the normal
         guess_space, R = np.linalg.qr(guess_space)
+        # the expensive matrix product
+        transformed_space = matrix @ guess_space
         # calculate the rayleigh matrix
-        rayleigh_matrix = guess_space.T @ matrix @ guess_space
+        rayleigh_matrix = guess_space.T @ transformed_space
         # calculate the eigenvalues and eigenvectors of the rayleigh matrix
         eigenvalues, eigenvectors = np.linalg.eig(rayleigh_matrix)
         # sort the eigenvalues and eigenvectors
@@ -22,131 +24,57 @@ def Davidson(matrix, n_eigval, tolerance = 1e-8):
         eigenvalues = eigenvalues[sorted_indices]
         eigenvectors = eigenvectors[:, sorted_indices]
         # calculate the residual vector
-        residual = matrix @ guess_space @ eigenvectors[:, 0] - eigenvalues[0] * guess_space @ eigenvectors[:, 0]
+        u = guess_space @ eigenvectors[:, n_eig - 1]
+        u_a = transformed_space @ eigenvectors[:, n_eig - 1]
+        residual = u_a - u * eigenvalues[n_eig - 1]
         # if the norm of the residual is lower than our tolerance come bring the lope as we have found the Eigen pair
         if np.linalg.norm(residual) < tolerance:
+            print(i)
+            # print out the norm of the residual factor
+            print("The norm of the residual is:", np.linalg.norm(residual))
+            # make a descriptive message and print out the Eigen values
+            message = "The dimension of the Davidson system is: " + str(len(eigenvalues[:n_eig])) + " and the eigenvalues are: " + str(eigenvalues[:n_eig])
+            print(message)
             break
         # if the norm of the residual is not lower than our tolerance, we need to add a new guess vector to our guess space
         else:
             # intact lies our new direction
-            new_direction = np.zeros((rows, n_eigval))
+            new_direction = np.zeros((rows, n_eig))
             # solved the versed correction equation
-            for j in range(rows):
+            for j in range(n_eig):
                 # if the difference between the rayleigh quotient and the diagonal element is smaller than the tolerance, set the component to zero
-                if np.abs(eigenvalues[0] - matrix[j,j]) < tolerance:
+                if np.abs(eigenvalues[j] - matrix[j,j]) < tolerance:
                     new_direction[j] = 0
                 else:
-                    new_direction[j] = residual[j] / (eigenvalues[0] - matrix[j,j])
+                    new_direction[:, j] = residual[j] / (eigenvalues[0] - matrix[j,j])
             # add the new direction to our guess space
             guess_space = np.hstack((guess_space, new_direction))
     return eigenvalues[0]
-
+# find the time that it is taking to generate the hamiltonian
+start_generation = time.time()
 # generate the hamiltonian
 hamiltonian = generation(integrals)
+and_generation = time.time()
 # fun the time date Davidson da economization takes
 start_davidson = time.time()
-assert(Davidson(hamiltonian, 1) - -7.8399080148963369 < 1e-10)
+
+assert(Davidson(hamiltonian, 2) - -7.8399080148963369 < 1e-10)
 # find the time that Davidson digestion takes
 end_davidson = time.time()
 # find the time that numpy digestion takes
 start_numpy = time.time()
 eigenvalues, eigenvectors = np.linalg.eig(hamiltonian)# thinner
+# sort the icon values in assenting order
+sorted_indices = eigenvalues.argsort()
+eigenvalues = eigenvalues[sorted_indices]
+numpy_message = "The dimension of the numpy system is: " + str(len(eigenvalues)) + " and the eigenvalues are: " + str(eigenvalues[:4])
+print(numpy_message)
 # find the time that numpy digestion takes
 end_numpy = time.time()
-assert((end_numpy - start_numpy) > (end_davidson - start_davidson))
+# print the time differences
+print("FCI matrix generation took:", and_generation - start_generation)
+print("Davidson diagonalization took:", end_davidson - start_davidson)
+print("Numpy diagonalization took:", end_numpy - start_numpy)
+# assert((end_numpy - start_numpy) > (end_davidson - start_davidson))
 
 
-
-                       
-#     # initialize a matrix of zeros to place our initial guess in
-#     guess_space = np.zeros((rows, cols))
-#     for m in range(rows // 2):
-#         # check if this is our first iteration
-#         if m == 0:
-#             # if it is, normalize the guess
-#             guess_space[:, 0] = guess[:, 0] / np.linalg.norm(guess[:, 0])
-#             # calculate the expensive matrix vector product
-#             matrix_vector_product = np.einsum('ij,j->i', matrix, guess_space[:, 0])
-#             # calculate the rayleigh quotient
-#             rayleigh_quotient = guess_space[:, 0].T @ matrix_vector_product
-#             # calculate the residual
-#             residual = matrix_vector_product - rayleigh_quotient * guess_space[:, 0]
-#             # Approximately solve the residue correction equation. By using a diagonal approximation of the matrix, get a clear expression for a new guess
-#             for i in range(rows):
-#                 # if rayleigh_quotient - matrix[i, i] is smaller than it resold value, said the component to zero
-#                 if np.abs(rayleigh_quotient - matrix[i, i]) < 1e-16:
-#                     guess_space[i, 1] = 0
-#                 else:
-#                     guess_space[i, 1] = residual[i] / (rayleigh_quotient - matrix[i, i])
-#             print(guess_space[:, :2])
-#             #  calculate the subspace matrix for the iteration
-#             subspace_make_checks = guess_space[:, :m+1].T @ matrix @ guess_space[:, :m+1]
-#             # find the eigenvalues and eigenvectors of the subspace hamiltonian
-#             THETA, U = np.linalg.eigh(subspace_make_checks)
-#             # calculate the new residual vector in pieces
-#             print(U)
-#         else:
-#             # Compute the orthogonal projection
-#             I = np.eye(guess_space.shape[0])  # Identity matrix of appropriate size
-#             tensor_product = I - np.einsum('ij,jk->ik', guess_space[:, :m], guess_space[:, :m].T)
-#             print(tensor_product)
-#             print(tensor_product.shape)
-#             print(guess_space[:, m-1])
-#             orthogonal_complement = np.einsum('ij,j->i', tensor_product, guess_space[:, m-1])
-#             # Normalize the new guess
-#             guess_space[:, m] = orthogonal_complement / np.linalg.norm(orthogonal_complement)
-#             # Calculate the matrix vector product and added to the transformed subspace
-#             if m == 1:
-#                 matrix_vector_product = np.einsum('ij,j->i', matrix, guess_space[:, m])
-#             else:
-#                 matrix_vector_product = np.einsum('ij,jk->ik', matrix, guess_space[:, m])
-                
-#             # expand the transformed subspace to include our new guest
-#             if m == 1:
-#                 # initialize the transform space
-#                 transformed_space = np.zeros((rows, cols))    
-#             transformed_space[:, m-1] = matrix_vector_product
-#             # calculate our new subspace matrix
-#             subspace_matrix = np.einsum('ij,jk,kl->il', guess_space[:, :m+1].T, matrix, guess_space[:, :m+1])
-#             # solve the subspace eigenvalue problem
-#             THETA, U = np.linalg.eigh(subspace_matrix)
-#             # start the process of calculating the new residual vector
-#             residual = np.einsum('ij,j->i', guess_space[:, :m+1], U[:, 0])
-#             transformed_residual = np.einsum('ij,j->i', transformed_space[:, :m+1], U[:, 0])
-#             # calculate the actual residual vector
-#             actual_residual = transformed_residual - THETA[0] * residual
-#             # if the numb of the residual vector is lower than that resold the algorithm has converged and returned the the west I can par
-#             if np.linalg.norm(actual_residual) < tolerance:
-#                 return THETA, U
-#             # solve the residue correction equation to generate a new guess
-#             for i in range(rows):
-#                 if np.abs(THETA[0] - matrix[i, i]) < 1e-16:
-#                     guess_space[i, m+1] = 0
-#                 else:
-#                     guess_space[i, m+1] = actual_residual[i] / (THETA[0] - matrix[i, i])
-           
-
-#         #     # for j in range(0, n_eigval):
-#         #     #     guess_space[:, j] = guess[:, j] / np.linalg.norm(guess[:, j])
-#         #     #     theta_old = 0
-#         # else:
-#         #     # Project our new guess onto the orthogonal complement of the old guess subspace
-#         #     for i in range(rows):
-#         #         new_guess[i, :] = guess_space[i, m-1] - np.einsum('->', ) 
-#         # guess_space[:, :m], R = np.linalg.qr(guess_space[:, :m])
-#         # # create the subspace hamiltonian
-#         # H = guess_space[:, :m].T @ matrix @ guess_space[:, :m]
-#         # # find the eigenvalues and eigenvectors of the subspace hamiltonian
-#         # THETA, U = np.linalg.eigh(H)
-#         # sorted_i_can_values = np.argsort(THETA)
-#         # theta = THETA[sorted_i_can_values]
-#         # u = U[:, sorted_i_can_values]
-#         # for j in range(0, n_eigval):
-            
-            
-
-                
-            
-            
-
-        
