@@ -28,7 +28,7 @@ def Davidson(matrix, n_eig, tolerance = 1e-8):
         u_a = transformed_space @ eigenvectors[:, :n_eig]
         residuals = u_a - u @ np.diagflat(eigenvalues[:n_eig])
         # if the norm of the residuals is lower than our tolerance come bring the lope as we have found the Eigen pair
-        if np.allclose(residuals, 0, atol = tolerance)
+        if np.allclose(residuals, 0, atol = tolerance):
             print(i)
             # print out the norm of the residuals factor
             print("The norm of the residuals is:", np.linalg.norm(residuals))
