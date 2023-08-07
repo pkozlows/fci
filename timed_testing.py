@@ -2,9 +2,9 @@ import time
 import numpy as np
 from full_matrix.Davidson import Davidson
 from full_matrix.main import generation, integrals
-from handy import handy_transformer
+from handy.handy import handy_transformer
 from handy.comparison import changing_handy
-import mentor_handy
+import handy.mentor_handy as mentor_handy
 
 # first make a trial vector 
 # trial_vector = np.zeros(400)

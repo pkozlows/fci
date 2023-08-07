@@ -1,7 +1,8 @@
 import numpy as np
-from full_matrix.slater import condon
+from slater import condon
 import itertools
 import cProfile
+
 
 # define the system inputs
 spin_of_system=0

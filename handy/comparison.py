@@ -88,6 +88,8 @@ def changing_handy(ci_vector, electrons_in_system, number_of_orbitals, integrals
                     i, j = replacement["ij"]
                     ci_vector_index = alpha_index + beta_index * len(beta_strings)
                     one_particle_index = replacement["address"] + beta_index * len(beta_strings)
+                    print(ci_vector_index)
+                    print(one_particle_index)
                     one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * ci_vector[ci_vector_index]
         # now loop over debate strings
         for beta_index, replacement_list in enumerate(beta_excitations):
