@@ -4,7 +4,46 @@ import numpy as np
 
 
 def diagonal(span, electrons, orbs, integrals):
-    """takes three integers representing the total spin of the system, the number of elections, and the number of arms.also takes a tuple that has the one electron and two electron integrals for the system.returns an array that represents the takano_set of the full configuration interruption hamiltonian."""
+    """Compute the diagonal of the full configuration interaction Hamiltonian."""
+    n_rows, n_cols = integrals[0].shape
+
+    n_orbs = n_rows
+
+    assert(n_rows == n_cols)
+    assert(np.all(np.array(integrals[1].shape) == n_orbs))
+
+    n_alpha = (electrons + span) // 2
+    n_beta = (electrons - span) // 2
+
+    alpha_combinations = [list(x) for x in itertools.combinations(range(n_orbs), n_alpha)]
+    beta_combinations = [list(x) for x in itertools.combinations(range(n_orbs), n_beta)]
+
+    n_dim = len(alpha_combinations) * len(beta_combinations)
+
+    diagonal = []
+
+    for i in range(n_dim):
+        i_alpha_combination = alpha_combinations[i % len(beta_combinations)]
+        i_beta_combination = beta_combinations[i // len(beta_combinations)]
+
+        one_electron_part = (
+            np.einsum("ii->", integrals[0][np.ix_(i_alpha_combination, i_alpha_combination)]) +
+            np.einsum("ii->", integrals[0][np.ix_(i_beta_combination, i_beta_combination)])
+        )
+        coulomb_part = (
+            np.einsum("iijj->", integrals[1][np.ix_(i_alpha_combination, i_alpha_combination, i_beta_combination, i_beta_combination)]) +
+            0.5 * np.einsum("iijj->", integrals[1][np.ix_(i_alpha_combination, i_alpha_combination, i_alpha_combination, i_alpha_combination)]) +
+            0.5 * np.einsum("iijj->", integrals[1][np.ix_(i_beta_combination, i_beta_combination, i_beta_combination, i_beta_combination)])
+        )
+        exchange_part = (
+            0.5 * np.einsum("ijji->", integrals[1][np.ix_(i_alpha_combination, i_alpha_combination, i_alpha_combination, i_alpha_combination)]) +
+            0.5 * np.einsum("ijji->", integrals[1][np.ix_(i_beta_combination, i_beta_combination, i_beta_combination, i_beta_combination)])
+        )
+        element = one_electron_part + coulomb_part - exchange_part
+        diagonal.append(element)
+
+    return diagonal
+
     number_of_alpha_electrons = (electrons + span) // 2
     number_of_beta_electrons = (electrons - span) // 2
     # the one electron integrals
@@ -31,6 +70,5 @@ def diagonal(span, electrons, orbs, integrals):
             # add the element to the takano_set
             diag_list.append(element)
     return np.array(diag_list) 
-print(diagonal(0, 6, 6, (np.load("h1e.npy"), np.load("h2e.npy"))))
 
     

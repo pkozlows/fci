@@ -2,6 +2,14 @@ import copy
 import itertools
 import math
 import numpy as np
+import signal
+import time
+import cProfile
+from handy.mentor_handy import knowles_handy_full_ci_transformer
+
+from diag import diagonal
+
+integrals = (np.load("h1e.npy"), np.load("h2e.npy"))
 
 def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_of_system = 0):
     """takes to integers, representing the number of electrons and orbitals in the system.also takes a tuple with integrals, containing the one electron and two electron integrals for the system.returns the si vector, whatever that means."""
@@ -91,7 +99,7 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
                     vector_index = replacement["address"] + beta_index * len(beta_strings)
                     one_particle_index = alpha_index + beta_index * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
-                    one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
+                    one_particle_matrix[one_particle_index, i, j] += np.real(replacement["sign"] * vector[vector_index])
         # now loop over debate strings
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
@@ -99,9 +107,7 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
                     vector_index = replacement["address"] + alpha_index * len(beta_strings)
                     one_particle_index = beta_index + alpha_index * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
-                    one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
-        # print out the norm of the one particle matrix at this stage with a description
-        print("handy_initial", np.linalg.norm(one_particle_matrix))
+                    one_particle_matrix[one_particle_index, i, j] += np.real(replacement["sign"] * vector[vector_index])
         # add the original 1e integral and contribution from 1 integral with a delta function \delta_{jk}
         modified_1e_integral = one_electron_integrals - 0.5 * np.einsum("ikkl -> il", two_electron_integrals)
         # now we want to combine the one particle excitation matrix with the relevant part of the two electron integral
@@ -129,4 +135,148 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
                     new_ci_vector[vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
         return new_ci_vector
     return transformer
+# check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
+def check_transformer(transformer, other_transformer, dimension = 400):
+    """checks if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function"""
+    # generate a random vector we has a length of 1 and the dimension on the other axis
+    vector = np.random.rand(dimension)
+    # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
+    assert np.isclose(np.linalg.norm(transformer(vector)), np.linalg.norm(other_transformer(vector)))
+    print("The norm of the vector is the same for both transformers")
+    return None
+# check_transformer(transformer, other_transformer)
+def davidson_diagonalization(transformer,
+                             diagonal,
+                             eigenvalue_index,
+                             start_search_dim,
+                             n_dim,
+                             residue_tol=1e-5,
+                             max_iter=1000):
+
+    search_space = np.eye(n_dim, start_search_dim) + 0.01
+
+    for iter in range(max_iter):
+        print(iter)
+        # perform QR decomposition to make sure the column vectors are orthonormal
+        orthonormal_subspace, upper_triangular = np.linalg.qr(search_space)
+
+        M = orthonormal_subspace.shape[1]
+
+        Ab_i = np.zeros((n_dim, M))
+
+        for i in range(M):
+
+            Ab_i[:, i] = transformer(orthonormal_subspace[:, i])
+
+        interaction_matrix = np.dot(orthonormal_subspace.T, Ab_i)
+        eigs, eigvecs = np.linalg.eig(interaction_matrix)
+
+        sorted_indices = eigs.argsort()
+        eig = eigs[sorted_indices[eigenvalue_index]]
+        eigvec = eigvecs[:, sorted_indices[eigenvalue_index]]
+
+        residue = np.dot(Ab_i, eigvec) - eig * np.dot(orthonormal_subspace, eigvec)
+        print(np.linalg.norm(residue))
+        if np.linalg.norm(residue) < residue_tol:
+            return eig, eigvec
+
+        xi = np.dot(np.diagflat(1.0 / (eig - diagonal)), residue)
+
+        np.eye(n_dim) - np.einsum('ij, kj -> jik', orthonormal_subspace, orthonormal_subspace)
+
+        search_space = np.concatenate((orthonormal_subspace, np.array([xi]).T), axis=1)
+
+    raise Exception("Davidson diagonaliztion failed")
+def Davidson(handy_transformer, preconditioner, index, began_search_size, dimension=400, tolerance=1e-5, max_iterations=100):
+    """
+    Implements the Davidson algorithm to approximate the lowest eigenvalues and eigenvectors of a matrix.
+    
+    Parameters:
+    - handy_transformer: A function that multiplies the matrix by a vector.
+    - began_search_size: Number of desired eigenvalues.
+    - preconditioner: Diagonal preconditioner for Davidson corrections.
+    - dimension: Dimension of the matrix.
+    - tolerance: Convergence criteria.
+    - max_iterations: Maximum number of Davidson iterations.
+
+    Returns:
+    - Approximate eigenvalues of the matrix.
+    """
+    
+    # Initial guess space
+    guess_space = np.eye(dimension, began_search_size) + .1
+    
+    for _ in range(max_iterations):
+        print(_)
+        # Orthogonalize guess space
+        guess_space, _ = np.linalg.qr(guess_space)
+        # make a transform space that is the same dimension as our guess space
+        transformed_space = np.zeros((dimension, guess_space.shape[1]))
+        # Apply the matrix-vector product using handy_transformer for all vectors in guess_space
+        for i in range(guess_space.shape[1]):
+            transformed_space[:, i] = handy_transformer(guess_space[:, i])
+            
+        
+        # Compute the Rayleigh quotient
+        rayleigh_matrix = guess_space.T @ transformed_space
+        
+        # Get eigenvalues and eigenvectors of Rayleigh quotient
+        eigenvalues, eigenvectors = np.linalg.eig(rayleigh_matrix)
+        
+        # Sort the eigenvalues
+        sorted_indices = eigenvalues.argsort()
+        # get the again system that I want
+        eigenvalue = eigenvalues[sorted_indices[index]]
+        eigenvector = eigenvectors[:, sorted_indices[index]]
+        
+        
+        # Calculate residue
+        residue = np.dot(transformed_space, eigenvector) - eigenvalue * np.dot(guess_space, eigenvector)
+
+        # Convergence check
+        if np.linalg.norm(residue) < tolerance:
+            return eigenvalue, eigenvector
+        
+        new_directions = np.dot(np.diagflat(1.0 / (eigenvalue - preconditioner)), residue)
+        
+        # Expand the guess space with new directions while keeping its size limited
+        guess_space = np.concatenate((guess_space, np.array([new_directions]).T), axis=1)    
+    raise ValueError("Davidson did not converge within the given number of iterations.")
+
+
+# # fun the time date Davidson da economization takes
+# start_davidson = time.time()
+# print(davidson_diagonalization(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2, 400))
+def timeout_handler(signum, frame):
+    raise TimeoutError("Function timed out")
+
+def profile_with_timeout(func, timeout):
+    """Profile a function with a timeout."""
+    # Register the timeout handler
+    signal.signal(signal.SIGALRM, timeout_handler)
+    # Set the alarm
+    signal.alarm(timeout)
+    try:
+        cProfile.run(func, sort="cumtime")
+    except TimeoutError:
+        print(f"Function was profiled for {timeout} seconds before timing out.")
+# create the transformers
+mentor_transformer = knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
+my_transformer = handy_transformer(6, 6, integrals)
+# create the diagonal
+
+mentor_davison = davidson_diagonalization(transformer, diagonal, 0, 2, 400)
+my_davidson = Davidson(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2)
+print(davidson_diagonalization(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2, 400))   
+# Use it like this:
+# profile_with_timeout("davidson_diagonalization(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2, 400)", 10)  # Runs the profiler on your_function() for 10 seconds
+# profile_with_timeout("Davidson(handy_transformer(6, 6, integrals), 2, diagonal(0, 6, 6, integrals))", 10)  # Runs the profiler on your_function() for 10 seconds
+
+# cProfile.run('Davidson(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2)')
+# assert(Davidson(knowles_handy_full_ci_transformer(one_electron_integrals=), 1) - -7.8399080148963369 < 1e-10)
+# # find the time that Davidson digestion takes
+# end_davidson = time.time()
+
+
+
 
