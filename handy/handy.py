@@ -15,6 +15,7 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
     # create all possible beta strings
     beta_strings = list(list(string) for string in itertools.combinations(range(number_of_orbitals), number_of_beta_electrons))
     dimension = len(alpha_strings) * len(beta_strings)
+    
     def face_factor(excited_string):
         """takes one unsorted excited string. Returns a integer that represents the face_factor for canting the strings into canonical order."""
         # make a deep copy of the excited list to be later sorted
@@ -88,16 +89,16 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
             for replacement in replacement_list(alpha_string):
                 for beta_index in range(len(beta_strings)):
                 # first only fill the amendments that will be nonzero with numeral one or numeral negative one
-                    vector_index = replacement["address"] + beta_index * len(beta_strings)
-                    one_particle_index = alpha_index + beta_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
         # now loop over debate strings
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
                 for alpha_index in range(len(alpha_strings)):
-                    vector_index = replacement["address"] + alpha_index * len(beta_strings)
-                    one_particle_index = beta_index + alpha_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = alpha_index + replacement["address"] * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     one_particle_matrix[one_particle_index, i, j] += replacement["sign"] * vector[vector_index]
         # print out the norm of the one particle matrix at this stage with a description

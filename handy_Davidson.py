@@ -7,7 +7,7 @@ import time
 import cProfile
 from handy.mentor_handy import knowles_handy_full_ci_transformer
 
-from diag import diagonal
+from diag import my_diag, mentor_diag
 
 integrals = (np.load("h1e.npy"), np.load("h2e.npy"))
 
@@ -96,16 +96,16 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
             for replacement in replacement_list(alpha_string):
                 for beta_index in range(len(beta_strings)):
                 # first only fill the amendments that will be nonzero with numeral one or numeral negative one
-                    vector_index = replacement["address"] + beta_index * len(beta_strings)
-                    one_particle_index = alpha_index + beta_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     one_particle_matrix[one_particle_index, i, j] += np.real(replacement["sign"] * vector[vector_index])
         # now loop over debate strings
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
                 for alpha_index in range(len(alpha_strings)):
-                    vector_index = replacement["address"] + alpha_index * len(beta_strings)
-                    one_particle_index = beta_index + alpha_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = alpha_index + replacement["address"] * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     one_particle_matrix[one_particle_index, i, j] += np.real(replacement["sign"] * vector[vector_index])
         # add the original 1e integral and contribution from 1 integral with a delta function \delta_{jk}
@@ -119,8 +119,8 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
         for alpha_index, alpha_string in enumerate(alpha_strings):
             for replacement in replacement_list(alpha_string):
                 for beta_index in range(len(beta_strings)):
-                    one_particle_index = replacement["address"] + beta_index * len(beta_strings)
-                    vector_index = alpha_index + beta_index * len(beta_strings) 
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = replacement["address"] + beta_index * len(beta_strings) 
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     # add the appropriate contribution to our new vector
                     new_ci_vector[vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
@@ -128,23 +128,28 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
                 for alpha_index in range(len(alpha_strings)):
-                    one_particle_index = replacement["address"] + alpha_index * len(beta_strings)
-                    vector_index = beta_index + alpha_index * len(beta_strings)
+                    vector_index = alpha_index + beta_index * len(beta_strings)
+                    one_particle_index = alpha_index + replacement["address"] * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     # add the appropriate contribution to our new vector
                     new_ci_vector[vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
         return new_ci_vector
     return transformer
 # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
-def check_transformer(transformer, other_transformer, dimension = 400):
-    """checks if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function"""
-    # generate a random vector we has a length of 1 and the dimension on the other axis
-    vector = np.random.rand(dimension)
-    # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
-    assert np.isclose(np.linalg.norm(transformer(vector)), np.linalg.norm(other_transformer(vector)))
-    print("The norm of the vector is the same for both transformers")
-    return None
-# check_transformer(transformer, other_transformer)
+# def check_transformer(transformer, other_transformer, dimension = 400):
+#     """checks if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function"""
+#     # generate a random vector we has a length of 1 and the dimension on the other axis
+#     vector = np.random.rand(dimension)
+#     # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
+#     # first print out the individual norms
+#     print("The norm of the vector after transformation is", np.linalg.norm(transformer(vector)))
+#     print("The norm of the vector after outer transformation is", np.linalg.norm(other_transformer(vector)))
+#     assert np.isclose(np.linalg.norm(transformer(vector)), np.linalg.norm(other_transformer(vector)))
+#     print("The norm of the vector is the same for both transformers")
+#     return None
+mentor_transformer = knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
+my_transformer = handy_transformer(6, 6, integrals)
+# print(check_transformer(my_transformer, mentor_transformer))
 def davidson_diagonalization(transformer,
                              diagonal,
                              eigenvalue_index,
@@ -156,7 +161,7 @@ def davidson_diagonalization(transformer,
     search_space = np.eye(n_dim, start_search_dim) + 0.01
 
     for iter in range(max_iter):
-        print(iter)
+        # print(iter)
         # perform QR decomposition to make sure the column vectors are orthonormal
         orthonormal_subspace, upper_triangular = np.linalg.qr(search_space)
 
@@ -176,7 +181,7 @@ def davidson_diagonalization(transformer,
         eigvec = eigvecs[:, sorted_indices[eigenvalue_index]]
 
         residue = np.dot(Ab_i, eigvec) - eig * np.dot(orthonormal_subspace, eigvec)
-        print(np.linalg.norm(residue))
+        # print(np.linalg.norm(residue))
         if np.linalg.norm(residue) < residue_tol:
             return eig, eigvec
 
@@ -187,7 +192,7 @@ def davidson_diagonalization(transformer,
         search_space = np.concatenate((orthonormal_subspace, np.array([xi]).T), axis=1)
 
     raise Exception("Davidson diagonaliztion failed")
-def Davidson(handy_transformer, preconditioner, index, began_search_size, dimension=400, tolerance=1e-5, max_iterations=100):
+def Davidson(handy_transformer, preconditioner, index, began_search_size, dimension=400, tolerance=1e-6, max_iterations=100):
     """
     Implements the Davidson algorithm to approximate the lowest eigenvalues and eigenvectors of a matrix.
     
@@ -261,13 +266,14 @@ def profile_with_timeout(func, timeout):
     except TimeoutError:
         print(f"Function was profiled for {timeout} seconds before timing out.")
 # create the transformers
-mentor_transformer = knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
-my_transformer = handy_transformer(6, 6, integrals)
 # create the diagonal
+mentor_diagonal = mentor_diag(0, 6, integrals)
+my_diagonal = my_diag(0, 6, 6, integrals)
 
-mentor_davison = davidson_diagonalization(transformer, diagonal, 0, 2, 400)
-my_davidson = Davidson(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2)
-print(davidson_diagonalization(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2, 400))   
+mentor_davison = davidson_diagonalization(mentor_transformer, my_diagonal, 0, 2, 400)
+my_davidson = Davidson(mentor_transformer, my_diagonal, 0, 2)
+print(my_davidson)
+# print(davidson_diagonalization(handy_transformer(6, 6, integrals), my_diag(0, 6, 6, integrals), 0, 2, 400))   
 # Use it like this:
 # profile_with_timeout("davidson_diagonalization(handy_transformer(6, 6, integrals), diagonal(0, 6, 6, integrals), 0, 2, 400)", 10)  # Runs the profiler on your_function() for 10 seconds
 # profile_with_timeout("Davidson(handy_transformer(6, 6, integrals), 2, diagonal(0, 6, 6, integrals))", 10)  # Runs the profiler on your_function() for 10 seconds
