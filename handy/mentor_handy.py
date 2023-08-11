@@ -132,7 +132,7 @@ def knowles_handy_full_ci_transformer(one_electron_integrals, two_electron_integ
                     one_particle_matrix[one_particle_index, i, j] += \
                         beta_excitation["sign"] * ci_vector[ci_vector_index]
 
-        print("mentor_handy", np.linalg.norm(one_particle_matrix))
+        # print("mentor_handy", np.linalg.norm(one_particle_matrix))
         two_electron_contracted = np.einsum("pkl, ijkl -> pij", one_particle_matrix, two_electron_integrals)
 
         # Start from 1e integral transform

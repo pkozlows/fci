@@ -123,7 +123,7 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
                     one_particle_index = replacement["address"] + beta_index * len(beta_strings) 
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     # add the appropriate contribution to our new vector
-                    new_ci_vector[vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
+                    new_ci_vector[vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
         # now loop over beta strings
         for beta_index, beta_string in enumerate(beta_strings):
             for replacement in replacement_list(beta_string):
@@ -132,21 +132,21 @@ def handy_transformer(electrons_in_system, number_of_orbitals, integrals, spin_o
                     one_particle_index = alpha_index + replacement["address"] * len(beta_strings)
                     i, j = replacement["ij"][0], replacement["ij"][1]
                     # add the appropriate contribution to our new vector
-                    new_ci_vector[vector_index] += 0.5 * contracted_to_electron[one_particle_index, i, j]
+                    new_ci_vector[vector_index] += 0.5 * replacement["sign"] * contracted_to_electron[one_particle_index, i, j]
         return new_ci_vector
     return transformer
 # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
-# def check_transformer(transformer, other_transformer, dimension = 400):
-#     """checks if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function"""
-#     # generate a random vector we has a length of 1 and the dimension on the other axis
-#     vector = np.random.rand(dimension)
-#     # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
-#     # first print out the individual norms
-#     print("The norm of the vector after transformation is", np.linalg.norm(transformer(vector)))
-#     print("The norm of the vector after outer transformation is", np.linalg.norm(other_transformer(vector)))
-#     assert np.isclose(np.linalg.norm(transformer(vector)), np.linalg.norm(other_transformer(vector)))
-#     print("The norm of the vector is the same for both transformers")
-#     return None
+def check_transformer(transformer, other_transformer, dimension = 400):
+    """checks if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function"""
+    # generate a random vector we has a length of 1 and the dimension on the other axis
+    vector = np.random.rand(dimension)
+    # check if the norm of my handy transformer operating on a configuration interaction vector is the same as the norm from another transformer function
+    # first print out the individual norms
+    print("The norm of the vector after transformation is", np.linalg.norm(transformer(vector)))
+    print("The norm of the vector after outer transformation is", np.linalg.norm(other_transformer(vector)))
+    # assert np.isclose(np.linalg.norm(transformer(vector)), np.linalg.norm(other_transformer(vector)))
+    # print("The norm of the vector is the same for both transformers")
+    return None
 mentor_transformer = knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
 my_transformer = handy_transformer(6, 6, integrals)
 # print(check_transformer(my_transformer, mentor_transformer))
@@ -271,7 +271,7 @@ mentor_diagonal = mentor_diag(0, 6, integrals)
 my_diagonal = my_diag(0, 6, 6, integrals)
 
 mentor_davison = davidson_diagonalization(mentor_transformer, my_diagonal, 0, 2, 400)
-my_davidson = Davidson(mentor_transformer, my_diagonal, 0, 2)
+my_davidson = Davidson(my_transformer, my_diagonal, 0, 2)
 print(my_davidson)
 # print(davidson_diagonalization(handy_transformer(6, 6, integrals), my_diag(0, 6, 6, integrals), 0, 2, 400))   
 # Use it like this:
