@@ -1,3 +1,4 @@
+import time
 import numpy as np
 from slater import condon
 import itertools
@@ -69,9 +70,13 @@ def generation(integrals):
         return mat
     
     return populate(create_basis())
-assert(np.linalg.eigvalsh(generation(integrals))[0] - -7.8399080148963369 < 1e-10)
+start_generation_time = time.time()
+# assert(np.linalg.eigvalsh(generation(integrals))[0] - -7.8399080148963369 < 1e-10)
+generation(integrals)
+end_generation_time = time.time()
+print("generation time:", end_generation_time - start_generation_time)
     
-# cProfile.run("generation(integrals)")
+# cProfile.run("generation(integrals)", sort="cumtime")
 
 
 

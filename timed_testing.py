@@ -1,16 +1,18 @@
+import cProfile
 import time
 import numpy as np
-from full_matrix.Davidson import Davidson
-from full_matrix.main import generation, integrals
-from handy.handy import handy_transformer
-from handy.comparison import changing_handy
-import handy.mentor_handy as mentor_handy
+from main import generation, integrals
+import my_functions
+import mentors_functions
 
-# first make a trial vector 
-# trial_vector = np.zeros(400)
-# trial_vector[0] = 1
-# we want to find out whether the expensive first hamiltonian multiplication of the Davidson algorithm itugging while it was on so it automatically recognized my speech but I compressed like a for loving to toggle it faster without generating the full hamiltonian in the handy implementation
-# start_ordinary = time.time()
+# generate the hamiltonian
+start_matrix_generation = time.time()
+hamiltonian = generation(integrals)
+end_matrix_generation = time.time()
+# print the timing out
+print("matrix generation time:", end_matrix_generation - start_matrix_generation)
+
+start_numpy = time.time()
 hamiltonian = generation(integrals)
 # get the eigen values and vectors of our hamiltonian
 eigenvalues, eigenvectors = np.linalg.eig(hamiltonian)
@@ -19,44 +21,40 @@ eigenvalues, eigenvectors = np.linalg.eig(hamiltonian)
 sorted_indices = eigenvalues.argsort()
 eigenvalues = eigenvalues[sorted_indices]
 eigenvectors = eigenvectors[:, sorted_indices]
-# loop over  pairs of eigenvectors and print the norm of their difference 
-# for i in range(len(eigenvalues)):
-#     for j in range(i + 1, len(eigenvalues)):
-        # print(np.linalg.norm(eigenvectors[:, i]))
-trial_vector = eigenvectors[:, 0]
-ordinary_matmult = np.dot(hamiltonian, trial_vector) / np.linalg.norm(np.dot(hamiltonian, trial_vector))
-# assert(np.allclose(ordinary_matmult, np.einsum('ij,i->j', hamiltonian, trial_vector)))
-# and_ordinary = time.time()
-# start_handy = time.time(*)
-mentor_candy = mentor_handy.knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
-mentor_candy_vector = mentor_candy(trial_vector) / np.linalg.norm(mentor_candy(trial_vector))
-handy = handy_transformer(trial_vector, 6, 6, integrals) / np.linalg.norm(handy_transformer(trial_vector, 6, 6, integrals))
-change_handy = changing_handy(trial_vector, 6, 6, integrals) / np.linalg.norm(changing_handy(trial_vector, 6, 6, integrals))
+numpy_result = eigenvalues[0]
+and_numpy = time.time()
 
+start_davidson = time.time()
+hamiltonian = generation(integrals)
+davidson_result = my_functions.matrix_davidson(hamiltonian, 1)
+and_davidson = time.time()
 
-# calculate the the two vectors
-stable_difference = handy - ordinary_matmult
-mentor_difference = mentor_candy_vector - ordinary_matmult
-changing_difference = change_handy - handy
-difference_between_candies = mentor_candy_vector - handy
-difference_with_comparison = mentor_candy_vector - change_handy
+start_candy = time.time()
+my_diag = my_functions.my_diag(0, 6, 6, integrals)
+# my_transformer = my_functions.handy_transformer(6, 6, integrals)
+# cProfile.run('my_functions.handy_davidson(my_transformer, my_diag, 0, 2)', sort='cumtime')
+# candy_result = my_functions.handy_davidson(my_transformer, my_diag, 0, 2)
+and_candy = time.time()
 
-# calculate the Euclidean norm of the difference
-stable_norm = np.linalg.norm(stable_difference)
-mentor_norm = np.linalg.norm(mentor_difference)
-changing_norm = np.linalg.norm(changing_difference)
-norm_difference_between_candies = np.linalg.norm(difference_between_candies)
-norm_difference_with_comparison = np.linalg.norm(difference_with_comparison)
-print("handy and ordinary_matmult:", stable_norm)
-print("mentor_candy_vector and ordinary_matmult:", mentor_norm)
-print("change_handy and handy:", changing_norm)
-print("mentor_candy_vector and handy:", norm_difference_between_candies)
-print("mentor_candy_vector and change_handy:", norm_difference_with_comparison)
+stared_mentor_handy = time.time()
+mentor_diag = mentors_functions.mentor_diag(0, 6, integrals)
+mentor_transformer = mentors_functions.knowles_handy_full_ci_transformer(integrals[0], integrals[1], 6)
+# cProfile.run('my_functions.handy_davidson(mentor_transformer, mentor_diag, 0, 1, 400)', sort='cumtime')
+ended_mentor_handy = time.time()
 
+compare_prison_time = time.time()
+# start_changing_handy = time.time()
+comparison_transformer = my_functions.comparison_transformer(6, 6, integrals)
+# cProfile.run('my_functions.handy_davidson(comparison_transformer, my_diag, 0, 1, 400)', sort='cumtime')
+comparison = my_functions.handy_davidson(comparison_transformer, my_diag, 0, 1, 400)
+compare_prison_time = time.time()
 
-# and_candy = time.time()
-# print(and_ordinary - start_ordinary)
-# print(and_candy - start_handy)
-# print(mentor_candy_vector - ordinary_matmult)
-# assert(np.allclose(mentor_candy_vector, ordinary_matmult))
-# print(handy)
+# print out the results and the times
+print("numpy:", numpy_result)
+print("davidson:", davidson_result)
+print("comparison:", comparison)
+print("numpy time:", and_numpy - start_numpy)
+print("davidson time:", and_davidson - start_davidson)
+print("candy time:", and_candy - start_candy)
+print("compare prison time:", compare_prison_time - and_candy)
+print("mentor_handy time:", ended_mentor_handy - stared_mentor_handy)

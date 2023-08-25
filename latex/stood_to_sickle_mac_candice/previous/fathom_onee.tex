@@ -1,0 +1,69 @@
+\section*{Problem 1: Sharply-peaked functions}
+{\bfseries
+% Question prompt here
+}
+% Answers here
+\subsection*{(a)}
+
+{\bfseries 
+}
+We begin by considering:
+\[\Gamma(1)=\int_{0}^{\infty} \frac{dx}{x} x^1 e^{-x}=\int_{0}^{\infty}  e^{-x}dx = \eval{-e^{-x}}_0^\infty = 0-(-1)=1\]
+So, we have shown that \(\Gamma(1)=1=0!\).
+Next, we consider:
+\[\Gamma(n+1)=\int_{0}^{\infty} \frac{dx}{x} x^{n+1} e^{-x}=\int_{0}^{\infty}  x^n e^{-x}dx\]
+Using integration by parts with
+\[u=x^n\xrightarrow{} du=nx^{n-1}\]
+\[dv=e^{-x}\xrightarrow{} v=-e^{-x}\]
+we get that:
+\[\Gamma(n+1)=\eval{-x^n e^{-x}}_0^\infty + \int_{0}^{\infty} nx^{n-1} e^{-x} dx\]
+In the first term
+\[\lim_{x\to\infty} -x^n e^{-x} = 0\]
+because the exponential term dominates the polynomial term as \(x\xrightarrow{}\infty\) for a finite n and, more trivially, 
+\[\lim_{x\to0} -x^n e^{-x} = 0\]
+Thus, \(\eval{-x^n e^{-x}}_0^\infty=0\) and simplify to get that:
+\[\Gamma(n+1)=\int_{0}^{\infty} nx^{n-1} e^{-x} dx=n\int_{0}^{\infty} \frac{dx}{x}x^{n} e^{-x}=n\Gamma(n)\]
+By the previous identity and the previously proven base case with n=0, we have shown that \(n!=\Gamma(n+1)\) with \(\Gamma(n)\equiv \int_{0}^{\infty} \frac{dx}{x} x^{n} e^{-x}\).
+\subsection*{(b)
+}
+
+{\bfseries 
+}
+We start by maximizing the integrand with respect to x to find the point $x_0$:
+\[0=\pdv{x_0}[x_0^n e^{-x_0}]=nx_0^{n-1} e^{-x_0} -x_0^n e^{-x_0}=e^{-x_0}(nx_0^{n-1}-x_0^n) \]
+It follows that
+\[nx_0^{n-1}-x_0^n=0\xrightarrow{}x_0=n\]
+To verify that this $x_0$ is indeed maximizing, we consider second-order conditions and using Mathematica, we find that:
+\[\eval{\pdv[2]{x}[x^n e^{-x}]}_n = -e^{-n} n^{n-1} \]
+Since $n!$ is defined \(\forall n\in\mathbb{Z}^+\), both $e^{-n}$ and $n^{n-1}$ are always positive and so we get that
+\[\eval{\pdv[2]{x}[x^n e^{-x}]}_n<0\]
+enabling us to conclude that the point $x_0=n$ maximizes the integrand \(\forall n\in\mathbb{Z}^+\).
+Now, expanding the quantity in the exponential around $x_0=n$ using Mathematica, we get that:
+\[n\log(x)-x= -n + n\log(n) - \frac{y^2}{2n} + \frac{y^3}{3 n^2} - \frac{y^4}{4n^3} + \frac{y^5}{5 n^4} - \frac{y^6}{6 n^5}+...\]
+where $y=x-x_0=x-n$ and we have $a_2=\frac{1}{2n}>0$.
+Inserting this expansion into the integrand, we get that:
+\[\Gamma(n+1)=\int_{-n}^{\infty} exp(-n + n\log(n) - \frac{y^2}{2n} + \frac{y^3}{3 n^2} - \frac{y^4}{4n^3} + \frac{y^5}{5 n^4} - \frac{y^6}{6 n^5}+...)dy\]
+We note that since we have changed the variable of integration from $x\rightarrow{}y=x-n$ we must change the bounds of the integral as follows:
+\[Upper: \infty\rightarrow{}\infty-n\]
+\[Lower: 0\rightarrow{}-n\]
+However, because for finite $n$, $\infty-n \approx \infty$, $\infty$ remains the upper bound for the integral following the change of variables.
+\subsection*{(c)
+}
+{\bfseries 
+}
+
+Because of the 2nd order (and higher) powers in n present in the denominators of the $a_ky^k$ terms for $k>2$, in the large-n limit, these terms are highly suppressed. Therefore, we Taylor expand the part of the exponential containing these terms. Setting $m= \frac{y^3}{3 n^2} - \frac{y^4}{4n^3} + \frac{y^5}{5 n^4} - \frac{y^6}{6 n^5}+...$, we get that:
+
+\[\Gamma(n+1)=\int_{-n}^{\infty}dy \exp(-n + n\log(n) - \frac{y^2}{2n})(1+m+\frac{m^2}{2!}+...)\]
+
+\[\Gamma(n+1)=\int_{-n}^{\infty}dy e^{a_0-a_2y^2}(1+ \frac{y^3}{3 n^2}- \frac{y^4}{4n^3}+\frac{y^5}{5 n^4}+(\frac{1}{6 n^5}+(\frac{1}{3 n^2})^{2}/2)y^{6}+O(y^7))\]
+
+\subsection*{(d)
+}
+{\bfseries 
+}
+Now, when n is large, we concluded earlier that $a_k$ terms for $k>2$ are highly suppressed. It is these terms, however, that would, for small n, make the largest contributions to the integrand for values of $y$ far from the integrand's maximum at $x_0=n$. Because these terms are suppressed and the 0th, 1st, and 2nd order terms in y do not make large contributions to the integrand for large deviations from $x_0=n$, at values of $y<x_0$, the exponential function as a whole is highly suppressed. Therefore, the lower bound of the integrand can be changed from $x_0$ to $-\infty$ yielding only small errors.
+
+Performing the resulting Gaussian integral in Mathematica, we arrive back to Stirling's approximation:
+
+\[\Gamma(n+1)=(2\pi n)^{1/2}n^{n}e^{-n}(1+\frac{1}{12n}+O(1/n^2))\]

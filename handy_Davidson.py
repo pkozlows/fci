@@ -212,7 +212,7 @@ def Davidson(handy_transformer, preconditioner, index, began_search_size, dimens
     guess_space = np.eye(dimension, began_search_size) + .1
     
     for _ in range(max_iterations):
-        print(_)
+        # print(_)
         # Orthogonalize guess space
         guess_space, _ = np.linalg.qr(guess_space)
         # make a transform space that is the same dimension as our guess space
@@ -240,7 +240,7 @@ def Davidson(handy_transformer, preconditioner, index, began_search_size, dimens
 
         # Convergence check
         if np.linalg.norm(residue) < tolerance:
-            return eigenvalue, eigenvector
+            return eigenvalue
         
         new_directions = np.dot(np.diagflat(1.0 / (eigenvalue - preconditioner)), residue)
         
