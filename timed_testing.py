@@ -1,7 +1,7 @@
 import cProfile
 import time
 import numpy as np
-from main import generation, integrals
+from full_matrix.main import generation, integrals
 import my_functions
 import mentors_functions
 

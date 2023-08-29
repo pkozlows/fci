@@ -123,7 +123,7 @@ two_elec_ints = np.load("h2e.npy")
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,2})), (one_elec_ints, two_elec_ints)), -7.739373948970316, rel_tol=1e-7, abs_tol=1e-7)
 # the 1 excitation case
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{1,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-15)
-assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,1,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-15)
+assert math.isclose(((({0,1,2},{0,1,2}), ({0,1,2},{0,1,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-9, abs_tol=1e-15)
 # the above have a stringent tolerance, but the below are not passing with a less stringent tolerance
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,5})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
 assert math.isclose(condon((({0,1,2},{0,1,2}), ({0,1,2},{0,2,3})), (one_elec_ints, two_elec_ints)), 0, rel_tol=1e-7, abs_tol=1e-7)
