@@ -2,7 +2,8 @@ import cProfile
 import time
 import numpy as np
 from full_matrix.main import generation, integrals
-import my_functions
+from full_matrix.Davidson import matrix_davidson
+from handy import diaconal, handy_transformer, handy_davidson
 
 # generate the hamiltonian
 start_matrix_generation = time.time()
@@ -25,15 +26,14 @@ and_numpy = time.time()
 
 start_davidson = time.time()
 hamiltonian = generation(integrals)
-davidson_result = my_functions.matrix_davidson(hamiltonian, 1)
+davidson_result = matrix_davidson(hamiltonian, 1)
 and_davidson = time.time()
 
 
 start_handy = time.time()
-# start_changing_handy = time.time()
-my_diag = my_functions.my_diag(0, 6, 6, integrals)
-handy_transformer = my_functions.handy_transformer(6, 6, integrals)
-handy_result = my_functions.handy_davidson(handy_transformer, my_diag, 0, 1, 400)
+Diagonal = diaconal(0, 6, 6, integrals)
+transformer = handy_transformer(6, 6, integrals)
+handy_result = handy_davidson(transformer, Diagonal, 0, 1, 400)
 and_handy = time.time()
 
 # print out the results and the times
