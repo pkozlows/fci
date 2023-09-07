@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{physics}
+\usepackage{amsmath}
+\begin{document}
+\section{problem to stag central limit theorem}
+\subsection{(a)}
+we begin by considering that:
+\begin{equation}
+    \expval{(s-\expval{s})^{2}}=\expval{s^{2}-2s\expval{s}+\expval{s^{2}}} =\expval{s^{2}}-2\expval{s\expval{s}^{2}}
+\end{equation}
+we can now use the fact that: $\expval{s}$ and we can treat it as a constant and use the fact that expectation is a positive laner operator:
+\begin{equation}
+    \expval{(s-\expval{s})^{2}}=\expval{s^{2}}-2\expval{s}\expval{s}+\expval{s}^{2}\expval{1}=\expval{s^{2}}-\expval{2}=\sigma ^{2}
+\end{equation}
+\subsection{(b)}
+\begin{equation}
+    \expval{S_{n}}=\expval{\sum_{i=1}^{n} s_{i}}=\sum_{i=1}^{n} \expval{s_{i}}
+\end{equation}
+where we have used the fact that expectation is a positive linear operator.
+\begin{equation}
+    \expval{S_{n}}=\sum_{i=1}^{n} =\sum_{i=1}^{n-1} \expval{s_{i}}+\expval{s_{n}}=\expval{S_{n-2}}+2\expval{s}
+\end{equation}
+where we had used the recursive definition for $S_{n-1}$. 
+
+\end{document}
