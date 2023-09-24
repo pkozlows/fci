@@ -1,5 +1,5 @@
 # Goal
-This program computes the energy for a chain of 6 hydrogen atoms, with 6 spatial orbitals and 6 electrons.
+Given a set of one and two electron integrals, this program computes the energy for a chain of 6 hydrogen atoms, with 6 spatial orbitals and 6 electrons.
 # Computational Details
 ## Full Matrix
 Within the full matrix folder, I generated my Hamiltonian in main.py and then evaluated the matrix elements using the Slater-Condon rules in slater.py. The phase factor is evaluated in face_factor.py. In addition to performing a full diagonalization using numpy, I implemented the Davidson algorithm in full_matrix/Davidson.py, which I use to compute only the desired few eigenvalues.
